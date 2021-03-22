@@ -1,0 +1,18 @@
+IMAGE: alt, url
+REPRESENT, 11 IMAGE, 1N PRODUCT
+USER: nickname, email, roles, password, status
+ASIGN, 0N USER, 11 REVIEW
+
+ATTACHED, 1N PRODUCT, 11 PRODUCT_CATEGORY
+PRODUCT: name, content, prix, status
+BELONG_TO, 11 REVIEW, 0N PLACE
+REVIEW: content, note, rate, status
+
+PRODUCT_CATEGORY: name, pictogram
+LIAISON, 0N PRODUCT_CATEGORY, 0N PLACE
+PLACE: name, adress, city, adress_complement, logo, status
+LOCATED_AT, 11 PLACE, 1N DEPARTMENT
+
+PLACE_CATEGORY: name, pictogram
+ATTRIBUTED_TO, 1N PLACE_CATEGORY, 11 PLACE
+DEPARTMENT: name, postcode
