@@ -77,7 +77,7 @@ class Place
     private $placeCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="place")
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="place", cascade={"remove"})
      */
     private $reviews;
 

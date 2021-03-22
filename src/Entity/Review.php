@@ -54,6 +54,7 @@ class Review
 
     /**
      * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="reviews")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $place;
 
