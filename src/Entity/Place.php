@@ -81,9 +81,15 @@ class Place
      */
     private $reviews;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
+     */
+    private $productCategories;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
+        $this->productCategories = new ArrayCollection();
     }
 
     
@@ -249,6 +255,33 @@ class Place
             if ($review->getPlace() === $this) {
                 $review->setPlace(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCategory[]
+     */
+    public function getProductCategories(): Collection
+    {
+        return $this->productCategories;
+    }
+
+    public function addProductCategory(ProductCategory $productCategory): self
+    {
+        if (!$this->productCategories->contains($productCategory)) {
+            $this->productCategories[] = $productCategory;
+            $productCategory->addPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCategory(ProductCategory $productCategory): self
+    {
+        if ($this->productCategories->removeElement($productCategory)) {
+            $productCategory->removePlace($this);
         }
 
         return $this;
