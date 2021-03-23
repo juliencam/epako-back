@@ -41,11 +41,12 @@ class ProductCategory
 
     /**
      * @ORM\ManyToOne(targetEntity=ProductCategory::class, inversedBy="childCategories")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
      */
     private $childCategories;
 
@@ -66,7 +67,7 @@ class ProductCategory
         $this->childCategories = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->places = new ArrayCollection();
-       
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int

@@ -1,19 +1,37 @@
 
-* créer product_category
+product_category (relation interne)
 
-* créer product
+product
 
-* créer image
+image 
+
+user
+
+department
+
+product
+
+place_category
+
+place
+
+review
+
+many to many product_category place
+
+many to many product category
 
 
-many image to one product
+parent id === categorie parent
 
-many  product to one product_category 
+1 créer sous categorie
+
+2 déterminer qui est parent des sous categories en piochant dans les sous categories
+la sous categorie devient categorie
+
+Une boucle de 30 sous categories    
 
 
+définir par tranche de 4 l'attribution de la catégorie mère
 
-relation interne
 
-many subcategory to one category
-
-parent = category
