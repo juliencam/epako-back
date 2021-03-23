@@ -3,12 +3,17 @@
 namespace App\DataFixtures;
 
 use Faker\Factory ;
+use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Product;
+use App\Entity\Department;
+use Doctrine\DBAL\Connection;
 use App\Entity\ProductCategory;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\DataFixtures\Provider\EpakoProvider;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -17,6 +22,21 @@ class AppFixtures extends Fixture
     const NB_PRODUCT = 50;
     const NB_IMAGE = 50;
 
+    // Password encoder
+    private $passwordEncoder;
+
+    // Connection à MySQL (DBAL => PDO)
+    private $connection;
+
+    /**
+     * On injecte les dépendances (les objets utiles au fonctionnement de nos Fixtures) dans le constructeur car AppFixtures est elle aussi un service
+     */
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, Connection $connection)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+        $this->connection = $connection;
+    }
+
     public function load(ObjectManager $manager)
     {
         // $product = new Product();
@@ -24,8 +44,35 @@ class AppFixtures extends Fixture
 
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new PicsumPhotosProvider($faker));
+        $faker->addProvider(new EpakoProvider($faker));
         // Toujours les mêmes données
         $faker->seed(2021);
+
+        // MANAGER
+        $userManager = new User();
+        $userManager->setEmail('manager@manager.com');
+        $userManager->setRoles(['ROLE_MANAGER']);
+        $encodedPassword = $this->passwordEncoder->encodePassword($userManager, 'manager');
+        $userManager->setPassword($encodedPassword);
+        $userManager->setNickname('manager');
+        $userManager->setStatus(0);
+        // manager
+        // On encode le mot de passe avec le service qui va bien
+
+        $manager->persist($userManager);
+
+        // ADMIN
+        $adminManager = new User();
+        $adminManager->setEmail('admin@admin.com');
+        $adminManager->setRoles(['ROLE_ADMIN']);
+                // admin
+        // On encode le mot de passe avec le service qui va bien
+        $encodedPassword = $this->passwordEncoder->encodePassword($adminManager, 'admin');
+        $adminManager->setPassword($encodedPassword);
+        $adminManager->setNickname('admin');
+        $adminManager->setStatus(0);
+        
+        $manager->persist($adminManager);
 
         // Un tableau pour stocker nos product Category pour pouvoir les stocker dans product
         $productCategoryList = [];
@@ -155,6 +202,22 @@ class AppFixtures extends Fixture
 
             $manager->persist($image);
         }
+
+        $departmentList = [];
+
+        foreach ($faker->getDepartment() as $postalcode => $departmentName) {
+
+            $departmentEntity = new Department();
+
+            $departmentEntity->setName($departmentName);
+            $departmentEntity->setPostalcode($postalcode);
+
+            $departmentList[] = $departmentEntity;
+
+            $manager->persist($departmentEntity);
+        }
+
+
 
         $manager->flush();
     }

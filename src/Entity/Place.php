@@ -86,6 +86,11 @@ class Place
      */
     private $productCategories;
 
+    /**
+     * @ORM\Column(type="string", length=620, nullable=true)
+     */
+    private $url;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
@@ -283,6 +288,18 @@ class Place
         if ($this->productCategories->removeElement($productCategory)) {
             $productCategory->removePlace($this);
         }
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

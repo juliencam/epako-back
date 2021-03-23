@@ -25,7 +25,7 @@ class Department
     private $name;
 
     /**
-     * @ORM\Column(type="smallint", unique=true ,options={"unsigned":true})
+     * @ORM\Column(type="string", length=7, unique=true)
      */
     private $postalcode;
 
@@ -47,6 +47,7 @@ class Department
     public function __construct()
     {
         $this->places = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -66,12 +67,12 @@ class Department
         return $this;
     }
 
-    public function getPostalcode(): ?int
+    public function getPostalcode(): ?string
     {
         return $this->postalcode;
     }
 
-    public function setPostalcode(int $postalcode): self
+    public function setPostalcode(string $postalcode): self
     {
         $this->postalcode = $postalcode;
 

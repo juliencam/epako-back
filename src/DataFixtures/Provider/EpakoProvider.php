@@ -103,4 +103,9 @@ class EpakoProvider {
      "95" => "Val d'Oise"
     ];
 
+    public function getDepartment()
+    {
+        return $this->departments;
+    }
+
 }
