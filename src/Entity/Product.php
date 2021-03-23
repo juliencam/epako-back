@@ -59,10 +59,16 @@ class Product
      */
     private $images;
 
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $brand;
+
     public function __construct()
     {
         $this->productCategories = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
 
@@ -193,6 +199,18 @@ class Product
                 $image->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }

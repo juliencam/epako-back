@@ -3,7 +3,10 @@
 namespace App\DataFixtures;
 
 use Faker\Factory ;
+use App\Entity\Image;
+use App\Entity\Product;
 use App\Entity\ProductCategory;
+use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -11,6 +14,8 @@ class AppFixtures extends Fixture
 {
 
     const NB_PRODUCT_SUBCATEGORY = 30;
+    const NB_PRODUCT = 50;
+    const NB_IMAGE = 50;
 
     public function load(ObjectManager $manager)
     {
@@ -18,6 +23,7 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
 
         $faker = Factory::create('fr_FR');
+        $faker->addProvider(new PicsumPhotosProvider($faker));
         // Toujours les mêmes données
         $faker->seed(2021);
 
@@ -90,6 +96,41 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($productCategory);
+        }
+
+
+        $productList = [];
+        for ($i = 1; $i <= self::NB_PRODUCT; $i++) {
+
+            $product = new Product();
+            // Modifier unique() de faker
+            // @see https://fakerphp.github.io/#modifiers
+            $product->setName($faker->word());
+            $product->setContent($faker->sentence(20));
+            $product->setPrice($faker->randomNumber(2));
+            $product->setStatus(0);
+            $product->setBrand($faker->word());
+
+            $productList[] = $product;
+
+            $manager->persist($product);
+        }
+
+        $imageList = [];
+        for ($i = 1; $i <= self::NB_IMAGE; $i++) {
+
+            $image = new Image();
+            // Modifier unique() de faker
+            // @see https://fakerphp.github.io/#modifiers
+
+            $image->setProduct($productList[$i-1]);
+            $image->setAlt($faker->sentence(8));
+            $image->setUrl($faker->imageUrl(200, 200));
+            $image->setDisplayOrder(0);
+
+            $imageList[] = $image;
+
+            $manager->persist($image);
         }
 
         $manager->flush();
