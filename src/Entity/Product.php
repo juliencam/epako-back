@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -16,51 +17,61 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_product_browse")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=128)
+     * @Groups("api_product_browse")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("api_product_browse")
      */
     private $content;
 
     /**
      * @ORM\Column(type="float" ,options={"unsigned":true, "default":0})
+     * @Groups("api_product_browse")
      */
     private $price;
 
     /**
      * @ORM\Column(type="smallint" ,options={"unsigned":true, "default":0})
+     * @Groups("api_product_browse")
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("api_product_browse")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("api_product_browse")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, inversedBy="products")
+     * @Groups("api_product_browse")
      */
     private $productCategories;
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
+     * @Groups("api_product_browse")
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("api_product_browse")
      */
     private $brand;
 

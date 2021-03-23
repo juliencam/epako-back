@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -19,11 +20,13 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
+     * @Groups("api_product_browse")
      */
     private $alt;
 
     /**
      * @ORM\Column(type="string", length=128)
+     * @Groups("api_product_browse")
      */
     private $url;
 

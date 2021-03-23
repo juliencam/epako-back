@@ -13,7 +13,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 class AppFixtures extends Fixture
 {
 
-    const NB_PRODUCT_SUBCATEGORY = 30;
+    const NB_PRODUCT_SUBCATEGORY = 26;
     const NB_PRODUCT = 50;
     const NB_IMAGE = 50;
 
@@ -29,6 +29,9 @@ class AppFixtures extends Fixture
 
         // Un tableau pour stocker nos product Category pour pouvoir les stocker dans product
         $productCategoryList = [];
+        $finalProductCategoryList = [];
+        $productCategoryParent  = [];
+        $productCategoryChild  = [];
 
         /**
          * créer sous categorie
@@ -49,53 +52,65 @@ class AppFixtures extends Fixture
 
             if ($i === 1) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategoryParent[] = $productCategory;
             }
 
             if ($i > 1 && $i < 6 ) {
                 $productCategory->setParent($productCategoryList[0]);
+                $productCategoryChild[] = $productCategory;
             }
 
             if ($i === 6) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategoryParent[] = $productCategory;
             }
 
             if ($i > 6 && $i < 11) {
                 $productCategory->setParent($productCategoryList[5]);
+                $productCategoryChild[] = $productCategory;
             }
 
             if ($i === 11) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategoryParent[] = $productCategory;
             }
 
             if ($i > 11 && $i < 16) {
                 $productCategory->setParent($productCategoryList[10]);
+                $productCategoryChild[] = $productCategory;
             }
 
             if ($i === 16) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategoryParent[] = $productCategory;
             }
 
             if ($i > 16 && $i < 21) {
                 $productCategory->setParent($productCategoryList[15]);
+                $productCategoryChild[] = $productCategory;
             }
 
             if ($i === 21) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategoryParent[] = $productCategory;
             }
 
             if ($i > 21 && $i < 26) {
                 $productCategory->setParent($productCategoryList[20]);
+                $productCategoryChild[] = $productCategory;
             }
 
             if ($i === 26) {
                 $productCategory->setPictogram('yo soy picto');
+                $productCategory->setName('tendance');
+                $productCategoryParent[] = $productCategory;
             }
 
-            if ($i > 26 && $i < 31) {
-                $productCategory->setParent($productCategoryList[25]);
-            }
+
+            $finalProductCategoryList[] = $productCategory;
 
             $manager->persist($productCategory);
+
         }
 
 
@@ -110,6 +125,14 @@ class AppFixtures extends Fixture
             $product->setPrice($faker->randomNumber(2));
             $product->setStatus(0);
             $product->setBrand($faker->word());
+
+            if ($i < 10) {
+                $product->addProductCategory($finalProductCategoryList[25]);
+
+            }
+                $product->addProductCategory($productCategoryChild[mt_rand(0,19)]);
+                $product->addProductCategory($productCategoryChild[mt_rand(0,19)]);
+
 
             $productList[] = $product;
 
