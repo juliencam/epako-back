@@ -47,6 +47,7 @@ class PlaceCategory
     public function __construct()
     {
         $this->places = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int

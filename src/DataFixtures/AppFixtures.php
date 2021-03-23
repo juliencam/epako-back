@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Product;
 use App\Entity\Department;
+use App\Entity\PlaceCategory;
 use Doctrine\DBAL\Connection;
 use App\Entity\ProductCategory;
 use Bluemmb\Faker\PicsumPhotosProvider;
@@ -21,6 +22,7 @@ class AppFixtures extends Fixture
     const NB_PRODUCT_SUBCATEGORY = 26;
     const NB_PRODUCT = 50;
     const NB_IMAGE = 50;
+    const NB_PLACE_CATEGORY = 6;
 
     // Password encoder
     private $passwordEncoder;
@@ -217,7 +219,20 @@ class AppFixtures extends Fixture
             $manager->persist($departmentEntity);
         }
 
+        $placeCategoryList = [];
+        for ($i = 1; $i <= self::NB_PLACE_CATEGORY; $i++) {
 
+            $placeCategory = new PlaceCategory();
+            // Modifier unique() de faker
+            // @see https://fakerphp.github.io/#modifiers
+
+            $placeCategory->setName($faker->unique()->company());
+            $placeCategory->setPictogram('picto de la plaça');
+
+            $placeCategoryList[] = $placeCategory;
+
+            $manager->persist($placeCategory);
+        }
 
         $manager->flush();
     }
