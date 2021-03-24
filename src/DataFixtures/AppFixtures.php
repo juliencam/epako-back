@@ -125,8 +125,8 @@ class AppFixtures extends Fixture
         // Un tableau pour stocker nos product Category pour pouvoir les stocker dans product
         $productCategoryList = [];
         $finalProductCategoryList = [];
-        $productCategoryParent  = [];
-        $productCategoryChild  = [];
+        $productCategoryParentList = [];
+        $productCategoryChildList  = [];
 
         /**
          * créer sous categorie
@@ -147,58 +147,58 @@ class AppFixtures extends Fixture
 
             if ($i === 1) {
                 $productCategory->setPictogram('yo soy picto');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 1 && $i < 6 ) {
                 $productCategory->setParent($productCategoryList[0]);
-                $productCategoryChild[] = $productCategory;
+                $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 6) {
                 $productCategory->setPictogram('yo soy picto');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 6 && $i < 11) {
                 $productCategory->setParent($productCategoryList[5]);
-                $productCategoryChild[] = $productCategory;
+                $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 11) {
                 $productCategory->setPictogram('yo soy picto');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 11 && $i < 16) {
                 $productCategory->setParent($productCategoryList[10]);
-                $productCategoryChild[] = $productCategory;
+                $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 16) {
                 $productCategory->setPictogram('yo soy picto');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 16 && $i < 21) {
                 $productCategory->setParent($productCategoryList[15]);
-                $productCategoryChild[] = $productCategory;
+                $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 21) {
                 $productCategory->setPictogram('yo soy picto');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 21 && $i < 26) {
                 $productCategory->setParent($productCategoryList[20]);
-                $productCategoryChild[] = $productCategory;
+                $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 26) {
                 $productCategory->setPictogram('yo soy picto');
                 $productCategory->setName('tendance');
-                $productCategoryParent[] = $productCategory;
+                $productCategoryParentList[] = $productCategory;
             }
 
 
@@ -225,8 +225,8 @@ class AppFixtures extends Fixture
                 $product->addProductCategory($finalProductCategoryList[25]);
 
             }
-                $product->addProductCategory($productCategoryChild[mt_rand(0,19)]);
-                $product->addProductCategory($productCategoryChild[mt_rand(0,19)]);
+                $product->addProductCategory($productCategoryChildList[mt_rand(0,19)]);
+                $product->addProductCategory($productCategoryChildList[mt_rand(0,19)]);
 
 
             $productList[] = $product;
@@ -298,6 +298,12 @@ class AppFixtures extends Fixture
 
             $randomPlaceCategory = $placeCategoryList[mt_rand(0, count($placeCategoryList)-1)];
             $place->setPlaceCategory($randomPlaceCategory);
+
+            shuffle($productCategoryChildList);
+            for ($r = 0; $r < mt_rand(1, 3); $r++) {
+                $randomCategoryChild = $productCategoryChildList[$r];
+                $place->addProductCategory($randomCategoryChild);
+            }
 
             $placeList[] = $place;
 
