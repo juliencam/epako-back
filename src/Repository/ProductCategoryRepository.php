@@ -19,6 +19,30 @@ class ProductCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductCategory::class);
     }
 
+     public function findAllProductCategory(): ?array
+     {
+        
+         $entityManager = $this->getEntityManager();
+         $query = $entityManager->createQuery(
+            'SELECT p
+             FROM App\Entity\ProductCategory p
+             LEFT JOIN p.childCategories child
+             WHERE p.parent IS NULL'
+        );
+
+         return $query->getResult();
+     }
+    // 'SELECT c, p,m
+    // FROM App\Entity\MovieCast c
+    // INNER JOIN c.person p
+    // INNER JOIN c.movie m
+    // WHERE m.id = :id'
+
+
+    // SELECT *,`person`.*,`movie`.* FROM `movie_cast`
+//  INNER JOIN `movie`  ON `movie_cast`.`movie_id` = `movie`.`id`
+//  INNER JOIN `person` ON `movie_cast`.`person_id` = `person`.`id`
+   
     // /**
     //  * @return ProductCategory[] Returns an array of ProductCategory objects
     //  */

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Repository\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
@@ -18,18 +19,24 @@ class ProductCategory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_browse")
+     * @MaxDepth(1)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64 ,unique=true)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_browse")
+     * @MaxDepth(1)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_browse")
+     * @MaxDepth(1)
      */
     private $pictogram;
 
@@ -51,6 +58,10 @@ class ProductCategory
 
     /**
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
+     *  @Groups("api_product_category_browse")
+     * @MaxDepth(1)
+     * 
+     *
      */
     private $childCategories;
 

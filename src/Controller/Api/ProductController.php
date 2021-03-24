@@ -12,7 +12,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/api/product/browse", name="api_product_browse", methods="GET")
      */
-    public function index(ProductRepository $ProductRepository): Response
+    public function read(ProductRepository $ProductRepository): Response
     {
         $productList = $ProductRepository->findAll();
 
