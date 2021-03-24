@@ -7,12 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * ! Préfixe de route + ! Préfixe de nom de route
+ * @Route("/api/product")
+ */
 class ProductCategoryController extends AbstractController
 {
     /**
-     * @Route("/api/product/category/browse", name="api_product_category_browse", methods="GET")
+     * @Route("/category/browse", name="api_product_category_browse", methods="GET")
      */
-    public function read(ProductCategoryRepository $productCategoryRepository): Response
+    public function browse(ProductCategoryRepository $productCategoryRepository): Response
     {
         $productCategoryList = $productCategoryRepository->findAllProductCategory();
 

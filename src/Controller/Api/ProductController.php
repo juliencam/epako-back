@@ -2,20 +2,49 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * ! Préfixe de route + ! Préfixe de nom de route
+ * @Route("/api/product")
+ */
+
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/api/product/browse", name="api_product_browse", methods="GET")
+     * @Route("/browse", name="api_product_browse", methods="GET")
      */
-    public function read(ProductRepository $ProductRepository): Response
+    public function browse(ProductRepository $ProductRepository): Response
     {
         $productList = $ProductRepository->findAll();
 
         return $this->json($productList, 200, [], ['groups' => 'api_product_browse']);
+    }
+    /**
+     * One Product
+     *
+     * @Route("/read/{id<\d+>}", name="api_product_read", methods="GET")
+     */
+    public function read(Product $product = null, ProductRepository $ProductRepository): Response
+    {
+       // 404 ?
+       if ($product === null) {
+           $message = [
+               'status' => Response::HTTP_NOT_FOUND,
+               'error' =>'Produit non trouvé.',
+           ];
+
+            return $this->json($message,Response::HTTP_NOT_FOUND);
+        }
+
+
+        $productItem = $ProductRepository->find($product);
+        // Le 4ème argument représente le "contexte"
+        // qui sera transmis au Serializer
+        return $this->json($productItem, 200, [], ['groups' => 'api_product_browse']);
     }
 }
