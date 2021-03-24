@@ -95,6 +95,7 @@ class Place
     {
         $this->reviews = new ArrayCollection();
         $this->productCategories = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     
