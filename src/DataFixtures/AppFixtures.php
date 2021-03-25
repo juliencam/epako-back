@@ -146,57 +146,62 @@ class AppFixtures extends Fixture
             $productCategoryList[] = $productCategory;
 
             if ($i === 1) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 1 && $i < 6 ) {
                 $productCategory->setParent($productCategoryList[0]);
+                $productCategory->setPictogram('yo soy picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 6) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 6 && $i < 11) {
                 $productCategory->setParent($productCategoryList[5]);
+                $productCategory->setPictogram('yo soy picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 11) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 11 && $i < 16) {
                 $productCategory->setParent($productCategoryList[10]);
+                $productCategory->setPictogram('yo soy picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 16) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 16 && $i < 21) {
                 $productCategory->setParent($productCategoryList[15]);
+                $productCategory->setPictogram('yo soy picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 21) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategoryParentList[] = $productCategory;
             }
 
             if ($i > 21 && $i < 26) {
                 $productCategory->setParent($productCategoryList[20]);
+                $productCategory->setPictogram('yo soy picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
             if ($i === 26) {
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('');
                 $productCategory->setName('tendance');
                 $productCategoryParentList[] = $productCategory;
             }
