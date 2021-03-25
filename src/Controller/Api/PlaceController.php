@@ -2,19 +2,26 @@
 
 namespace App\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\PlaceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+/**
+ * ! Préfixe de route + ! Préfixe de nom de route
+ * @Route("/api/place")
+ */
+
 
 class PlaceController extends AbstractController
 {
     /**
-     * @Route("/api/place", name="api_place")
+     * @Route("/browse", name="api_place_browse")
      */
-    public function index(): Response
+    public function browse(PlaceRepository $placeRepository): Response
     {
-        return $this->render('api/place/index.html.twig', [
-            'controller_name' => 'PlaceController',
-        ]);
+
+        $place = $placeRepository->findAll();
+        return $this->json($place , 200, [], ['groups' => 'api_place_browse']);
     }
 }

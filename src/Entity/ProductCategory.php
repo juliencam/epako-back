@@ -28,6 +28,7 @@ class ProductCategory
      * @ORM\Column(type="string", length=64 ,unique=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
+     *
      * @MaxDepth(1)
      */
     private $name;

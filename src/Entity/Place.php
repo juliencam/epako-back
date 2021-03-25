@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PlaceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaceRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
@@ -16,36 +17,43 @@ class Place
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_place_browse")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("api_place_browse")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_place_browse")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("api_place_browse")
      */
     private $addressComplement;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("api_place_browse")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("api_place_browse")
      */
     private $logo;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
+     * 
      */
     private $status;
 
@@ -61,18 +69,21 @@ class Place
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("api_place_browse")
      */
     private $publishedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_place_browse")
      */
     private $department;
 
     /**
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_place_browse")
      */
     private $placeCategory;
 
@@ -83,11 +94,13 @@ class Place
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
+     * 
      */
     private $productCategories;
 
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
+     * @Groups("api_place_browse")
      */
     private $url;
 
