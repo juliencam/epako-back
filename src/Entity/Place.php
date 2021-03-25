@@ -27,6 +27,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $name;
 
@@ -92,6 +93,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $department;
 
@@ -112,7 +114,8 @@ class Place
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
-     *
+     * @Groups("api_place_browse_productcategory")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $productCategories;
 
@@ -129,7 +132,7 @@ class Place
         $this->createdAt = new \DateTime();
     }
 
-    
+
     public function getId(): ?int
     {
         return $this->id;

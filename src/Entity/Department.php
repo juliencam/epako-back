@@ -28,6 +28,7 @@ class Department
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $name;
 
@@ -36,6 +37,7 @@ class Department
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $postalcode;
 

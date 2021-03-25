@@ -47,4 +47,19 @@ class PlaceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByProductCategory($productCategoryId,$postalcode)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.productCategories', 'pc')
+            ->innerJoin('p.department' ,'d')
+            ->innerJoin('p.reviews', 'r')
+            ->Where('pc.id = :id')
+            ->andWhere('d.postalcode = :postalcode')
+            ->setParameter('id', $productCategoryId)
+            ->setParameter('postalcode', $postalcode)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

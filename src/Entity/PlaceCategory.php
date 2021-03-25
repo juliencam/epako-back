@@ -21,6 +21,7 @@ class PlaceCategory
      * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
      * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $id;
 
@@ -30,6 +31,7 @@ class PlaceCategory
      * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
      * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $name;
 
@@ -55,6 +57,7 @@ class PlaceCategory
     /**
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="placeCategory")
      * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $places;
 

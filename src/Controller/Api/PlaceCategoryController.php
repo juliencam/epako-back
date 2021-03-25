@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\PlaceCategory;
+use App\Entity\ProductCategory;
 use App\Repository\PlaceCategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,5 +47,29 @@ class PlaceCategoryController extends AbstractController
         // Le 4ème argument représente le "contexte"
         // qui sera transmis au Serializer
         return $this->json($placeCategoryItem , 200, [], ['groups' => 'api_place_category_read']);
+    }
+     /**
+     * all Place for one department and on Product Category
+     *
+     * @Route("/browse/productcategory/{id<\d+>}", name="api_place_category_browse_productcategory_postalcode", methods="GET")
+     */
+    public function browsePlacebyProductCategory(ProductCategory $productCategory,PlaceCategoryRepository $placeCategoryRepository): Response
+    {
+    
+    //    // 404 ?
+    //    if ($place === null) {
+    //        $message = [
+    //            'status' => Response::HTTP_NOT_FOUND,
+    //            'error' =>'Pas de place par ici ',
+    //        ];
+
+    //         return $this->json($message,Response::HTTP_NOT_FOUND);
+    //     }
+
+
+        $places = $placeCategoryRepository->findByProductCategory($productCategory);
+        // Le 4ème argument représente le "contexte"
+        // qui sera transmis au Serializer
+        return $this->json($places , 200,[], ['groups' => 'api_placecategory_browse_productcategory']);
     }
 }

@@ -47,4 +47,16 @@ class PlaceCategoryRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByProductCategory($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.places','places')
+            ->innerJoin('places.productCategories','pc')
+            ->andWhere('pc.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
+

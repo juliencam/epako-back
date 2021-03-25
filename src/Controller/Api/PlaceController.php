@@ -3,7 +3,10 @@
 namespace App\Controller\Api;
 
 use App\Entity\Place;
+use App\Entity\Department;
+use App\Entity\ProductCategory;
 use App\Repository\PlaceRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,8 +26,8 @@ class PlaceController extends AbstractController
     public function browse(PlaceRepository $placeRepository): Response
     {
 
-        $place = $placeRepository->findAll();
-        return $this->json($place , 200, [], ['groups' => 'api_place_browse']);
+        $places = $placeRepository->findAll();
+        return $this->json($places , 200, [], ['groups' => 'api_place_browse']);
     }
 
     /**
@@ -49,5 +52,33 @@ class PlaceController extends AbstractController
         // Le 4ème argument représente le "contexte"
         // qui sera transmis au Serializer
         return $this->json($placeItem, 200, [], ['groups' => 'api_place_read']);
+    }
+
+
+     /**
+     * all Place for one department and on Product Category
+     *
+     * @Route("/browse/productcategory/{id<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     */
+    public function browsePlacebyProductCategory(ProductCategory $productCategory, $postalcode,PlaceRepository $placeRepository, Request $request): Response
+    {
+        //TODO reste 404 
+    //    // 404 ?
+    //    if ($place === null) {
+    //        $message = [
+    //            'status' => Response::HTTP_NOT_FOUND,
+    //            'error' =>'Pas de place par ici ',
+    //        ];
+
+    //         return $this->json($message,Response::HTTP_NOT_FOUND);
+    //     }
+        // $nbr = $request->query->get('nbr');
+         dump($request->attributes->get('postalcode'));
+         $postalcode = $request->attributes->get('postalcode');
+
+        $places = $placeRepository->findByProductCategory($productCategory, $postalcode );
+        // Le 4ème argument représente le "contexte"
+        // qui sera transmis au Serializer
+        return $this->json($places , 200,[], ['groups' => ['api_place_browse_productcategory','api_place_read']]);
     }
 }
