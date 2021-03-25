@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReviewRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
@@ -19,6 +20,8 @@ class Review
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $content;
 
@@ -49,6 +52,8 @@ class Review
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $user;
 

@@ -18,21 +18,27 @@ class PlaceCategory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
      */
     private $pictogram;
 
@@ -48,6 +54,7 @@ class PlaceCategory
 
     /**
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="placeCategory")
+     * @Groups("api_place_category_read")
      */
     private $places;
 

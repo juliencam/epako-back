@@ -18,42 +18,53 @@ class Place
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $addressComplement;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $logo;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
-     * 
+     * @Groups("api_place_read")
      */
     private $status;
 
@@ -70,6 +81,8 @@ class Place
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $publishedAt;
 
@@ -77,6 +90,8 @@ class Place
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $department;
 
@@ -84,17 +99,20 @@ class Place
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      */
     private $placeCategory;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="place", cascade={"remove"})
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
-     * 
+     *
      */
     private $productCategories;
 

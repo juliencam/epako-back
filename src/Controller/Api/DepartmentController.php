@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DepartmentController extends AbstractController
 {
     /**
+     * List Department
      * @Route("/browse", name="api_department_Browse" , methods="GET")
      */
     public function browse(DepartmentRepository $departmentRepository): Response

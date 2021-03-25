@@ -48,6 +48,6 @@ class PlaceController extends AbstractController
         $placeItem = $placeRepository->find($place);
         // Le 4ème argument représente le "contexte"
         // qui sera transmis au Serializer
-        return $this->json($placeItem, 200, [], ['groups' => 'api_place_browse']);
+        return $this->json($placeItem, 200, [], ['groups' => 'api_place_read']);
     }
 }
