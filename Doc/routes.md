@@ -42,18 +42,18 @@
 | **API**                                | -------     | ---------                      | ------                            | --------                       | -------- |
 | **URL /place**                         | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/place/browse`                     | `GET`       | `PlaceController`              | `api_place_browse`                | diplay all place               | -        |
-| `api/place/read/[id]`                  | `GET`       | `PlaceController`              | `api_place_edit`                  | read place                     | -        |
-| `api/place/category/department/read/[id]/[int]`       | `GET`       | `ProductCategoryController`    | `api_product_category_edit`       | read product by category and postalcode          | -        |  |
+| `api/place/read/[id]`                  | `GET`       | `PlaceController`              | `api_place_read`                  | read place                     | -        |
+| `api/place/category/department/read/[id]/[int]`       | `GET`       | `ProductCategoryController`    | `api_product_category_read`       | read product by category and postalcode          | -        |  |
 | **URL /place category**                | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/place/category/browse`            | `GET`       | `PlaceCategoryController`      | `api_place_category_browse`       | diplay all place category      | -        |
-| `api/place/category/read/[id]`         | `GET`       | `PlaceCategoryController`      | `api_place_category_edit`         | read place category            |
+| `api/place/category/read/[id]`         | `GET`       | `PlaceCategoryController`      | `api_place_category_read`         | read place category            |
 | **URL /product**                       | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/product/browse`                   | `GET`       | `ProductController`            | `api_product_browse`              | diplay all product             | -        |
-| `api/product/read/[id]`                | `GET`       | `ProductController`            | `api_product_edit`                | read product                   | -        |
+| `api/product/read/[id]`                | `GET`       | `ProductController`            | `api_product_read`                | read product                   | -        |
 | **URL /product category**              | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/product/category/browse`          | `GET`       | `ProductCategoryController`    | `api_product_category_browse`     | diplay all product category    | -        |
-| `api/product/category/read/[id]`       | `GET`       | `ProductCategoryController`    | `api_product_category_edit`       | read product category          | -        |  |
+| `api/product/category/read/[id]`       | `GET`       | `ProductCategoryController`    | `api_product_category_read`       | read product category          | -        |  |
 |
 | **URL /department**                    | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/department/browse`                | `GET`       | `DepartmentController`         | `api_department_browse`           | diplay all department          | -        |
-| `api/department/read/[id]`             | `GET`       | `DepartmentController`         | `api_department_edit`             | read department                | -        |
+

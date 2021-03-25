@@ -2,19 +2,23 @@
 
 namespace App\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\DepartmentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+/**
+ * @Route("/api/department")
+ */
 
 class DepartmentController extends AbstractController
 {
     /**
-     * @Route("/api/department", name="api_department")
+     * @Route("/browse", name="api_department_Browse" , methods="GET")
      */
-    public function index(): Response
+    public function browse(DepartmentRepository $departmentRepository): Response
     {
-        return $this->render('api/department/index.html.twig', [
-            'controller_name' => 'DepartmentController',
-        ]);
+        $department = $departmentRepository->findAll();
+        return $this->json($department , 200, [], ['groups' => 'api_department_browse']);
     }
 }
