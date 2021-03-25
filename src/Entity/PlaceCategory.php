@@ -18,18 +18,21 @@ class PlaceCategory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("api_place_browse")
+     * @Groups("api_place_category_browse")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_category_browse")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Groups("api_place_browse")
+     * @Groups("api_place_category_browse")
      */
     private $pictogram;
 
