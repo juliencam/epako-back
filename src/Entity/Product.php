@@ -224,8 +224,6 @@ class Product
         $this->brand = $brand;
 
         return $this;
-    }
-
-
+    }    
 
 }

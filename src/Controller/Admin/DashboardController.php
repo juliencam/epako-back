@@ -31,18 +31,30 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Admin epako');
     }
 
-    public function configureMenuItems(): iterable
+    public function configureMenuItems():iterable
     {
-        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::section('Product');
-        yield MenuItem::linkToCrud('Products', 'fas fa-tags', Product::class);
-        yield MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class);
-        yield MenuItem::section('Place');
-        yield MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class);
-        yield MenuItem::linkToCrud('Place Category', 'fas fa-tags', PlaceCategory::class);
-        yield MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class);
-        yield MenuItem::linkToCrud('Review', 'fas fa-tags', Review::class);
-        yield MenuItem::section('User');
-        yield MenuItem::linkToCrud('User', 'fas fa-tags', User::class);
+
+        return 
+        [
+            MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
+            MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),
+            MenuItem::section('Place'),
+            MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
+            MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),
+            
+    
+        ];
+        // yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+        // yield MenuItem::section('Product');
+        // yield MenuItem::linkToCrud('Products', 'fas fa-tags', Product::class)->setDefaultSort(['id' => 'DESC']);
+        // yield MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class);
+        // yield MenuItem::section('Place');
+        // yield MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class);
+        // yield MenuItem::linkToCrud('Place Category', 'fas fa-tags', PlaceCategory::class);
+        // yield MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class);
+        // yield MenuItem::linkToCrud('Review', 'fas fa-tags', Review::class);
+        // yield MenuItem::section('User');
+        // yield MenuItem::linkToCrud('User', 'fas fa-tags', User::class);
     }
 }
