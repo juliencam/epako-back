@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PlaceCategory;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class PlaceCategoryCrudController extends AbstractCrudController
@@ -12,14 +14,14 @@ class PlaceCategoryCrudController extends AbstractCrudController
         return PlaceCategory::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
+
+        //https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            IntegerField::new('id')->onlyOnIndex(),
+            Field::new('name'),
+            Field::new('pictogram'),
         ];
     }
-    */
 }

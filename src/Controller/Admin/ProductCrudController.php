@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -20,6 +21,7 @@ class ProductCrudController extends AbstractCrudController
     {
         return Product::class;
     }
+    
 
     public function configureFields(string $pageName): iterable
     {
@@ -28,7 +30,7 @@ class ProductCrudController extends AbstractCrudController
         return [
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
-            TextEditorField::new('content'),
+            TextareaField::new('content'),
             IntegerField::new('price'),
             IntegerField::new('status'),
             Field::new('brand'),

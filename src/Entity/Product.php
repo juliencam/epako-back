@@ -42,6 +42,7 @@ class Product
     /**
      * @ORM\Column(type="smallint" ,options={"unsigned":true, "default":0})
      * @Groups("api_product_browse")
+     * 
      */
     private $status;
 
