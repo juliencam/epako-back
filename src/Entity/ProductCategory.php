@@ -20,6 +20,7 @@ class ProductCategory
      * @ORM\Column(type="integer")
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
+     * @Groups("api_product_category_read")
      * @Groups("api_place_browse_productcategory")
      * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      * @MaxDepth(1)
@@ -30,6 +31,7 @@ class ProductCategory
      * @ORM\Column(type="string", length=64 ,unique=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
+     * @Groups("api_product_category_read")
      *
      * @MaxDepth(1)
      */
@@ -39,6 +41,7 @@ class ProductCategory
      * @ORM\Column(type="string", length=20, nullable=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
+     * @Groups("api_product_category_read")
      * @MaxDepth(1)
      */
     private $pictogram;
@@ -61,7 +64,8 @@ class ProductCategory
 
     /**
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
-     *  @Groups("api_product_category_browse")
+     * @Groups("api_product_category_browse")
+     * @Groups("api_product_category_read")
      * @MaxDepth(1)
      *
      */
@@ -69,6 +73,7 @@ class ProductCategory
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class, mappedBy="productCategories")
+     * @Groups("api_product_category_read")
      */
     private $products;
 

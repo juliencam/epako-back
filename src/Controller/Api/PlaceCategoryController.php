@@ -36,7 +36,7 @@ class PlaceCategoryController extends AbstractController
        if ($placeCategory === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
-               'error' =>'Pas de place par ici ',
+               'error' =>'la categorie alternative n\'existe pas',
            ];
 
             return $this->json($message,Response::HTTP_NOT_FOUND);
@@ -46,7 +46,7 @@ class PlaceCategoryController extends AbstractController
         $placeCategoryItem = $placeCategoryRepository->find($placeCategory);
         return $this->json($placeCategoryItem , 200, [], ['groups' => 'api_place_category_read']);
     }
-
+     // Todo  a faire  ou pas
      /**
      * all Place for one department and on Product Category
      *
@@ -66,7 +66,7 @@ class PlaceCategoryController extends AbstractController
     //     }
 
 
-        $places = $placeCategoryRepository->findByProductCategory($productCategory);
+        $places = $placeCategoryRepository->findAllPlaceByProductCategoryAndPostalcode($productCategory);
         // Le 4ème argument représente le "contexte"
         // qui sera transmis au Serializer
         return $this->json($places , 200,[], ['groups' => 'api_placecategory_browse_productcategory']);

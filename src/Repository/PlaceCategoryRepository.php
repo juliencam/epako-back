@@ -47,7 +47,8 @@ class PlaceCategoryRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findByProductCategory($value)
+    //Todo a faire non fonctionnel
+    public function findAllPlaceByProductCategoryAndPostalcode($value)
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('places.productCategories','pc')

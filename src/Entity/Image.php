@@ -15,6 +15,8 @@ class Image
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $id;
 
@@ -27,11 +29,14 @@ class Image
     /**
      * @ORM\Column(type="string", length=128)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $url;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":0})
+     * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $displayOrder;
 
