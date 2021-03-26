@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
@@ -26,6 +27,12 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
+        $productCategories = AssociationField::new('productCategories')
+            ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
+                return $productCategoryRepository->createQueryBuilder('pc')
+                            ->where('pc.parent IS NOT NULL');
+            });
+
         //https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html
         return [
             IntegerField::new('id')->onlyOnIndex(),
@@ -35,7 +42,7 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('status'),
             Field::new('brand'),
             AssociationField::new('images'),
-            AssociationField::new('productCategories'),
+            $productCategories
             //AssociationField::new('productCategories')
         ];
     }

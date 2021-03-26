@@ -19,11 +19,11 @@ class PlaceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-            $childCategories = AssociationField::new('productCategories')
-            ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
-                return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL');
-            });
+            // $childCategories = AssociationField::new('productCategories')
+            // ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
+            //     return $productCategoryRepository->createQueryBuilder('pc')
+            //                 ->where('pc.parent IS NOT NULL');
+            // });
 
         //https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html
         return [
@@ -36,7 +36,7 @@ class PlaceCrudController extends AbstractCrudController
             IntegerField::new('status'),
             AssociationField::new('department'),
             AssociationField::new('placeCategory'),
-            $childCategories,
+            // $childCategories,
         ];
     }
 }

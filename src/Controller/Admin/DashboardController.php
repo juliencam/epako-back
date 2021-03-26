@@ -44,10 +44,12 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
             MenuItem::linkToCrud('Place Category', 'fas fa-tags', PlaceCategory::class),
             MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class),
+            MenuItem::section('Association'),
+            MenuItem::linkToCrud('Association Product Category Place', 'fas fa-tags', PlaceCategory::class)
+            ->setController(ProductCategory2CrudController::class),
             MenuItem::section('User'),
             MenuItem::linkToCrud('User', 'fas fa-tags', User::class),
-            
-    
+
         ];
         // yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::section('Product');

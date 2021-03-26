@@ -59,7 +59,7 @@ class ProductCategoryCrudController extends AbstractCrudController
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NOT NULL');
             });
-        }else {
+        } else {
             $childCategories = AssociationField::new('childCategories')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
@@ -69,54 +69,12 @@ class ProductCategoryCrudController extends AbstractCrudController
 
         $name = Field::new('name');
         $pictogram = Field::new('pictogram');
-        $places = AssociationField::new('places');
+        //$places = AssociationField::new('places');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name];
-         } elseif(Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
-             return [$id, $name,$pictogram, $childCategories, $places ];
-         }
-
-        //https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html
-        //return [
-            // IntegerField::new('id')->onlyOnIndex(),
-            // Field::new('name'),
-            // Field::new('pictogram'),
-            // IntegerField::new('price'),
-            // IntegerField::new('status'),
-            // Field::new('brand'),
-            //AssociationField::new('images'),
-            //AssociationField::new('parent'),
-            // AssociationField::new('childCategories')->setFormTypeOption('query_builder', function(ProductCategoryRepository $productCategoryRepository){
-            //     return $productCategoryRepository->createQueryBuilder('pc')
-            //                 ->where('pc.parent IS NOT NULL');
-            // }),
-            // AssociationField::new('places'),
-            //AssociationField::new('productCategories')
-        //];
-        
+        } elseif (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
+            return [$id, $name,$pictogram, $childCategories ];
+        }
     }
-
-//     public function editAction(AdminContext $context)
-// {
-//     $id     = $context->getRequest()->query->get('entityId');
-//     $entity = $this->getDoctrine()->getRepository(Product::class)->find($id);
-
-//     $clone = clone $entity;
-
-//     // custom logic 
-//     $clone->setEnabled(false);
-//     // ...
-//     $now = new DateTime();
-//     $clone->setCreatedAt($now);
-//     $clone->setUpdatedAt($now);
-
-//     $this->persistEntity($this->get('doctrine')->getManagerForClass($context->getEntity()->getFqcn()), $clone);
-//     $this->addFlash('success', 'Product duplicated');
-
-//     return $this->redirect($this->get(CrudUrlGenerator::class)->build()->setAction(Action::INDEX)->generateUrl());
-// }
-
-
-
 }
