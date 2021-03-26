@@ -44,10 +44,9 @@ class PlaceCategoryController extends AbstractController
 
 
         $placeCategoryItem = $placeCategoryRepository->find($placeCategory);
-        // Le 4ème argument représente le "contexte"
-        // qui sera transmis au Serializer
         return $this->json($placeCategoryItem , 200, [], ['groups' => 'api_place_category_read']);
     }
+
      /**
      * all Place for one department and on Product Category
      *
@@ -55,7 +54,7 @@ class PlaceCategoryController extends AbstractController
      */
     public function browsePlacebyProductCategory(ProductCategory $productCategory,PlaceCategoryRepository $placeCategoryRepository): Response
     {
-    
+
     //    // 404 ?
     //    if ($place === null) {
     //        $message = [

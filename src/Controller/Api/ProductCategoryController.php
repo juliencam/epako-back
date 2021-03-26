@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductCategoryController extends AbstractController
 {
     /**
+     * List Product Category
      * @Route("/category/browse", name="api_product_category_browse", methods="GET")
      */
     public function browse(ProductCategoryRepository $productCategoryRepository): Response

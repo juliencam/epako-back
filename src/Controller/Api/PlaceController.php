@@ -49,14 +49,12 @@ class PlaceController extends AbstractController
 
 
         $placeItem = $placeRepository->find($place);
-        // Le 4ème argument représente le "contexte"
-        // qui sera transmis au Serializer
         return $this->json($placeItem, 200, [], ['groups' => 'api_place_read']);
     }
 
 
      /**
-     * all Place for one department and on Product Category
+     * all Place for one department and one Product Category
      *
      * @Route("/browse/productcategory/{id<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
@@ -73,13 +71,12 @@ class PlaceController extends AbstractController
             return $this->json($message,Response::HTTP_NOT_FOUND);
         }
 
-         //dump($request->attributes->get('postalcode'));
+        // Get postcode by request
          $postalcode = $request->attributes->get('postalcode');
 
-        $places = $placeRepository->findByProductCategory($productCategory, $postalcode );
+        $places = $placeRepository->findByProductCategoryAndPostalcode($productCategory, $postalcode );
 
         if($places == null ){
-            //throw $this->createNotFoundException('Il n\'y a pas de correspondance');
             $message = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'error' =>'Il n\'y a pas de correspondance',
@@ -87,8 +84,6 @@ class PlaceController extends AbstractController
 
              return $this->json($message,Response::HTTP_NOT_FOUND);
         }
-        // Le 4ème argument représente le "contexte"
-        // qui sera transmis au Serializer
-        return $this->json($places , 200,[], ['groups' => ['api_place_browse_productcategory','api_place_read']]);
+        return $this->json($places , 200,[], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
     }
 }

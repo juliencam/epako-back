@@ -43,7 +43,7 @@
 | **URL /place**                         | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/place/browse`                     | `GET`       | `PlaceController`              | `api_place_browse`                | diplay all place               | -        |
 | `api/place/read/[id]`                  | `GET`       | `PlaceController`              | `api_place_read`                  | read place                     | -        |
-| `api/place/category/department/read/[id]/[int]`       | `GET`       | `ProductCategoryController`    | `api_product_category_read`       | read product by category and postalcode          | -        |  |
+| `/api/place/browse/productcategory/{id}/postalcode/{postalcode}`       | `GET`       | `PlaceController`    | `api_place_category_browse_productcategory_postalcode`       | read product by category and postalcode          | -        |  |
 | **URL /place category**                | -------     | ---------                      | ------                            | --------                       | -------- |
 | `api/place/category/browse`            | `GET`       | `PlaceCategoryController`      | `api_place_category_browse`       | diplay all place category      | -        |
 | `api/place/category/read/[id]`         | `GET`       | `PlaceCategoryController`      | `api_place_category_read`         | read place category            |

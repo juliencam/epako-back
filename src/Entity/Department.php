@@ -20,6 +20,7 @@ class Department
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
+     * @Groups("api_place_category_read")
      */
     private $id;
 
@@ -28,7 +29,7 @@ class Department
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
-     * @Groups("api_placecategory_browse_productcategory")
+     * @Groups("api_place_category_read")
      */
     private $name;
 
@@ -37,7 +38,7 @@ class Department
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
-     * @Groups("api_placecategory_browse_productcategory")
+     * @Groups("api_place_category_read")
      */
     private $postalcode;
 

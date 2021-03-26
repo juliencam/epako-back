@@ -27,7 +27,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Groups("api_placecategory_browse_productcategory")
+     *
      */
     private $name;
 
@@ -93,6 +93,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      * @Groups("api_placecategory_browse_productcategory")
      */
     private $department;
@@ -107,15 +108,15 @@ class Place
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="place", cascade={"remove"})
-     * @Groups("api_place_read")
-     * @Groups("api_place_category_read")
+     *
      */
     private $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
-     * @Groups("api_place_browse_productcategory")
+     *
      * @Groups("api_placecategory_browse_productcategory")
+     * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      */
     private $productCategories;
 

@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     /**
+     * List Product
      * @Route("/browse", name="api_product_browse", methods="GET")
      */
     public function browse(ProductRepository $ProductRepository): Response
@@ -35,7 +36,7 @@ class ProductController extends AbstractController
        if ($product === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
-               'error' =>'Produit non trouvé.',
+               'error' =>'Il n\'existe pas de produit',
            ];
 
             return $this->json($message,Response::HTTP_NOT_FOUND);
@@ -43,8 +44,6 @@ class ProductController extends AbstractController
 
 
         $productItem = $ProductRepository->find($product);
-        // Le 4ème argument représente le "contexte"
-        // qui sera transmis au Serializer
         return $this->json($productItem, 200, [], ['groups' => 'api_product_browse']);
     }
 }
