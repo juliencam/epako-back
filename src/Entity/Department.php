@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\DepartmentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DepartmentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
@@ -16,16 +17,28 @@ class Department
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_department_browse")
+     * @Groups("api_place_category_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_department_browse")
+     * @Groups("api_place_category_read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_department_browse")
+     * @Groups("api_place_category_read")
      */
     private $postalcode;
 

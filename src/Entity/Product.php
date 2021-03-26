@@ -18,24 +18,28 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=128)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $content;
 
     /**
      * @ORM\Column(type="float" ,options={"unsigned":true, "default":0})
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $price;
 
@@ -66,12 +70,14 @@ class Product
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups("api_product_browse")
+     * @Groups("api_product_category_read")
      */
     private $brand;
 

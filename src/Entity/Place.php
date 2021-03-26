@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PlaceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaceRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
@@ -16,36 +17,55 @@ class Place
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
+     *
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $addressComplement;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $logo;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
+     * @Groups("api_place_read")
      */
     private $status;
 
@@ -61,33 +81,48 @@ class Place
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
      */
     private $publishedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
+     * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $department;
 
     /**
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
      */
     private $placeCategory;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="place", cascade={"remove"})
+     *
      */
     private $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, mappedBy="places")
+     *
+     * @Groups("api_placecategory_browse_productcategory")
+     * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      */
     private $productCategories;
 
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
+     * @Groups("api_place_browse")
      */
     private $url;
 
@@ -98,7 +133,7 @@ class Place
         $this->createdAt = new \DateTime();
     }
 
-    
+
     public function getId(): ?int
     {
         return $this->id;

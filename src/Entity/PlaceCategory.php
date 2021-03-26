@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PlaceCategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaceCategoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceCategoryRepository::class)
@@ -16,16 +17,30 @@ class PlaceCategory
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_browse")
+     * @Groups("api_place_category_read")
      */
     private $pictogram;
 
@@ -41,6 +56,8 @@ class PlaceCategory
 
     /**
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="placeCategory")
+     * @Groups("api_place_category_read")
+     * @Groups("api_placecategory_browse_productcategory")
      */
     private $places;
 
