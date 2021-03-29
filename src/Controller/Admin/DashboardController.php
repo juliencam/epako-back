@@ -36,7 +36,7 @@ class DashboardController extends AbstractDashboardController
 
         return 
         [
-            MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
+            //MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
             MenuItem::section('Product'),
             MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
             MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),

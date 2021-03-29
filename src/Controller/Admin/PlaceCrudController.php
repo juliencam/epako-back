@@ -29,13 +29,13 @@ class PlaceCrudController extends AbstractCrudController
         return [
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
-            Field::new('address'),
-            Field::new('addressComplement'),
+            Field::new('address')->hideOnIndex(),
+            Field::new('addressComplement')->hideOnIndex(),
             Field::new('city'),
-            Field::new('logo'),
+            Field::new('logo')->hideOnIndex(),
             IntegerField::new('status'),
             AssociationField::new('department'),
-            AssociationField::new('placeCategory'),
+            AssociationField::new('placeCategory')->hideOnIndex(),
             // $childCategories,
         ];
     }

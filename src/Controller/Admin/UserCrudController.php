@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
@@ -26,6 +27,7 @@ class UserCrudController extends AbstractCrudController
             ArrayField::new('roles'),
             Field::new('nickname'),
             IntegerField::new('status'),
+            Field::new('password')->setFormType(PasswordType::class),
             // Field::new('city'),
             // Field::new('logo'),
             // IntegerField::new('status'),

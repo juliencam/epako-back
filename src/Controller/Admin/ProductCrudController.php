@@ -40,12 +40,12 @@ class ProductCrudController extends AbstractCrudController
         return [
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
-            TextareaField::new('content'),
+            TextareaField::new('content')->hideOnIndex(),
             IntegerField::new('price'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1]),
             Field::new('brand'),
-            AssociationField::new('images')->setRequired(true),
-            $productCategories->setRequired(true)
+            AssociationField::new('images')->setRequired(true)->hideOnIndex(),
+            $productCategories->setRequired(true)->hideOnIndex()
             //AssociationField::new('productCategories')
         ];
     }
