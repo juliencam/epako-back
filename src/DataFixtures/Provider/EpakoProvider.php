@@ -63,7 +63,7 @@ class EpakoProvider {
      "55" => "Meuse",
      "56" => "Morbihan",
      "57" => "Moselle",
-     "58" => "Nièvre;",
+     "58" => "Nièvre",
      "59" => "Nord",
      "60" => "Oise",
      "61" => "Orne",
