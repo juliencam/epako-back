@@ -56,12 +56,13 @@ class PlaceController extends AbstractController
      /**
      * all Place for one department and one Product Category
      *
-     * @Route("/browse/productcategory/{id<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     * @Route("/browse/productcategory/{array}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyProductCategory(ProductCategory  $productCategory = null, $postalcode ,PlaceRepository $placeRepository, Request $request): Response
+    public function browsePlacebyProductCategory($array,ProductCategory  $productCategory = null, $postalcode ,PlaceRepository $placeRepository,Request $request): Response
     {
-
-       // 404 ?
+        dump($array);
+        $tab = explode(',' , $array);
+        dump($tab);
        if ($productCategory  === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
@@ -72,9 +73,17 @@ class PlaceController extends AbstractController
         }
 
         // Get postcode by request
-         $postalcode = $request->attributes->get('postalcode');
+         //$postalcode = $request->attributes->get('postalcode');
 
-        $places = $placeRepository->findByProductCategoryAndPostalcode($productCategory, $postalcode );
+         //$array = $request->attributes->get('array');
+         //dump($array);
+
+         dump($array);
+
+             $places = $placeRepository->findByProductCategoryAndPostalcode($tab, $postalcode );
+
+
+
 
         if($places == null ){
             $message = [

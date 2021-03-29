@@ -63,7 +63,7 @@ class PlaceRepository extends ServiceEntityRepository
             ->innerJoin('p.department' ,'d')
             // Dont forget add  @Groups on entity if decomment
             //->innerJoin('p.reviews', 'r')
-            ->Where('pc.id = :id')
+            ->Where('pc.id IN :id')
             ->andWhere('d.postalcode = :postalcode')
             ->setParameter('id', $productCategoryId)
             ->setParameter('postalcode', $postalcode)
