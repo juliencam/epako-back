@@ -5,16 +5,19 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use phpDocumentor\Reflection\Types\Integer;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -39,10 +42,10 @@ class ProductCrudController extends AbstractCrudController
             Field::new('name'),
             TextareaField::new('content'),
             IntegerField::new('price'),
-            IntegerField::new('status'),
+            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1]),
             Field::new('brand'),
-            AssociationField::new('images'),
-            $productCategories
+            AssociationField::new('images')->setRequired(true),
+            $productCategories->setRequired(true)
             //AssociationField::new('productCategories')
         ];
     }

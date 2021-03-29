@@ -30,14 +30,14 @@ class ProductCategoryCrudController extends AbstractCrudController
     /**
      * check doc
      *https://stackoverflow.com/questions/63432424/symfony-easyadminbundle-3-override-the-createindexquerybuilder
-     *Permet pour l'index de n'afiicher que les parents
+     *Permet pour l'index de n'aficher que les parents
      *
      */
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-    $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    $response->where("entity.parent is null");
-    return $response;
+        $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response->where("entity.parent is null");
+        return $response;
     }
 
     /**
