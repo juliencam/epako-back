@@ -8,6 +8,7 @@ use App\Repository\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
@@ -29,6 +30,7 @@ class ProductCategory
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
      * @MaxDepth(1)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -60,7 +62,7 @@ class ProductCategory
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
      *  @Groups("api_product_category_browse")
      * @MaxDepth(1)
-     * 
+     *
      *
      */
     private $childCategories;

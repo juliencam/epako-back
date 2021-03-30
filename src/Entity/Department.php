@@ -6,6 +6,7 @@ use App\Repository\DepartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
@@ -21,11 +22,13 @@ class Department
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=7, unique=true)
+     * @Assert\NotBlank
      */
     private $postalcode;
 

@@ -33,8 +33,22 @@ class ProductCrudController extends AbstractCrudController
         $productCategories = AssociationField::new('productCategories')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL');
+                            ->where('pc.parent IS NOT NULL')->orwhere("pc.name LIKE '%endance%'")
+                            ;
             });
+
+
+            // ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
+            //     return $productCategoryRepository->createQueryBuilder('pc')
+            //                 ->where('pc.parent IS NULL')->andwhere("pc.name LIKE '%endance%'")
+            //                 ;
+          
+        //   $productCategoryTendance =  AssociationField::new('childCategories')
+        //   ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
+        //       return $productCategoryRepository->createQueryBuilder('pc')
+        //                  ->where("pc.name LIKE '%endance%'");
+        //   });
+
 
         //https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html
         return [
@@ -42,10 +56,11 @@ class ProductCrudController extends AbstractCrudController
             Field::new('name'),
             TextareaField::new('content')->hideOnIndex(),
             IntegerField::new('price'),
-            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1]),
+            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             Field::new('brand'),
-            AssociationField::new('images')->setRequired(true)->hideOnIndex(),
-            $productCategories->setRequired(true)->hideOnIndex()
+            AssociationField::new('images')->hideOnIndex()->setFormTypeOption('disabled','disabled'),
+            // $productCategoryTendance,
+            $productCategories->setRequired(true)->hideOnIndex(),
             //AssociationField::new('productCategories')
         ];
     }

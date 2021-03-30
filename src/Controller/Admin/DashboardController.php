@@ -2,13 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
+use App\Entity\Image;
 use App\Entity\Place;
 use App\Entity\Review;
 use App\Entity\Product;
 use App\Entity\Department;
 use App\Entity\PlaceCategory;
 use App\Entity\ProductCategory;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -40,6 +41,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Product'),
             MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
             MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),
+            MenuItem::linkToCrud('Image Product', 'fas fa-tags', Image::class),
             MenuItem::section('Place'),
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
             MenuItem::linkToCrud('Place Category', 'fas fa-tags', PlaceCategory::class),

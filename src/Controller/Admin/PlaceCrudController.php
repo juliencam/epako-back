@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class PlaceCrudController extends AbstractCrudController
 {
@@ -34,6 +35,7 @@ class PlaceCrudController extends AbstractCrudController
             Field::new('city'),
             Field::new('logo')->hideOnIndex(),
             IntegerField::new('status'),
+            UrlField::new('url'),
             AssociationField::new('department'),
             AssociationField::new('placeCategory')->hideOnIndex(),
             // $childCategories,

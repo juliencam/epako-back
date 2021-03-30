@@ -6,6 +6,7 @@ use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
@@ -21,11 +22,13 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $address;
 
@@ -36,16 +39,19 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Assert\NotBlank
      */
     private $logo;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
+     * @Assert\NotBlank
      */
     private $status;
 
@@ -67,12 +73,14 @@ class Place
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $department;
 
     /**
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $placeCategory;
 
@@ -88,6 +96,9 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
+     * @Assert\Url(
+     *    protocols = {"http", "https"}
+     * )
      */
     private $url;
 
