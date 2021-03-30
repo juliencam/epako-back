@@ -8,6 +8,7 @@ use App\Repository\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
@@ -34,6 +35,7 @@ class ProductCategory
      * @Groups("api_product_category_read")
      *
      * @MaxDepth(1)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -68,6 +70,7 @@ class ProductCategory
      * @Groups("api_product_category_read")
      * @MaxDepth(1)
      *
+     * @MaxDepth(1)
      */
     private $childCategories;
 
@@ -237,6 +240,9 @@ class ProductCategory
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->name;
+    }
    
 }

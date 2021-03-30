@@ -32,6 +32,13 @@ class ProductCategoryRepository extends ServiceEntityRepository
 
          return $query->getResult();
      }
+
+     public function findAllProductCategoryQb()
+     {
+        
+        return $this->createQueryBuilder('p')
+    ;
+     }
     // 'SELECT c, p,m
     // FROM App\Entity\MovieCast c
     // INNER JOIN c.person p

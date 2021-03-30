@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DepartmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
@@ -30,6 +31,7 @@ class Department
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -39,6 +41,7 @@ class Department
      * @Groups("api_place_read")
      * @Groups("api_department_browse")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $postalcode;
 
@@ -144,5 +147,10 @@ class Department
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->postalcode . " - " . $this->name;
     }
 }

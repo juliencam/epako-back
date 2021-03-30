@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
@@ -28,6 +29,7 @@ class Place
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
      *
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -36,6 +38,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $address;
 
@@ -52,6 +55,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $city;
 
@@ -60,12 +64,14 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $logo;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
      * @Groups("api_place_read")
+     * @Assert\NotBlank
      */
     private $status;
 
@@ -90,19 +96,27 @@ class Place
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+<<<<<<< HEAD
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
      * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      * @Groups("api_placecategory_browse_productcategory")
+=======
+     * @Assert\NotBlank
+>>>>>>> julien/easyadmin
      */
     private $department;
 
     /**
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
+<<<<<<< HEAD
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
+=======
+     * @Assert\NotBlank
+>>>>>>> julien/easyadmin
      */
     private $placeCategory;
 
@@ -122,7 +136,13 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
+<<<<<<< HEAD
      * @Groups("api_place_browse")
+=======
+     * @Assert\Url(
+     *    protocols = {"http", "https"}
+     * )
+>>>>>>> julien/easyadmin
      */
     private $url;
 
@@ -338,6 +358,11 @@ class Place
         $this->url = $url;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     
