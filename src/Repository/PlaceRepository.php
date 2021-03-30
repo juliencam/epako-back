@@ -47,7 +47,7 @@ class PlaceRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    //? querry bulider for method browsePlacebyOneProductCategory()
     /**
      * search for a place by Product Category on entity ProductCategory and  PostalCode on entity Department
      *
@@ -71,8 +71,14 @@ class PlaceRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-
+    //? querry bulider for method browsePlacebyManyProductCategory()
+    /**
+     * search for a place by Many id Product Category on entity ProductCategory and  PostalCode on entity Department
+     *
+     * @param [Int] $ids
+     * @param [String] $postalcode
+     * @return void
+     */
 
     public function findByProductCategory($ids,$postalcode)
     {
