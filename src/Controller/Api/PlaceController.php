@@ -6,6 +6,8 @@ use App\Entity\Place;
 use App\Entity\Department;
 use App\Entity\ProductCategory;
 use App\Repository\PlaceRepository;
+use App\Repository\ProductRepository;
+use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,46 +55,93 @@ class PlaceController extends AbstractController
     }
 
 
-     /**
-     * all Place for one department and one Product Category
+    //  /**
+    //  * all Place for one department and one Product Category
+    //  *
+    //  * @Route("/browse/productcategory/{ids}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+    //  */
+    // public function browsePlacebyProductCategory($ids,ProductCategory  $productCategory = null, $postalcode ,PlaceRepository $placeRepository,Request $request): Response
+    // {
+    //     dump($ids);
+    //     $tab = explode(',' , $ids);
+    //     dump($tab);
+    //    if ($productCategory  === null) {
+    //        $message = [
+    //            'status' => Response::HTTP_NOT_FOUND,
+    //            'error' =>'la categorie n\'existe pas',
+    //        ];
+
+    //         return $this->json($message,Response::HTTP_NOT_FOUND);
+    //     }
+
+    //     // Get postcode by request
+    //      //$postalcode = $request->attributes->get('postalcode');
+
+    //      //$ids = $request->attributes->get('array');
+    //      //dump($array);
+
+    //      dump($ids);
+
+    //     $places = $placeRepository->findByProductCategoryAndPostalcode($tab, $postalcode );
+
+
+
+
+    //     if($places == null ){
+    //         $message = [
+    //             'status' => Response::HTTP_NOT_FOUND,
+    //             'error' =>'Il n\'y a pas de correspondance',
+    //         ];
+
+    //          return $this->json($message,Response::HTTP_NOT_FOUND);
+    //     }
+    //     return $this->json($places , 200,[], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
+    // }
+
+    /**
+     * Test
      *
-     * @Route("/browse/productcategory/{array}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     * @Route("/browse/productcategory/{ids}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory", methods="GET")
      */
-    public function browsePlacebyProductCategory($array,ProductCategory  $productCategory = null, $postalcode ,PlaceRepository $placeRepository,Request $request): Response
+    public function test($ids, $postalcode ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository): Response
     {
-        dump($array);
-        $tab = explode(',' , $array);
-        dump($tab);
-       if ($productCategory  === null) {
-           $message = [
-               'status' => Response::HTTP_NOT_FOUND,
-               'error' =>'la categorie n\'existe pas',
-           ];
 
-            return $this->json($message,Response::HTTP_NOT_FOUND);
+        // transfrorm Get value  on an array
+        $tabOfIds = explode(',', $ids);
+
+        // search if the product category exist
+        foreach($tabOfIds as $id) {
+
+             $test = $productCategoryRepository->find($id);
+
+             //404 ?
+             if ($test === null) {
+                     $message = [
+                         'status' => Response::HTTP_NOT_FOUND,
+                         'error' =>'une categorie n\'existe pas',
+                     ];
+
+                     return $this->json($message,Response::HTTP_NOT_FOUND);
+                 }
         }
 
-        // Get postcode by request
-         //$postalcode = $request->attributes->get('postalcode');
-
-         //$array = $request->attributes->get('array');
-         //dump($array);
-
-         dump($array);
-
-             $places = $placeRepository->findByProductCategoryAndPostalcode($tab, $postalcode );
 
 
 
 
+        $places = $placeRepository->findByProductCategory($tabOfIds,$postalcode);
         if($places == null ){
-            $message = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'error' =>'Il n\'y a pas de correspondance',
-            ];
+                $message = [
+                    'status' => Response::HTTP_NOT_FOUND,
+                    'error' =>'Il n\'y a pas de correspondance',
+                    ];
 
-             return $this->json($message,Response::HTTP_NOT_FOUND);
+                return $this->json($message,Response::HTTP_NOT_FOUND);
         }
-        return $this->json($places , 200,[], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
+
+        return $this->json($places, 200, [], ['groups' => 'api_place_read']);
+
     }
+
+
 }

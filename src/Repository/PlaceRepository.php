@@ -56,17 +56,35 @@ class PlaceRepository extends ServiceEntityRepository
      * @return void
      */
 
-    public function findByProductCategoryAndPostalcode($productCategoryId,$postalcode)
+    public function findByProductCategoryAndPostalcode($productCategoryIds,$postalcode)
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.productCategories', 'pc')
             ->innerJoin('p.department' ,'d')
             // Dont forget add  @Groups on entity if decomment
             //->innerJoin('p.reviews', 'r')
-            ->Where('pc.id IN :id')
+            ->Where('pc.id = :id')
             ->andWhere('d.postalcode = :postalcode')
-            ->setParameter('id', $productCategoryId)
+            ->setParameter('id', $productCategoryIds)
             ->setParameter('postalcode', $postalcode)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
+    public function findByProductCategory($ids,$postalcode)
+    {
+
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.productCategories', 'pc')
+            ->innerJoin('p.department' ,'d')
+            ->Where('pc.id IN (:id)')
+            ->andWhere('d.postalcode = :postalcode')
+            ->setParameter('id',$ids)
+            ->setParameter('postalcode', $postalcode)
+            ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
