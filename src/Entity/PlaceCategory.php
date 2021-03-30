@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlaceCategoryRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=PlaceCategoryRepository::class)
  */
@@ -32,6 +32,7 @@ class PlaceCategory
      * @Groups("api_place_category_browse")
      * @Groups("api_place_category_read")
      * @Groups("api_placecategory_browse_productcategory")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -41,6 +42,7 @@ class PlaceCategory
      * @Groups("api_place_read")
      * @Groups("api_place_category_browse")
      * @Groups("api_place_category_read")
+     * @Assert\NotBlank
      */
     private $pictogram;
 
@@ -148,5 +150,10 @@ class PlaceCategory
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

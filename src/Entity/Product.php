@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\Collection;
@@ -26,6 +27,7 @@ class Product
      * @ORM\Column(type="string", length=128)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -33,6 +35,7 @@ class Product
      * @ORM\Column(type="text")
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
+     * @Assert\NotBlank
      */
     private $content;
 
@@ -40,12 +43,14 @@ class Product
      * @ORM\Column(type="float" ,options={"unsigned":true, "default":0})
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
+     * @Assert\NotBlank
      */
     private $price;
 
     /**
      * @ORM\Column(type="smallint" ,options={"unsigned":true, "default":0})
      * @Groups("api_product_browse")
+     * @Assert\NotBlank
      */
     private $status;
 
@@ -64,6 +69,7 @@ class Product
     /**
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, inversedBy="products")
      * @Groups("api_product_browse")
+     * @Assert\NotBlank
      */
     private $productCategories;
 
@@ -71,6 +77,7 @@ class Product
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
+     * @Assert\NotBlank
      */
     private $images;
 
@@ -78,6 +85,7 @@ class Product
      * @ORM\Column(type="string", length=64)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
+     * @Assert\NotBlank
      */
     private $brand;
 
@@ -230,8 +238,11 @@ class Product
         $this->brand = $brand;
 
         return $this;
+    } 
+
+    public function __toString()
+    {
+        return $this->name;
     }
-
-
 
 }
