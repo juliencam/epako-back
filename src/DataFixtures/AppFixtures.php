@@ -231,8 +231,6 @@ class AppFixtures extends Fixture
 
             }
                 $product->addProductCategory($productCategoryChildList[mt_rand(0,19)]);
-                //$product->addProductCategory($productCategoryChildList[mt_rand(0,19)]);
-
 
             $productList[] = $product;
 
