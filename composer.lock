@@ -7180,16 +7180,16 @@
         },
         {
             "name": "symfony/uid",
-            "version": "v5.2.4",
+            "version": "v5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/uid.git",
-                "reference": "959f69a8c0d68a37311eeabd630a0ef0979bc1d0"
+                "reference": "47d4347b762f0bab9b4ec02112ddfaaa6d79481b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/uid/zipball/959f69a8c0d68a37311eeabd630a0ef0979bc1d0",
-                "reference": "959f69a8c0d68a37311eeabd630a0ef0979bc1d0",
+                "url": "https://api.github.com/repos/symfony/uid/zipball/47d4347b762f0bab9b4ec02112ddfaaa6d79481b",
+                "reference": "47d4347b762f0bab9b4ec02112ddfaaa6d79481b",
                 "shasum": ""
             },
             "require": {
@@ -7230,7 +7230,7 @@
                 "uuid"
             ],
             "support": {
-                "source": "https://github.com/symfony/uid/tree/v5.2.4"
+                "source": "https://github.com/symfony/uid/tree/v5.2.6"
             },
             "funding": [
                 {
@@ -7246,7 +7246,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T20:50:00+00:00"
+            "time": "2021-03-21T16:15:38+00:00"
         },
         {
             "name": "symfony/validator",

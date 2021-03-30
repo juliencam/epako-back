@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use App\Controller\Admin\ProductCategory2CrudController;
+use App\Controller\Admin\ProductCategory3CrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
@@ -31,6 +33,7 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Admin epako');
     }
+    
 
     public function configureMenuItems():iterable
     {
@@ -42,6 +45,8 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Product'),
             MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
             MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),
+            MenuItem::linkToCrud('subCategory Product', 'fas fa-tags', PlaceCategory::class)
+            ->setController(ProductCategory3CrudController::class),
             MenuItem::linkToCrud('Image Product', 'fas fa-tags', Image::class),
             MenuItem::section('Place'),
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),

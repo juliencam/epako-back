@@ -60,10 +60,8 @@ class ProductCategory
 
     /**
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
-     *  @Groups("api_product_category_browse")
+     * @Groups("api_product_category_browse")
      * @MaxDepth(1)
-     *
-     *
      */
     private $childCategories;
 

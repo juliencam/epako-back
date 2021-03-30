@@ -242,7 +242,7 @@ class AppFixtures extends Fixture
 
             $image->setProduct($productList[$i-1]);
             $image->setAlt($faker->sentence(8));
-            $image->setUrl($faker->imageUrl(200, 200));
+            $image->setUrl($faker->imageUrl(200, 200, true));
             $image->setDisplayOrder(0);
 
             $imageList[] = $image;

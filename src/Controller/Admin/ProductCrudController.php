@@ -33,8 +33,7 @@ class ProductCrudController extends AbstractCrudController
         $productCategories = AssociationField::new('productCategories')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL')->orwhere("pc.name LIKE '%endance%'")
-                            ;
+                            ->where('pc.parent IS NOT NULL')->orwhere("pc.name LIKE '%endance%'");
             });
 
 
@@ -58,7 +57,7 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('price'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             Field::new('brand'),
-            AssociationField::new('images')->hideOnIndex()->setFormTypeOption('disabled','disabled')->setHelp('Affichage des images associées'),
+            AssociationField::new('images')->setFormTypeOption('by_reference', false)->hideOnIndex(),
             // $productCategoryTendance,
             $productCategories->setRequired(true)->hideOnIndex()->setHelp('Choisir seulement 1 sous catégorie et optionnellement Tendance'),
             //AssociationField::new('productCategories')
