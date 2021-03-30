@@ -52,20 +52,11 @@ class ProductCategoryCrudController extends AbstractCrudController
     {
         $id = IntegerField::new('id')->onlyOnIndex();
 
-        if (Crud::PAGE_NEW === $pageName) {
-            $childCategories = AssociationField::new('childCategories')
-            ->setHelp('Si vous ne choississez pas de child catégories, la catégorie en cours de création sera une catégorie')
+        $childCategories = AssociationField::new('parent')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NOT NULL');
             });
-        } else {
-            $childCategories = AssociationField::new('childCategories')
-            ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
-                return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL');
-            });
-        }
 
         $name = Field::new('name');
         $pictogram = Field::new('pictogram');

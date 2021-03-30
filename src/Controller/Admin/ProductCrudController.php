@@ -58,9 +58,9 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('price'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             Field::new('brand'),
-            AssociationField::new('images')->hideOnIndex()->setFormTypeOption('disabled','disabled'),
+            AssociationField::new('images')->hideOnIndex()->setFormTypeOption('disabled','disabled')->setHelp('Affichage des images associées'),
             // $productCategoryTendance,
-            $productCategories->setRequired(true)->hideOnIndex(),
+            $productCategories->setRequired(true)->hideOnIndex()->setHelp('Choisir seulement 1 sous catégorie et optionnellement Tendance'),
             //AssociationField::new('productCategories')
         ];
     }

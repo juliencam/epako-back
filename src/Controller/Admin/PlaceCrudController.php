@@ -5,10 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Place;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class PlaceCrudController extends AbstractCrudController
 {
@@ -34,7 +35,7 @@ class PlaceCrudController extends AbstractCrudController
             Field::new('addressComplement')->hideOnIndex(),
             Field::new('city'),
             Field::new('logo')->hideOnIndex(),
-            IntegerField::new('status'),
+            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             UrlField::new('url'),
             AssociationField::new('department'),
             AssociationField::new('placeCategory')->hideOnIndex(),
