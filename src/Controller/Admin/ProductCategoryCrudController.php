@@ -52,7 +52,7 @@ class ProductCategoryCrudController extends AbstractCrudController
     {
         $id = IntegerField::new('id')->onlyOnIndex();
 
-        $childCategories = AssociationField::new('parent')
+        $childCategories = AssociationField::new('childCategories')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NOT NULL');
