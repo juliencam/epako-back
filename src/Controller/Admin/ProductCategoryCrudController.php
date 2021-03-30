@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -38,6 +39,13 @@ class ProductCategoryCrudController extends AbstractCrudController
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $response->where("entity.parent is null");
         return $response;
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        dump($entityInstance);
+        $entityManager->persist($entityInstance);
+        $entityManager->flush();
     }
 
     /**

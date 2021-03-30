@@ -36,7 +36,7 @@ class PlaceCrudController extends AbstractCrudController
             Field::new('city'),
             Field::new('logo')->hideOnIndex(),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
-            UrlField::new('url'),
+            UrlField::new('url')->hideOnIndex(),
             AssociationField::new('department'),
             AssociationField::new('placeCategory')->hideOnIndex(),
             // $childCategories,

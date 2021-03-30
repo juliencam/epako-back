@@ -5,9 +5,12 @@ namespace App\Controller\Admin;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -29,12 +32,19 @@ class ProductCategory2CrudController extends AbstractCrudController
     return $response;
     }
 
+    public function configureActions(Actions $actions): Actions
+{
+    return $actions
+        ->remove(Crud::PAGE_INDEX, Action::NEW)
+    ;
+}
+
 
     public function configureFields(string $pageName): iterable
     {
-        $id = IntegerField::new('id')->onlyOnIndex();
+        $id = IntegerField::new('id', "ID de la sous catégorie du produit")->setFormTypeOption('disabled','disabled');
 
-        $name = Field::new('name');
+        $name = Field::new('name', "nom de la sous catégorie du produit")->setFormTypeOption('disabled','disabled');
 
         $places = AssociationField::new('places');
 
