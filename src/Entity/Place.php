@@ -96,27 +96,21 @@ class Place
     /**
      * @ORM\ManyToOne(targetEntity=Department::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
-<<<<<<< HEAD
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
      * @Groups("api_place_browse_ByproductcategoryAndPostalCode")
      * @Groups("api_placecategory_browse_productcategory")
-=======
      * @Assert\NotBlank
->>>>>>> julien/easyadmin
      */
     private $department;
 
     /**
      * @ORM\ManyToOne(targetEntity=PlaceCategory::class, inversedBy="places")
      * @ORM\JoinColumn(nullable=false)
-<<<<<<< HEAD
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
-=======
      * @Assert\NotBlank
->>>>>>> julien/easyadmin
      */
     private $placeCategory;
 
@@ -136,15 +130,20 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
-<<<<<<< HEAD
      * @Groups("api_place_browse")
-=======
      * @Assert\Url(
      *    protocols = {"http", "https"}
      * )
->>>>>>> julien/easyadmin
      */
     private $url;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     * @Groups("api_place_category_read")
+     */
+    private $content;
 
     public function __construct()
     {
@@ -363,6 +362,18 @@ class Place
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 
     
