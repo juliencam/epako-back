@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -31,6 +32,7 @@ class PlaceCrudController extends AbstractCrudController
         return [
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
+            TextareaField::new('content'),
             Field::new('address')->hideOnIndex(),
             Field::new('addressComplement')->hideOnIndex(),
             Field::new('city'),
