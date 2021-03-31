@@ -5,19 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use phpDocumentor\Reflection\Types\Integer;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -30,10 +23,10 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        $productCategories = AssociationField::new('productCategories')
+        $productCategories = AssociationField::new('productCategories', 'subcategory')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL')->orwhere("pc.name LIKE '%endance%'");
+                            ->where('pc.parent IS NOT NULL');
             });
 
 
@@ -59,8 +52,8 @@ class ProductCrudController extends AbstractCrudController
             Field::new('brand'),
             AssociationField::new('images')->setFormTypeOption('by_reference', false)->hideOnIndex(),
             // $productCategoryTendance,
-            $productCategories->setRequired(true)->hideOnIndex()->setHelp('Choisir seulement 1 sous catégorie et optionnellement Tendance'),
-            //AssociationField::new('productCategories')
+            $productCategories->setRequired(true)->hideOnIndex(),
+            //AssociationField::new('productCategories'),
         ];
     }
 
