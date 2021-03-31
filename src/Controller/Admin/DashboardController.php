@@ -33,7 +33,7 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Admin epako');
     }
-    
+
 
     public function configureMenuItems():iterable
     {
