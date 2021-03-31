@@ -91,13 +91,14 @@ class PlaceController extends AbstractController
     //     }
     //     return $this->json($places , 200,[], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
     // }
+    //@Route("/browse/productcategory/{ids<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+    //@Route("/browse/productcategory/{ids<^((\d+)\,?)+\d+$>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
 
 
 
     /**
      * all Place for one department and many  Product Category
-     * @Route("/browse/productcategory/{ids<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
-     * @Route("/browse/productcategory/{ids<^((\d+)\,?)+\d+$>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     *@Route("/browse/productcategory/{ids}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
     public function browsePlacebyManyProductCategory($ids, $postalcode ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
