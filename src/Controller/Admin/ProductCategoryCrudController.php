@@ -64,13 +64,12 @@ class ProductCategoryCrudController extends AbstractCrudController
 
 
         $name = Field::new('name');
-        $pictogram = Field::new('pictogram');
         //$places = AssociationField::new('places');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name];
         } elseif (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
-            return [$id, $name,$pictogram, $childCategories ];
+            return [$id, $name, $childCategories ];
         }
     }
 }

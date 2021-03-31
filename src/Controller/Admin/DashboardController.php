@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Place;
-use App\Entity\Review;
 use App\Entity\Product;
 use App\Entity\Department;
 use App\Entity\PlaceCategory;
@@ -14,8 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use App\Controller\Admin\ProductCategory2CrudController;
-use App\Controller\Admin\ProductCategory3CrudController;
+use App\Controller\Admin\ProductTendanceCrudController;
+use App\Controller\Admin\SubCategoryAssociationProductCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
@@ -43,18 +42,22 @@ class DashboardController extends AbstractDashboardController
             //MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
 
             MenuItem::section('Product'),
-            MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class),
-            MenuItem::linkToCrud('Category Product', 'fas fa-tags', ProductCategory::class),
-            MenuItem::linkToCrud('subCategory Product', 'fas fa-tags', PlaceCategory::class)
-            ->setController(ProductCategory3CrudController::class),
-            MenuItem::linkToCrud('Image Product', 'fas fa-tags', Image::class),
+            MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class)
+            ->setController(ProductCrudController::class),
+            MenuItem::linkToCrud('Category', 'fas fa-tags', ProductCategory::class)
+            ->setController(ProductCategoryCrudController::class),
+            MenuItem::linkToCrud('subCategory', 'fas fa-tags', PlaceCategory::class)
+            ->setController(SubcategoryProductCrudController::class),
+            MenuItem::linkToCrud('Image', 'fas fa-tags', Image::class),
+            MenuItem::linkToCrud('Product Tendance', 'fa fa-tags', Product::class)
+            ->setController(ProductTendanceCrudController::class),
             MenuItem::section('Place'),
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
-            MenuItem::linkToCrud('Place Category', 'fas fa-tags', PlaceCategory::class),
+            MenuItem::linkToCrud('Category', 'fas fa-tags', PlaceCategory::class),
             MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class),
             MenuItem::section('Association'),
-            MenuItem::linkToCrud('Association Product Category Place', 'fas fa-tags', PlaceCategory::class)
-            ->setController(ProductCategory2CrudController::class),
+            MenuItem::linkToCrud('Subproduct-Category & Place', 'fas fa-tags', PlaceCategory::class)
+            ->setController(SubcategoryProductAssociationProductCrudController::class),
             MenuItem::section('User'),
             MenuItem::linkToCrud('User', 'fas fa-tags', User::class),
 

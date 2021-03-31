@@ -18,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class ProductCategory3CrudController extends AbstractCrudController
+class SubcategoryProductCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -54,7 +54,9 @@ class ProductCategory3CrudController extends AbstractCrudController
 
         $name = Field::new('name');
 
-        return [$id, $name, $parent->onlyOnForms()];
+        $pictogram = Field::new('pictogram');
+
+        return [$id, $name, $pictogram, $parent->onlyOnForms()];
 
     }
 
