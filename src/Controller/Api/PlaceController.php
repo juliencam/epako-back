@@ -107,7 +107,7 @@ class PlaceController extends AbstractController
 
         // transfrorm Get value  on an array
         $tabOfIds = explode(',', $ids);
-        dump($tabOfIds);
+
         // search if the product category exist
         foreach($tabOfIds as $id) {
 
