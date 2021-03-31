@@ -80,7 +80,7 @@ class PlaceRepository extends ServiceEntityRepository
      * @return void
      */
 
-    public function findByProductCategory($ids,$postalcode)
+    public function findByManyProductCategoryAndPostalcode($ids,$postalcode)
     {
 
         return $this->createQueryBuilder('p')

@@ -23,7 +23,7 @@ class PlaceController extends AbstractController
 {
     /**
      * List Place
-     * @Route("/browse", name="api_place_browse")
+     * @Route("/browse", name="api_place_browse",methods="GET")
      */
     public function browse(PlaceRepository $placeRepository): Response
     {
@@ -58,7 +58,7 @@ class PlaceController extends AbstractController
     //  /**
     //  * all Place for one department and one Product Category
     //  *
-    //  * @Route("/browse/productcategory/{id<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+    //  @Route("/browse/productcategory/{id<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
     //  */
     // public function browsePlacebyOneProductCategory(ProductCategory  $productCategory = null, $postalcode ,PlaceRepository $placeRepository,Request $request): Response
     // {
@@ -94,23 +94,35 @@ class PlaceController extends AbstractController
 
 
 
+
     /**
      * all Place for one department and many  Product Category
-     * @Route("/browse/productcategory/{ids<\d+>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
-     * @Route("/browse/productcategory/{ids<^((\d+)\,?)+\d+$>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     *
+     * @Route("/browse/productcategory/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory($ids, $postalcode ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
+    public function browsePlacebyManyProductCategory($postalcode,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
 
         //Todo make 404 for url if no match
 
 
         // transfrorm Get value  on an array
-        $tabOfIds = explode(',', $ids);
-        dump($tabOfIds);
-        // search if the product category exist
-        foreach($tabOfIds as $id) {
+        //$tabOfIds = explode('-', $ids);
+        //$tabOfIds[] =  $ids;
+        $ids = $request->query->get('ids');
 
+        foreach($ids as $id) {
+
+            // verify if $ids contain only integer
+            if (!ctype_digit($id)) {
+                $message = [
+                    'status' => Response::HTTP_NOT_FOUND,
+                    'error' =>' erreur de syntaxe dans la route',
+                ];
+
+                return $this->json($message,Response::HTTP_NOT_FOUND);
+            }
+            // search if the product category exist
              $test = $productCategoryRepository->find($id);
 
              //404 ?
@@ -122,13 +134,14 @@ class PlaceController extends AbstractController
 
                      return $this->json($message,Response::HTTP_NOT_FOUND);
                  }
+
         }
 
 
 
 
 
-        $places = $placeRepository->findByProductCategory($tabOfIds,$postalcode);
+        $places = $placeRepository->findByManyProductCategoryAndPostalcode($ids,$postalcode);
         if($places == null ){
                 $message = [
                     'status' => Response::HTTP_NOT_FOUND,
@@ -139,6 +152,7 @@ class PlaceController extends AbstractController
         }
 
         return $this->json($places, 200, [], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
+
 
     }
 

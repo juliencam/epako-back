@@ -17,7 +17,7 @@ class PlaceCategoryController extends AbstractController
 {
     /**
      * List Place Category
-     * @Route("/browse", name="api_place_category_browse")
+     * @Route("/browse", name="api_place_category_browse", methods="GET")
      */
     public function browse(PlaceCategoryRepository $placeCategoryRepository): Response
     {
