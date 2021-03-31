@@ -6,6 +6,7 @@ use App\Entity\PlaceCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class PlaceCategoryCrudController extends AbstractCrudController
 {
@@ -22,6 +23,7 @@ class PlaceCategoryCrudController extends AbstractCrudController
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
             Field::new('pictogram'),
+            AssociationField::new('places')->setFormTypeOption('by_reference', false)
         ];
     }
 }

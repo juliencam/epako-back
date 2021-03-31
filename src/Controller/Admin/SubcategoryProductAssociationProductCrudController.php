@@ -18,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class ProductCategory2CrudController extends AbstractCrudController
+class SubcategoryProductAssociationProductCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -27,9 +27,9 @@ class ProductCategory2CrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-    $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    $response->where("entity.parent IS NOT NULL");
-    return $response;
+        $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response->where("entity.parent IS NOT NULL");
+        return $response;
     }
 
     public function configureActions(Actions $actions): Actions
