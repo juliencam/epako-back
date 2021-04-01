@@ -24,4 +24,6 @@ class DepartmentCrudController extends AbstractCrudController
             IntegerField::new('postalcode'),
         ];
     }
+
+    
 }
