@@ -11,6 +11,7 @@ use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -100,10 +101,30 @@ class PlaceController extends AbstractController
      *
      * @Route("/browse/productcategory/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory($postalcode,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
+    public function browsePlacebyManyProductCategory($postalcode = null ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
+        dump($request->attributes->get('route'));
+        dump($request);
+         $url = $request->getPathInfo();
+         dump($url);
+        dump($request->getrequestUri());
+       if($request->getrequestUri() === null ){
+        $message = [
+            'status' => Response::HTTP_BAD_REQUEST,
+            'error' =>'nope',
+        ];
 
+        return $this->json($message,Response::HTTP_BAD_REQUEST);
+       }
         //Todo make 404 for url if no match
+        if ($postalcode === null) {
+            $message = [
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' =>'Le code postal est manquant',
+            ];
+
+            return $this->json($message,Response::HTTP_BAD_REQUEST);
+        }
 
 
         // transfrorm Get value  on an array
@@ -116,11 +137,11 @@ class PlaceController extends AbstractController
             // verify if $ids contain only integer
             if (!ctype_digit($id)) {
                 $message = [
-                    'status' => Response::HTTP_NOT_FOUND,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'error' =>' erreur de syntaxe dans la route',
                 ];
 
-                return $this->json($message,Response::HTTP_NOT_FOUND);
+                return $this->json($message,Response::HTTP_BAD_REQUEST);
             }
             // search if the product category exist
              $test = $productCategoryRepository->find($id);
