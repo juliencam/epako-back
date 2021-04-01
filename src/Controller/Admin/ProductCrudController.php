@@ -50,9 +50,10 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('price'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             Field::new('brand'),
-            AssociationField::new('images')->setFormTypeOption('by_reference', false)->hideOnIndex(),
+            AssociationField::new('images')->setFormTypeOption('by_reference', false)->hideOnIndex()->setRequired(true),
             // $productCategoryTendance,
-            $productCategories->setRequired(true)->hideOnIndex(),
+            $productCategories//->setFormTypeOption('multiple',false)->setFormTypeOption('expanded', true)
+            ->setRequired(true)->hideOnIndex(),
             //AssociationField::new('productCategories'),
         ];
     }
