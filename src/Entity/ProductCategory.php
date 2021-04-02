@@ -9,9 +9,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
+ * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class ProductCategory
 {
@@ -40,13 +44,28 @@ class ProductCategory
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
      * @Groups("api_product_category_read")
      * @MaxDepth(1)
      */
     private $pictogram;
+
+    /**
+    * @ORM\Column(type="string", length=255)
+    * @var string
+    * @Groups("api_product_browse")
+    * @Groups("api_product_category_browse")
+    * @Groups("api_product_category_read")
+    */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="productcategory_picto", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -124,6 +143,35 @@ class ProductCategory
         return $this;
     }
 
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if (null !== $imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImage($image):self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -146,6 +194,14 @@ class ProductCategory
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getParent(): ?self

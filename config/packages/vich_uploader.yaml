@@ -1,0 +1,20 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        product_images:
+            uri_prefix: '%app.path.product_images%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.product_images%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+        place_logo:
+            uri_prefix: '%app.path.place_logo%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.place_logo%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+        placecategory_picto:
+            uri_prefix: '%app.path.placecategory_picto%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.placecategory_picto%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+        productcategory_picto:
+            uri_prefix: '%app.path.productcategory_picto%'
+            upload_destination: '%kernel.project_dir%/public/%app.path.productcategory_picto%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer

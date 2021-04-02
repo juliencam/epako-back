@@ -47,4 +47,5 @@ class ProductCategoryController extends AbstractController
         return $this->json($productCategoryItem , 200, [], ['groups' => 'api_product_category_read']);
     }
 
+
 }

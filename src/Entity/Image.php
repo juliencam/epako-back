@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -27,11 +31,25 @@ class Image
     private $alt;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
      */
     private $url;
+
+     /**
+      * @ORM\Column(type="string", length=255)
+      * @var string
+      * @Groups("api_product_browse")
+      * @Groups("api_product_category_read")
+      */
+     private $image;
+
+     /**
+      * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+      * @var File
+      */
+     private $imageFile;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":0})
@@ -55,6 +73,11 @@ class Image
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
 
     public function __construct()
     {
@@ -89,6 +112,36 @@ class Image
 
         return $this;
     }
+
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if (null !== $imageFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImage($image):self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
 
     public function getDisplayOrder(): ?int
     {
@@ -126,6 +179,14 @@ class Image
         return $this;
     }
 
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -138,8 +199,21 @@ class Image
         return $this;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function __toString()
     {
-        return $this->url;
+        return $this->name . " ";
     }
+
 }

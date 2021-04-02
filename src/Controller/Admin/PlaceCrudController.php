@@ -5,7 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Place;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -36,9 +38,13 @@ class PlaceCrudController extends AbstractCrudController
             Field::new('address')->hideOnIndex(),
             Field::new('addressComplement')->hideOnIndex(),
             Field::new('city'),
-            Field::new('logo')->hideOnIndex(),
+            //Field::new('logo')->hideOnIndex(),
+            //ImageField::new('image')->onlyOnIndex(),//->setUploadDir('%app.path.product_images%'),
+            //ImageField::new('imageFile')
+            //->setFormType(VichImageType::class),//->setUploadDir('%app.path.product_images%')->onlyOnForms(),
+            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
-            UrlField::new('url')->hideOnIndex(),
+            UrlField::new('url', 'URL Place')->hideOnIndex(),
             AssociationField::new('department'),
             AssociationField::new('placeCategory')->hideOnIndex(),
             // $childCategories,

@@ -4,6 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.path.product_images: uploads/images/products
+    app.path.place_logo: uploads/images/placelogos
+    app.path.placecategory_picto: uploads/images/placecategorypictos
+    app.path.productcategory_picto: uploads/images/productcategorypictos
 
 services:
     # default configuration for services in *this* file
