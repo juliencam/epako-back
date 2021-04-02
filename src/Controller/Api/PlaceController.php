@@ -103,20 +103,8 @@ class PlaceController extends AbstractController
      */
     public function browsePlacebyManyProductCategory($postalcode = null ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
-        dump($request->attributes->get('route'));
-        dump($request);
-         $url = $request->getPathInfo();
-         dump($url);
-        dump($request->getrequestUri());
-       if($request->getrequestUri() === null ){
-        $message = [
-            'status' => Response::HTTP_BAD_REQUEST,
-            'error' =>'nope',
-        ];
 
-        return $this->json($message,Response::HTTP_BAD_REQUEST);
-       }
-        //Todo make 404 for url if no match
+
         if ($postalcode === null) {
             $message = [
                 'status' => Response::HTTP_BAD_REQUEST,
