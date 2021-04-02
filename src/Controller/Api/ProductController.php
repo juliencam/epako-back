@@ -25,7 +25,7 @@ class ProductController extends AbstractController
      * @Route("/browse", name="api_product_browse", methods="GET")
      */
     public function browse(
-        Product $product = null, 
+        Product $product = null,
         ProductRepository $ProductRepository,
         EntityManagerInterface $entityManager
         ): Response
