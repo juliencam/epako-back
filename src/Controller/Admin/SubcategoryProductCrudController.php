@@ -7,11 +7,14 @@ use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -54,9 +57,11 @@ class SubcategoryProductCrudController extends AbstractCrudController
 
         $name = Field::new('name');
 
-        $pictogram = Field::new('pictogram');
+        //$image = ImageField::new('image')->onlyOnIndex();
 
-        return [$id, $name, $pictogram, $parent->onlyOnForms()];
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms();
+
+        return [$id, $name, $imageField, $parent->onlyOnForms()];
 
     }
 

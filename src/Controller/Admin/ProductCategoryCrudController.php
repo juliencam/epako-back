@@ -8,11 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -64,12 +66,13 @@ class ProductCategoryCrudController extends AbstractCrudController
 
 
         $name = Field::new('name');
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms();
         //$places = AssociationField::new('places');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name];
         } elseif (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
-            return [$id, $name, $childCategories ];
+            return [$id, $name,$imageField, $childCategories ];
         }
     }
 }

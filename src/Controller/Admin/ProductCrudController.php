@@ -2,11 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
+use App\Entity\Image;
 use App\Entity\Product;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -50,9 +53,11 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('price'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
             Field::new('brand'),
-            AssociationField::new('images')->setFormTypeOption('by_reference', false)->hideOnIndex(),
+            AssociationField::new('images')->setFormTypeOption('by_reference', false)
+            ->hideOnIndex()->setRequired(true),
             // $productCategoryTendance,
-            $productCategories->setRequired(true)->hideOnIndex(),
+            $productCategories//->setFormTypeOption('multiple',false)->setFormTypeOption('expanded', true)
+            ->setRequired(true)->hideOnIndex(),
             //AssociationField::new('productCategories'),
         ];
     }

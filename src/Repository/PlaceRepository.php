@@ -53,7 +53,7 @@ class PlaceRepository extends ServiceEntityRepository
      *
      * @param [Int] $productCategoryId
      * @param [String] $postalcode
-     * @return void
+     * @return Place
      */
 
     public function findByProductCategoryAndPostalcode($productCategoryIds,$postalcode)
@@ -77,7 +77,7 @@ class PlaceRepository extends ServiceEntityRepository
      *
      * @param [Int] $ids
      * @param [String] $postalcode
-     * @return void
+     * @return Place
      */
 
     public function findByManyProductCategoryAndPostalcode($ids,$postalcode)
