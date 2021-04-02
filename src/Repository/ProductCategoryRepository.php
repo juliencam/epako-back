@@ -18,10 +18,14 @@ class ProductCategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ProductCategory::class);
     }
-
+    /**
+     *
+     *
+     * @return ProductCategory
+     */
      public function findAllProductCategory(): ?array
      {
-        
+
          $entityManager = $this->getEntityManager();
          $query = $entityManager->createQuery(
             'SELECT p
@@ -35,7 +39,7 @@ class ProductCategoryRepository extends ServiceEntityRepository
 
      public function findAllProductCategoryQb()
      {
-        
+
         return $this->createQueryBuilder('p')
     ;
      }
@@ -49,7 +53,7 @@ class ProductCategoryRepository extends ServiceEntityRepository
     // SELECT *,`person`.*,`movie`.* FROM `movie_cast`
 //  INNER JOIN `movie`  ON `movie_cast`.`movie_id` = `movie`.`id`
 //  INNER JOIN `person` ON `movie_cast`.`person_id` = `person`.`id`
-   
+
     // /**
     //  * @return ProductCategory[] Returns an array of ProductCategory objects
     //  */

@@ -149,6 +149,8 @@ class Place
     /**
      * @ORM\Column(type="string", length=620, nullable=true)
      * @Groups("api_place_browse")
+     * @Groups("api_place_read")
+     *
      * @Assert\Url(
      *    protocols = {"http", "https"}
      * )
@@ -160,6 +162,7 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     *
      */
     private $content;
 
