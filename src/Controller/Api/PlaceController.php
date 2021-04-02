@@ -99,7 +99,7 @@ class PlaceController extends AbstractController
     /**
      * all Place for one department and many  Product Category
      *
-     * @Route("/browse/productcategory/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
     public function browsePlacebyManyProductCategory($postalcode = null ,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
