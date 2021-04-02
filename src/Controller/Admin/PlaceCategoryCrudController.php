@@ -4,9 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\PlaceCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class PlaceCategoryCrudController extends AbstractCrudController
 {
@@ -22,7 +25,9 @@ class PlaceCategoryCrudController extends AbstractCrudController
         return [
             IntegerField::new('id')->onlyOnIndex(),
             Field::new('name'),
-            Field::new('pictogram'),
+            //Field::new('pictogram'),
+            //ImageField::new('image')->onlyOnIndex(),
+            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             AssociationField::new('places')->setFormTypeOption('by_reference', false)
         ];
     }

@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @see https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-callbacks
  */
 class Product
 {
@@ -172,6 +174,14 @@ class Product
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     /**
