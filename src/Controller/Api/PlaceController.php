@@ -105,7 +105,7 @@ class PlaceController extends AbstractController
 
         //Todo make 404 for url if no match
 
-
+        dump($request);
         // transfrorm Get value  on an array
         //$tabOfIds = explode('-', $ids);
         //$tabOfIds[] =  $ids;

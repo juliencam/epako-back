@@ -21,7 +21,7 @@ class ProductCategoryRepository extends ServiceEntityRepository
 
      public function findAllProductCategory(): ?array
      {
-        
+
          $entityManager = $this->getEntityManager();
          $query = $entityManager->createQuery(
             'SELECT p
@@ -35,7 +35,7 @@ class ProductCategoryRepository extends ServiceEntityRepository
 
      public function findAllProductCategoryQb()
      {
-        
+
         return $this->createQueryBuilder('p')
     ;
      }
