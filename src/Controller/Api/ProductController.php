@@ -19,21 +19,29 @@ class ProductController extends AbstractController
 {
 
     const PATH = '/uploads/images/products/';
+    const URL = 'http://';
+    private $entityManager;
+    private $productRepository;
+
+
+    public function __construct(EntityManagerInterface $entityManager,ProductRepository $productRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->productRepository = $productRepository;
+
+    }
+
 
     /**
      * List Product
      * @Route("/browse", name="api_product_browse", methods="GET")
      */
     public function browse(
-        Product $product = null,
-        ProductRepository $ProductRepository,
-        EntityManagerInterface $entityManager,
-        Request $request
-        ): Response
+        Product $product = null,Request $request): Response
     {
         //dump($request->server->get('HTTP_HOST'));
         //dump($request->server->get('SERVER_NAME'));
-        $productList = $ProductRepository->findAll();
+        $productList = $this->productRepository->findAll();
 
         foreach ($productList as $product) {
 
@@ -44,11 +52,11 @@ class ProductController extends AbstractController
                 $uri = $image->getImage();
                 //verifier $_SERVER['HTTP_HOST']
                 // $request getbasepath
-                $image->setUrl($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+                $image->setUrl(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
             }
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
 
         }
 
@@ -59,8 +67,7 @@ class ProductController extends AbstractController
      *
      * @Route("/read/{id<\d+>}", name="api_product_read", methods="GET")
      */
-    public function read(Product $product = null, ProductRepository $ProductRepository, EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function read(Product $product = null,Request $request): Response
     {
        // 404 ?
        if ($product === null) {
@@ -73,19 +80,18 @@ class ProductController extends AbstractController
         }
 
 
-        $productItem = $ProductRepository->find($product);
+        $productItem = $this->productRepository->find($product);
         $imageList = $productItem ->getImages();
 
-            foreach ($imageList as $image) {
+        foreach ($imageList as $image) {
 
-                $uri = $image->getImage();
-                //verifier $_SERVER['HTTP_HOST']
-                // $request getbasepath
-                $image->setUrl($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+            $uri = $image->getImage();
 
-            }
-            $entityManager->persist($productItem );
-            $entityManager->flush();
+            $image->setUrl(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+
+        }
+        $this->entityManager->persist($productItem);
+        $this->entityManager->flush();
         return $this->json($productItem, 200, [], ['groups' => 'api_product_browse']);
     }
 

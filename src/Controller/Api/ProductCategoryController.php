@@ -18,29 +18,41 @@ class ProductCategoryController extends AbstractController
 {
 
     const PATH = '/uploads/images/productcategorypictos/';
+    const URL = 'http://';
+
+    private $entityManager;
+    private $productCategoryRepository;
+
+
+    public function __construct(EntityManagerInterface $entityManager,ProductCategoryRepository $productCategoryRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->productCategoryRepository = $productCategoryRepository;
+
+    }
+
     /**
      * List Product Category
      * @Route("/category/browse", name="api_product_category_browse", methods="GET")
      */
-    public function browse(ProductCategoryRepository $productCategoryRepository,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function browse(Request $request): Response
     {
 
-        $productCategoryAllList = $productCategoryRepository->findAll();
+        $productCategoryAllList = $this->productCategoryRepository->findAll();
         foreach ($productCategoryAllList as $productCategory) {
 
 
                 $uri = $productCategory->getImage();
                 //verifier $_SERVER['HTTP_HOST']
                 // $request getbasepath
-                $productCategory->setPictogram($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+                $productCategory->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-            $entityManager->persist($productCategory);
-            $entityManager->flush();
+                $this->entityManager->persist($productCategory);
+                $this->entityManager->flush();
 
         }
 
-        $productCategoryList = $productCategoryRepository->findAllProductCategory();
+        $productCategoryList = $this->productCategoryRepository->findAllProductCategory();
         return $this->json($productCategoryList, 200, [], ['groups' => 'api_product_category_browse']);
     }
 
@@ -49,8 +61,7 @@ class ProductCategoryController extends AbstractController
      *
      * @Route("/category/read/{id<\d+>}", name="api_product_category_read", methods="GET")
      */
-    public function read(ProductCategory $productCategory = null, ProductCategoryRepository $productCategoryRepository,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function read(ProductCategory $productCategory = null,Request $request): Response
     {
        // 404 ?
        if ($productCategory === null) {
@@ -63,17 +74,17 @@ class ProductCategoryController extends AbstractController
         }
 
 
-        $productCategoryItem = $productCategoryRepository->find($productCategory);
+        $productCategoryItem = $this->productCategoryRepository->find($productCategory);
 
         $uri = $productCategoryItem->getImage();
-        $productCategoryItem->setPictogram($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+        $productCategoryItem->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-        $entityManager->persist($productCategoryItem);
-        $entityManager->flush();
+        $this->entityManager->persist($productCategoryItem);
+        $this->entityManager->flush();
 
 
         return $this->json($productCategoryItem , 200, [], ['groups' => 'api_product_category_read']);
     }
 
-
+    
 }
