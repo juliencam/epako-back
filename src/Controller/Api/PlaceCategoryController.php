@@ -18,22 +18,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlaceCategoryController extends AbstractController
 {
     const PATH = '/uploads/images/placecategorypictos/';
+    const URL = 'http://';
+
+    private $entityManager;
+    private $placeCategoryRepository;
+
+
+    public function __construct(EntityManagerInterface $entityManager,PlaceCategoryRepository $placeCategoryRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->placeCategoryRepository = $placeCategoryRepository;
+
+    }
     /**
      * List Place Category
      * @Route("/browse", name="api_place_category_browse", methods="GET")
      */
-    public function browse(PlaceCategoryRepository $placeCategoryRepository,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function browse(Request $request): Response
     {
-        $placeCategories = $placeCategoryRepository->findAll();
+        $placeCategories = $this->placeCategoryRepository->findAll();
         foreach ($placeCategories as $placeCategory) {
 
 
             $uri = $placeCategory->getImage();
-            $placeCategory->setPictogram($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+            $placeCategory->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-        $entityManager->persist($placeCategory);
-        $entityManager->flush();
+            $this->entityManager->persist($placeCategory);
+            $this->entityManager->flush();
 
     }
         return $this->json($placeCategories,200,[], ['groups' => 'api_place_category_browse']);
@@ -44,8 +55,7 @@ class PlaceCategoryController extends AbstractController
      *
      * @Route("/read/{id<\d+>}", name="api_place_category_read", methods="GET")
      */
-    public function read(PlaceCategory $placeCategory= null, PlaceCategoryRepository $placeCategoryRepository ,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function read(PlaceCategory $placeCategory= null,Request $request): Response
     {
        // 404 ?
        if ($placeCategory === null) {
@@ -58,12 +68,12 @@ class PlaceCategoryController extends AbstractController
         }
 
 
-        $placeCategoryItem = $placeCategoryRepository->find($placeCategory);
+        $placeCategoryItem = $this->placeCategoryRepository->find($placeCategory);
         $uri = $placeCategoryItem->getImage();
-        $placeCategoryItem->setPictogram($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+        $placeCategoryItem->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-        $entityManager->persist($placeCategoryItem);
-        $entityManager->flush();
+        $this->entityManager->persist($placeCategoryItem);
+        $this->entityManager->flush();
         return $this->json($placeCategoryItem , 200, [], ['groups' => 'api_place_category_read']);
     }
 

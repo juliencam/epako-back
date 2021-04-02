@@ -2,8 +2,10 @@
 
 namespace App\Controller\Api;
 
+use App\Service\Uri;
 use App\Entity\Place;
 use App\Entity\Department;
+use App\Service\CodeError;
 use App\Entity\ProductCategory;
 use App\Repository\PlaceRepository;
 use App\Repository\ProductRepository;
@@ -23,24 +25,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlaceController extends AbstractController
 {
     const PATH = '/uploads/images/placelogos/';
+    const URL = 'http://';
+    private $entityManager;
+    private $placeRepository;
+
+
+    public function __construct(EntityManagerInterface $entityManager,PlaceRepository $placeRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->placeRepository = $placeRepository;
+
+    }
 
     /**
      * List Place
      * @Route("/browse", name="api_place_browse",methods="GET")
      */
-    public function browse(PlaceRepository $placeRepository,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function browse(Request $request): Response
     {
 
-        $places = $placeRepository->findAll();
+        $places = $this->placeRepository->findAll();
         foreach ($places as $place) {
 
 
             $uri = $place->getImage();
-            $place->setLogo($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
-
-        $entityManager->persist($place);
-        $entityManager->flush();
+            $place->setLogo(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+            $this->entityManager->persist($place);
+            $this->entityManager->flush();
 
     }
         return $this->json($places , 200, [], ['groups' => 'api_place_browse']);
@@ -51,8 +62,7 @@ class PlaceController extends AbstractController
      *
      * @Route("/read/{id<\d+>}", name="api_place_read", methods="GET")
      */
-    public function read(Place $place= null, PlaceRepository $placeRepository,EntityManagerInterface $entityManager,
-    Request $request): Response
+    public function read(Place $place= null,Request $request ): Response
     {
        // 404 ?
        if ($place === null) {
@@ -62,15 +72,16 @@ class PlaceController extends AbstractController
            ];
 
             return $this->json($message,Response::HTTP_NOT_FOUND);
+
         }
 
 
-        $placeItem = $placeRepository->find($place);
+        $placeItem = $this->placeRepository->find($place);
         $uri = $placeItem->getImage();
-        $placeItem->setLogo($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+        $placeItem->setLogo(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-        $entityManager->persist($placeItem );
-        $entityManager->flush();
+        $this->entityManager->persist($placeItem );
+        $this->entityManager->flush();
         return $this->json($placeItem, 200, [], ['groups' => 'api_place_read']);
     }
 
@@ -120,15 +131,21 @@ class PlaceController extends AbstractController
      *
      * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory($postalcode,PlaceRepository $placeRepository,ProductCategoryRepository $productCategoryRepository,Request $request,EntityManagerInterface $entityManager): Response
+    public function browsePlacebyManyProductCategory($postalcode,ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
 
-        //Todo make 404 for url if no match
+
+        if ($postalcode === null) {
+            $message = [
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' =>'Le code postal est manquant',
+            ];
+
+            return $this->json($message,Response::HTTP_BAD_REQUEST);
+        }
 
         //dump($request);
-        // transfrorm Get value  on an array
-        //$tabOfIds = explode('-', $ids);
-        //$tabOfIds[] =  $ids;
+
         $ids = $request->query->get('ids');
 
         foreach($ids as $id) {
@@ -136,11 +153,11 @@ class PlaceController extends AbstractController
             // verify if $ids contain only integer
             if (!ctype_digit($id)) {
                 $message = [
-                    'status' => Response::HTTP_NOT_FOUND,
+                    'status' => Response::HTTP_BAD_REQUEST,
                     'error' =>' erreur de syntaxe dans la route',
                 ];
 
-                return $this->json($message,Response::HTTP_NOT_FOUND);
+                return $this->json($message,Response::HTTP_BAD_REQUEST);
             }
             // search if the product category exist
              $test = $productCategoryRepository->find($id);
@@ -158,10 +175,7 @@ class PlaceController extends AbstractController
         }
 
 
-
-
-
-        $places = $placeRepository->findByManyProductCategoryAndPostalcode($ids,$postalcode);
+        $places = $this->placeRepository->findByManyProductCategoryAndPostalcode($ids,$postalcode);
         if($places == null ){
                 $message = [
                     'status' => Response::HTTP_NOT_FOUND,
@@ -176,10 +190,10 @@ class PlaceController extends AbstractController
             $uri = $place->getImage();
             //verifier $_SERVER['HTTP_HOST']
             // $request getbasepath
-            $place->setLogo($request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
+            $place->setLogo(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
-        $entityManager->persist($place);
-        $entityManager->flush();
+            $this->entityManager->persist($place);
+            $this->entityManager->flush();
 
         }
 
