@@ -80,6 +80,7 @@ class ProductCategory
     /**
      * @ORM\ManyToOne(targetEntity=ProductCategory::class, inversedBy="childCategories")
      * @ORM\JoinColumn(onDelete="CASCADE")
+     * //@Assert\NotBlank
      */
     private $parent;
 
@@ -87,8 +88,6 @@ class ProductCategory
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
      * @Groups("api_product_category_browse")
      * @Groups("api_product_category_read")
-     * @MaxDepth(1)
-     *
      * @MaxDepth(1)
      */
     private $childCategories;

@@ -59,9 +59,10 @@ class SubcategoryProductCrudController extends AbstractCrudController
 
         //$image = ImageField::new('image')->onlyOnIndex();
 
-        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms();
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
+        ->setRequired(true);
 
-        return [$id, $name, $imageField, $parent->onlyOnForms()];
+        return [$id, $name, $imageField, $parent->onlyOnForms()->setRequired(true)];
 
     }
 

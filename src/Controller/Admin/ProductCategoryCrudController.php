@@ -66,7 +66,8 @@ class ProductCategoryCrudController extends AbstractCrudController
 
 
         $name = Field::new('name');
-        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms();
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
+        ->setRequired(true);
         //$places = AssociationField::new('places');
 
         if (Crud::PAGE_INDEX === $pageName) {

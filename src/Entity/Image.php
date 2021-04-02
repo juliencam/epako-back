@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -71,6 +72,7 @@ class Image
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $product;
 

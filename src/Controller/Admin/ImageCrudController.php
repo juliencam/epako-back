@@ -31,15 +31,15 @@ class ImageCrudController extends AbstractCrudController
     {
         return [
             IntegerField::new('id')->onlyOnIndex(),
-            Field::new('name'),
-            Field::new('alt'),
+            Field::new('name')->setRequired(true),
+            Field::new('alt')->setRequired(true),
             //Field::new('url'),
             //ImageField::new('image')->onlyOnIndex(),//->setUploadDir('%app.path.product_images%'),
             //ImageField::new('imageFile')
             //->setFormType(VichImageType::class),//->setUploadDir('%app.path.product_images%')->onlyOnForms(),
-            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
+            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()->setRequired(true),
             ChoiceField::new('displayOrder')->setChoices([0=> 0 , 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]),
-            AssociationField::new('product')
+            AssociationField::new('product')->setRequired(true)
         ];
     }
 }
