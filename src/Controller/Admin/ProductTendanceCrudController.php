@@ -38,7 +38,7 @@ class ProductTendanceCrudController extends AbstractCrudController
 
         return [
             IntegerField::new('id')->onlyOnIndex(),
-            Field::new('name'),
+            Field::new('name')->setFormTypeOption('disabled','disabled'),
             $categoryTendance->hideOnIndex()->setHelp('Choisir Tendance si le produit est en tendance ou laisser vide'),
         ];
     }

@@ -5,14 +5,10 @@ namespace App\Controller\Admin;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
@@ -35,14 +31,6 @@ class SubcategoryProductCrudController extends AbstractCrudController
         return $response;
     }
 
-    // public function configureActions(Actions $actions): Actions
-    // {
-    //     return $actions
-    //         ->remove(Crud::PAGE_INDEX, Action::DETAIL)
-    //     ;
-    // }
-
-
     public function configureFields(string $pageName): iterable
     {
 
@@ -52,7 +40,7 @@ class SubcategoryProductCrudController extends AbstractCrudController
                             ->where('pc.parent IS NULL')->andwhere("pc.name NOT LIKE '%endance%'");
 
             });
-    
+
         $id = IntegerField::new('id')->hideOnForm();
 
         $name = Field::new('name');
@@ -60,10 +48,9 @@ class SubcategoryProductCrudController extends AbstractCrudController
         //$image = ImageField::new('image')->onlyOnIndex();
 
         $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-        ->setRequired(true);
+        ->setRequired(true)->setTranslationParameters(['form.label.delete'=>'Delete']);
 
         return [$id, $name, $imageField, $parent->onlyOnForms()->setRequired(true)];
 
     }
-
 }

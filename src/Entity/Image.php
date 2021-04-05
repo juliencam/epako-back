@@ -2,17 +2,22 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *   fields={"name"},
+ *   message="le nom doit existe déjà"
+ * )
  */
 class Image
 {
@@ -28,6 +33,7 @@ class Image
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
      * @Groups("api_product_browse")
+     * @Assert\Length(min=5, minMessage="doit contenir au moins 5 caractères")
      */
     private $alt;
 
@@ -78,6 +84,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=5, minMessage="doit contenir au moins 5 caractères")
      */
     private $name;
 

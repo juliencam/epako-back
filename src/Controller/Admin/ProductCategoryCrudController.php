@@ -4,20 +4,15 @@ namespace App\Controller\Admin;
 
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -42,13 +37,11 @@ class ProductCategoryCrudController extends AbstractCrudController
         $response->where("entity.parent is null");
         return $response;
     }
-    
-
 
     /**
      * selon la page
      * https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#displaying-different-fields-per-page
-     * 
+     *
      * setFormTypeOptions
      * https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#misc-options
      */
@@ -67,8 +60,8 @@ class ProductCategoryCrudController extends AbstractCrudController
 
         $name = Field::new('name');
         $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
+        ->setTranslationParameters(['form.label.delete'=>'Delete'])
         ->setRequired(true);
-        //$places = AssociationField::new('places');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name];
