@@ -5,17 +5,22 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\ProductCategoryRepository;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *    fields={"name"},
+ *    message="le nom doit existe déjà"
+ * )
  */
 class ProductCategory
 {
@@ -37,7 +42,7 @@ class ProductCategory
      * @Groups("api_product_browse")
      * @Groups("api_product_category_browse")
      * @Groups("api_product_category_read")
-     *
+     * @Assert\Length(min=2, minMessage="Le nom doit contenir au moins 2 caractères")
      * @MaxDepth(1)
      * @Assert\NotBlank
      */
@@ -87,8 +92,6 @@ class ProductCategory
      * @ORM\OneToMany(targetEntity=ProductCategory::class, mappedBy="parent", cascade={"remove"})
      * @Groups("api_product_category_browse")
      * @Groups("api_product_category_read")
-     * @MaxDepth(1)
-     *
      * @MaxDepth(1)
      */
     private $childCategories;

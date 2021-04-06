@@ -11,6 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ *
+ * Update the updatedAt field for the update
+ * https://symfony.com/doc/current/doctrine/events.html
  * @ORM\HasLifecycleCallbacks()
  * @see https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-callbacks
  */
@@ -30,6 +33,7 @@ class Product
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
      * @Assert\NotBlank
+     * @Assert\Length(min=2, minMessage="Le nom doit contenir au moins 2 caractères")
      */
     private $name;
 
@@ -38,6 +42,7 @@ class Product
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
      * @Assert\NotBlank
+     * @Assert\Length(min=10, minMessage="Le content doit contenir au moins 10 caractères")
      */
     private $content;
 
@@ -72,6 +77,7 @@ class Product
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, inversedBy="products")
      * @Groups("api_product_browse")
      * @Assert\NotBlank
+     * @Assert\Count(max=1, maxMessage="Le produit doit faire référence à une seule subcatégory")
      */
     private $productCategories;
 
@@ -79,7 +85,6 @@ class Product
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
      * @Groups("api_product_browse")
      * @Groups("api_product_category_read")
-     * @Assert\NotBlank
      */
     private $images;
 
