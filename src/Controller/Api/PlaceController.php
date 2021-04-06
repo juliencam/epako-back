@@ -132,41 +132,23 @@ class PlaceController extends AbstractController
     /**
      * all Place for one department and many  Product Category
      *
-     * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
+     * @Route("/browse/productcategory/postalcode/{postalcode<^([0-9][0-9|a-b])$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory(ProductCategoryRepository $productCategoryRepository,Request $request): Response
+    public function browsePlacebyManyProductCategory($postalcode = null, ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
-        // $postalcode = $request->attributes->get('postalcode');
 
-        // $regex = "#^([0-9][0-9|a-b])$#";
-        // $test = preg_match($regex,$postalcode,$matches);
-        // dump($matches[0]);
 
-        // $response = new Response();
-        // dump($response->getStatusCode());
-        // if ($response->getStatusCode() === 404) {
-        //     $message = [
 
-        //         'status' => Response::HTTP_BAD_REQUEST,
-        //         'error' =>'Le code postal est manquant',
-        //     ];
+        if ($postalcode === null) {
+            $message = [
 
-        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
-        // }
-        // try {
-        //     preg_match($regex,$postalcode);
+                'status' => Response::HTTP_BAD_REQUEST,
+                'error' =>'Le code postal est manquant',
+            ];
 
-        // } catch(\Throwable $th) {
-        //     $message = [
-        //         'status' => Response::HTTP_BAD_REQUEST,
-        //         'error' =>'Le code postal est manquant',
-        //     ];
+            return $this->json($message,Response::HTTP_BAD_REQUEST);
+        }
 
-        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
-
-        // }
-
-        //dump($request);
 
         $ids = $request->query->get('ids');
 
