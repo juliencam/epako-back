@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 
 /**
  * ! Préfixe de route + ! Préfixe de nom de route
@@ -133,12 +134,19 @@ class PlaceController extends AbstractController
      *
      * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory($postalcode = null,ProductCategoryRepository $productCategoryRepository,DepartmentRepository $departmentRepository,Request $request): Response
+    public function browsePlacebyManyProductCategory(ProductCategoryRepository $productCategoryRepository,Request $request): Response
     {
+        // $postalcode = $request->attributes->get('postalcode');
 
+        // $regex = "#^([0-9][0-9|a-b])$#";
+        // $test = preg_match($regex,$postalcode,$matches);
+        // dump($matches[0]);
 
-        // if ( $departmentRepository->findBy(['postalcode' => $postalcode]) === null) {
+        // $response = new Response();
+        // dump($response->getStatusCode());
+        // if ($response->getStatusCode() === 404) {
         //     $message = [
+
         //         'status' => Response::HTTP_BAD_REQUEST,
         //         'error' =>'Le code postal est manquant',
         //     ];
@@ -146,7 +154,7 @@ class PlaceController extends AbstractController
         //     return $this->json($message,Response::HTTP_BAD_REQUEST);
         // }
         // try {
-        //     $departmentRepository->findBy(['postalcode' => $postalcode]);
+        //     preg_match($regex,$postalcode);
 
         // } catch(\Throwable $th) {
         //     $message = [
