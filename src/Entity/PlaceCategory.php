@@ -2,18 +2,23 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlaceCategoryRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=PlaceCategoryRepository::class)
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *   fields={"name"},
+ *   message="le nom doit existe déjà"
+ * )
  */
 class PlaceCategory
 {
@@ -37,6 +42,7 @@ class PlaceCategory
      * @Groups("api_place_category_read")
      * @Groups("api_placecategory_browse_productcategory")
      * @Assert\NotBlank
+     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
      */
     private $name;
 
@@ -62,6 +68,7 @@ class PlaceCategory
     /**
      * @Vich\UploadableField(mapping="placecategory_picto", fileNameProperty="image")
      * @var File
+     * @Assert\NotBlank
      */
     private $imageFile;
 
@@ -79,6 +86,7 @@ class PlaceCategory
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="placeCategory")
      * @Groups("api_place_category_read")
      * @Groups("api_placecategory_browse_productcategory")
+     * @Assert\NotBlank
      */
     private $places;
 

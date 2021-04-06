@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlaceRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
@@ -32,17 +32,17 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     *
      * @Assert\NotBlank
+     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Assert\NotBlank
+     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
      */
     private $address;
 
@@ -51,15 +51,16 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
+     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
      */
     private $addressComplement;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Assert\NotBlank
+     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
      */
     private $city;
 
@@ -83,6 +84,7 @@ class Place
     /**
      * @Vich\UploadableField(mapping="place_logo", fileNameProperty="image")
      * @var File
+     * @Assert\NotBlank
      */
     private $imageFile;
 
@@ -150,7 +152,7 @@ class Place
      * @ORM\Column(type="string", length=620, nullable=true)
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
-     *
+     * @Assert\NotBlank
      * @Assert\Url(
      *    protocols = {"http", "https"}
      * )
@@ -162,7 +164,8 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     *
+     * @Assert\Length(min=5, minMessage="doit contenir au moins 5 caractères")
+     * @Assert\NotBlank
      */
     private $content;
 

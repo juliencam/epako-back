@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
-use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
