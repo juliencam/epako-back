@@ -7,8 +7,10 @@ use App\Entity\Place;
 use App\Entity\Department;
 use App\Service\CodeError;
 use App\Entity\ProductCategory;
+use PhpParser\Node\Stmt\TryCatch;
 use App\Repository\PlaceRepository;
 use App\Repository\ProductRepository;
+use App\Repository\DepartmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,18 +133,30 @@ class PlaceController extends AbstractController
      *
      * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
-    public function browsePlacebyManyProductCategory($postalcode,ProductCategoryRepository $productCategoryRepository,Request $request): Response
+    public function browsePlacebyManyProductCategory($postalcode = null,ProductCategoryRepository $productCategoryRepository,DepartmentRepository $departmentRepository,Request $request): Response
     {
 
 
-        if ($postalcode === null) {
-            $message = [
-                'status' => Response::HTTP_BAD_REQUEST,
-                'error' =>'Le code postal est manquant',
-            ];
+        // if ( $departmentRepository->findBy(['postalcode' => $postalcode]) === null) {
+        //     $message = [
+        //         'status' => Response::HTTP_BAD_REQUEST,
+        //         'error' =>'Le code postal est manquant',
+        //     ];
 
-            return $this->json($message,Response::HTTP_BAD_REQUEST);
-        }
+        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
+        // }
+        // try {
+        //     $departmentRepository->findBy(['postalcode' => $postalcode]);
+
+        // } catch(\Throwable $th) {
+        //     $message = [
+        //         'status' => Response::HTTP_BAD_REQUEST,
+        //         'error' =>'Le code postal est manquant',
+        //     ];
+
+        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
+
+        // }
 
         //dump($request);
 
