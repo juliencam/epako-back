@@ -39,6 +39,8 @@ class DashboardController extends AbstractDashboardController
         [
 
             MenuItem::section('Product'),
+
+            //Use of another crudController for the same entity
             MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class)
             ->setController(ProductCrudController::class),
             MenuItem::linkToCrud('Category', 'fas fa-tags', ProductCategory::class)
@@ -48,10 +50,12 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Image', 'fas fa-tags', Image::class),
             MenuItem::linkToCrud('Product Tendance', 'fa fa-tags', Product::class)
             ->setController(ProductTendanceCrudController::class),
+
             MenuItem::section('Place'),
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
             MenuItem::linkToCrud('Category', 'fas fa-tags', PlaceCategory::class),
             MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class),
+
             MenuItem::section('Association'),
             MenuItem::linkToCrud('Subproduct-Category & Place', 'fas fa-tags', PlaceCategory::class)
             ->setController(SubcategoryProductAssociationProductCrudController::class),

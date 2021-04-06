@@ -36,7 +36,7 @@ class ProductCrudController extends AbstractCrudController
             Field::new('brand'),
             AssociationField::new('images')->setFormTypeOption('by_reference', false)
             ->hideOnIndex(),
-            $subproductCategories->setHelp('Choisir une seule subcategory')
+            $subproductCategories->setHelp('Choisir une seule subcategory')//->setFormTypeOptions(['multiple' => false])
             ->setRequired(true)->hideOnIndex(),
         ];
     }

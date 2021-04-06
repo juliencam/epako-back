@@ -11,6 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ *
+ * Update the updatedAt field for the update
+ * https://symfony.com/doc/current/doctrine/events.html
  * @ORM\HasLifecycleCallbacks()
  * @see https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-callbacks
  */
