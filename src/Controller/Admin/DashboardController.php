@@ -45,7 +45,7 @@ class DashboardController extends AbstractDashboardController
             ->setController(ProductCrudController::class),
             MenuItem::linkToCrud('Category', 'fas fa-tags', ProductCategory::class)
             ->setController(ProductCategoryCrudController::class),
-            MenuItem::linkToCrud('subCategory', 'fas fa-tags', PlaceCategory::class)
+            MenuItem::linkToCrud('subCategory', 'fas fa-tags', ProductCategory::class)
             ->setController(SubcategoryProductCrudController::class),
             MenuItem::linkToCrud('Image', 'fas fa-tags', Image::class),
             MenuItem::linkToCrud('Product Tendance', 'fa fa-tags', Product::class)
@@ -57,7 +57,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Department', 'fas fa-tags', Department::class),
 
             MenuItem::section('Association'),
-            MenuItem::linkToCrud('Subproduct-Category & Place', 'fas fa-tags', PlaceCategory::class)
+            MenuItem::linkToCrud('Subproduct-Category & Place', 'fas fa-tags', ProductCategory::class)
             ->setController(SubcategoryProductAssociationProductCrudController::class),
             MenuItem::section('User'),
             MenuItem::linkToCrud('User', 'fas fa-tags', User::class),
