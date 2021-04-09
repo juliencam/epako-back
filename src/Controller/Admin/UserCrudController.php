@@ -25,11 +25,11 @@ class UserCrudController extends AbstractCrudController
             IntegerField::new('id')->onlyOnIndex(),
             EmailField::new('email'),
             ChoiceField::new('roles')->allowMultipleChoices(true)
-            ->setChoices(['ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_USER' => 'ROLE_USER', 'ROLE_MANAGER' => 'ROLE_MANAGER']),
+            ->setChoices(['ADMIN' => 'ROLE_ADMIN', 'USER' => 'ROLE_USER', 'MANAGER' => 'ROLE_MANAGER']),
             Field::new('nickname'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1, 2 => 2 ])->setHelp('0 = actif / 1 = inactif / 2 = banned'),
             //solution pour encoder le password https://grafikart.fr/forum/33951
-            Field::new('password')->setFormType(PasswordType::class)->hideOnIndex(),
+            Field::new('password')->setFormType(PasswordType::class)->hideOnIndex()//->onlyWhenCreating(),
         ];
     }
 }

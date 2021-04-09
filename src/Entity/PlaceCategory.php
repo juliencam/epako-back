@@ -86,7 +86,6 @@ class PlaceCategory
      * @ORM\OneToMany(targetEntity=Place::class, mappedBy="placeCategory")
      * @Groups("api_place_category_read")
      * @Groups("api_placecategory_browse_productcategory")
-     * @Assert\NotBlank
      */
     private $places;
 

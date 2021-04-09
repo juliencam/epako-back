@@ -25,7 +25,7 @@ class PlaceCategoryCrudController extends AbstractCrudController
             Field::new('name'),
             TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
             ->setTranslationParameters(['form.label.delete'=>'Delete'])->setRequired(true),
-            AssociationField::new('places')->setFormTypeOption('by_reference', false)->setRequired(true)
+            AssociationField::new('places')->setFormTypeOption('by_reference', false)
         ];
     }
 }

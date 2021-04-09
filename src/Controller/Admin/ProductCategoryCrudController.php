@@ -29,7 +29,7 @@ class ProductCategoryCrudController extends AbstractCrudController
      * check doc
      *https://stackoverflow.com/questions/63432424/symfony-easyadminbundle-3-override-the-createindexquerybuilder
      *Permet pour l'index de n'aficher que les parents
-     *
+     *afficher que les lignes ou les parents sont null
      */
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
