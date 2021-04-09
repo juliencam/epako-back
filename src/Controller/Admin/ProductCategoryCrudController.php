@@ -39,6 +39,14 @@ class ProductCategoryCrudController extends AbstractCrudController
     }
 
     /**
+     * https://symfony.com/doc/current/bundles/EasyAdminBundle/crud.html#search-and-pagination-options
+     */
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setSearchFields(null);
+    }
+
+    /**
      * selon la page
      * https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#displaying-different-fields-per-page
      *

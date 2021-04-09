@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Image;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -18,6 +19,10 @@ class ImageCrudController extends AbstractCrudController
         return Image::class;
     }
 
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud->setSearchFields(['product.name']);
+    // }
 
     public function configureFields(string $pageName): iterable
     {

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Place;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -18,6 +19,11 @@ class PlaceCrudController extends AbstractCrudController
     {
         return Place::class;
     }
+
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud->setSearchFields(null);
+    // }
 
     public function configureFields(string $pageName): iterable
     {
