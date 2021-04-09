@@ -19,6 +19,12 @@ class ProductTendanceCrudController extends AbstractCrudController
         return Product::class;
     }
 
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud->setSearchFields(null);
+    // }
+
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions

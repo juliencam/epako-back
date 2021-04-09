@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ProductCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,9 +41,20 @@ class ProductCategoryRepository extends ServiceEntityRepository
      public function findAllProductCategoryQb()
      {
 
-        return $this->createQueryBuilder('p')
-    ;
+        return $this->createQueryBuilder('p');
      }
+
+    //  public function findAllNameSubCategoryWithoutTendance(EntityManagerInterface $em)
+    //          {
+    //             $qb = $em->createQueryBuilder();
+    //            $qb->getEntityManager();
+    //             $listSubCategories = $qb->select('pc.name')
+    //                 ->from('product_category', 'pc')
+    //                 ->where('pc.parent IS NULL')->andwhere("pc.name NOT LIKE '%endance%'");
+
+    //             return $listSubCategories;
+    //          }
+
     // 'SELECT c, p,m
     // FROM App\Entity\MovieCast c
     // INNER JOIN c.person p

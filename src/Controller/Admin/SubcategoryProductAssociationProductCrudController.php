@@ -24,6 +24,12 @@ class SubcategoryProductAssociationProductCrudController extends AbstractCrudCon
         return ProductCategory::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setSearchFields(null);
+    }
+
+
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
@@ -35,6 +41,7 @@ class SubcategoryProductAssociationProductCrudController extends AbstractCrudCon
     {
         return $actions
             ->remove(Crud::PAGE_INDEX, Action::NEW)
+            ->remove(Crud::PAGE_INDEX, Action::DELETE)
         ;
     }
 

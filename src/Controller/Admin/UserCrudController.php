@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -16,6 +17,12 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
+
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud->setSearchFields(null);
+    // }
+
 
 
     public function configureFields(string $pageName): iterable

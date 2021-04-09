@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\ProductCategory;
 use App\Repository\ProductCategoryRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -23,6 +24,12 @@ class SubcategoryProductCrudController extends AbstractCrudController
     {
         return ProductCategory::class;
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setSearchFields(null);
+    }
+
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {

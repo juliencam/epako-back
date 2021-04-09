@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PlaceCategory;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -17,6 +18,11 @@ class PlaceCategoryCrudController extends AbstractCrudController
         return PlaceCategory::class;
     }
 
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     return $crud->setSearchFields(null);
+    // }
+
     public function configureFields(string $pageName): iterable
     {
 
@@ -25,7 +31,7 @@ class PlaceCategoryCrudController extends AbstractCrudController
             Field::new('name'),
             TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
             ->setTranslationParameters(['form.label.delete'=>'Delete'])->setRequired(true),
-            AssociationField::new('places')->setFormTypeOption('by_reference', false)->setRequired(true)
+            AssociationField::new('places')->setFormTypeOption('by_reference', false)
         ];
     }
 }
