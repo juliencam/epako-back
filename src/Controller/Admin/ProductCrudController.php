@@ -84,7 +84,7 @@ class ProductCrudController extends AbstractCrudController
         // ->andWhere('pc.id = :val')
         // ->setParameter('val', $value)
         // ->getQuery()
-        // ->getResult()ff
+        // ->getResult()
 
         return [
             IntegerField::new('id')->onlyOnIndex(),
