@@ -19,24 +19,35 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Provider\EpakoProvider;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class AppFixtures extends Fixture
 {
 
-    const NB_PRODUCT_SUBCATEGORY = 26;
+    const NB_PRODUCT_CATEGORY = 26;
     const NB_PRODUCT = 50;
     const NB_IMAGE = 50;
     const NB_PLACE_CATEGORY = 6;
     const NB_PLACE = 30;
     const NB_REVIEW = 60;
 
-    // Password encoder
+    /**
+     * UserPasswordEncoderInterface is the interface for the password encoder service.
+     *
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
 
-    // Connection à MySQL (DBAL => PDO)
+    /**
+     * Connection service for MySQL
+     *
+     * @var Connection
+     */
     private $connection;
 
     /**
-     * On injecte les dépendances (les objets utiles au fonctionnement de nos Fixtures) dans le constructeur car AppFixtures est elle aussi un service
+     *
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param Connection $connection
      */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, Connection $connection)
     {
@@ -44,45 +55,56 @@ class AppFixtures extends Fixture
         $this->connection = $connection;
     }
 
+    /**
+     * reset to zero of ID
+     *
+     * @return void
+     */
     private function truncate()
     {
-        // On passen mode SQL ! On cause avec MySQL
-        // Désactivation des contraintes FK
-        $users = $this->connection->query('SET foreign_key_checks = 0');
-        // On tronque
-        $users = $this->connection->query('TRUNCATE TABLE department');
-        $users = $this->connection->query('TRUNCATE TABLE image');
-        $users = $this->connection->query('TRUNCATE TABLE place');
-        $users = $this->connection->query('TRUNCATE TABLE place_category');
-        $users = $this->connection->query('TRUNCATE TABLE product');
-        $users = $this->connection->query('TRUNCATE TABLE product_category');
-        $users = $this->connection->query('TRUNCATE TABLE product_category_place');
-        $users = $this->connection->query('TRUNCATE TABLE product_product_category');
-        $users = $this->connection->query('TRUNCATE TABLE review');
-        $users = $this->connection->query('TRUNCATE TABLE user');
-        // etc.
+        // Disabling foreign_key constraints
+        $this->connection->query('SET foreign_key_checks = 0');
+        $this->connection->query('TRUNCATE TABLE department');
+        $this->connection->query('TRUNCATE TABLE image');
+        $this->connection->query('TRUNCATE TABLE place');
+        $this->connection->query('TRUNCATE TABLE place_category');
+        $this->connection->query('TRUNCATE TABLE product');
+        $this->connection->query('TRUNCATE TABLE product_category');
+        $this->connection->query('TRUNCATE TABLE product_category_place');
+        $this->connection->query('TRUNCATE TABLE product_product_category');
+        $this->connection->query('TRUNCATE TABLE review');
+        $this->connection->query('TRUNCATE TABLE user');
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
-        // On va truncate nos tables à la main pour revenir à id=1
         $this->truncate();
-        // $product = new Product();
-        // $manager->persist($product);
 
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new PicsumPhotosProvider($faker));
+        // Custom provider
         $faker->addProvider(new EpakoProvider($faker));
         $faker->addProvider(new Gravatar($faker));
-        // Toujours les mêmes données
+
+        // allows to generate always the same data
         $faker->seed(2021);
 
+        //?______________________________USER___________________________________
 
-        //USER
-        //user avec role par defaut ROLE_USER
+        //table that stores the users
         $tabUserReviewList = [];
+
+        //creation of ten users with the role user and the password user by default
         for ($i = 1; $i <= 10; $i++) {
+
             $user = new User();
+
+            // unique() allows the field to be unique
+            // @see https://fakerphp.github.io/#modifiers
             $user->setEmail($faker->unique()->email());
             $user->setRoles(['ROLE_USER']);
             $encodedPassword = $this->passwordEncoder->encodePassword($user, 'user');
@@ -96,7 +118,7 @@ class AppFixtures extends Fixture
 
         }
 
-        // MANAGER
+        //? MANAGER
         $userManager = new User();
         $userManager->setEmail('manager@manager.com');
         $userManager->setRoles(['ROLE_MANAGER']);
@@ -104,44 +126,43 @@ class AppFixtures extends Fixture
         $userManager->setPassword($encodedPassword);
         $userManager->setNickname('manager');
         $userManager->setStatus(0);
-        // manager
-        // On encode le mot de passe avec le service qui va bien
 
         $manager->persist($userManager);
 
-        // ADMIN
+        //? ADMIN
         $adminManager = new User();
         $adminManager->setEmail('admin@admin.com');
         $adminManager->setRoles(['ROLE_ADMIN']);
-                // admin
-        // On encode le mot de passe avec le service qui va bien
         $encodedPassword = $this->passwordEncoder->encodePassword($adminManager, 'admin');
         $adminManager->setPassword($encodedPassword);
         $adminManager->setNickname('admin');
         $adminManager->setStatus(0);
-        
+
         $manager->persist($adminManager);
 
-        // Un tableau pour stocker nos product Category pour pouvoir les stocker dans product
+        //stores all ProductCategory objects
         $productCategoryList = [];
+
+        //stores all ProductCategory objects after modification
         $finalProductCategoryList = [];
+
+        //stores the parent ProductCategory
         $productCategoryParentList = [];
+
+        //stores the children ProductCategory
         $productCategoryChildList  = [];
 
         /**
-         * créer sous categorie
-         * déterminer qui est parent des sous categories en piochant dans les sous categories
-         * la sous categorie devient categorie
-         * définir par tranche de 5 l'attribution de la catégorie mère
+         * create productcategory
+         * determine a parent
+         * determine 4 subcategories to the parent
+         * lastly, determine the tendance category
          */
+        for ($i = 1; $i <= self::NB_PRODUCT_CATEGORY; $i++) {
 
-        for ($i = 1; $i <= self::NB_PRODUCT_SUBCATEGORY; $i++) {
-            // Un genre
             $productCategory = new ProductCategory();
-            // Modifier unique() de faker
-            // @see https://fakerphp.github.io/#modifiers
+
             $productCategory->setName($faker->unique()->word());
-            //$productCategory->setPictogram($faker->unique()->imageUrl(40, 40, 'animals', true, 'cats'));
 
             $productCategoryList[] = $productCategory;
 
@@ -152,7 +173,7 @@ class AppFixtures extends Fixture
 
             if ($i > 1 && $i < 6 ) {
                 $productCategory->setParent($productCategoryList[0]);
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
@@ -163,7 +184,7 @@ class AppFixtures extends Fixture
 
             if ($i > 6 && $i < 11) {
                 $productCategory->setParent($productCategoryList[5]);
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
@@ -174,7 +195,7 @@ class AppFixtures extends Fixture
 
             if ($i > 11 && $i < 16) {
                 $productCategory->setParent($productCategoryList[10]);
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
@@ -185,7 +206,7 @@ class AppFixtures extends Fixture
 
             if ($i > 16 && $i < 21) {
                 $productCategory->setParent($productCategoryList[15]);
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
@@ -196,7 +217,7 @@ class AppFixtures extends Fixture
 
             if ($i > 21 && $i < 26) {
                 $productCategory->setParent($productCategoryList[20]);
-                $productCategory->setPictogram('yo soy picto');
+                $productCategory->setPictogram('picto');
                 $productCategoryChildList[] = $productCategory;
             }
 
@@ -213,37 +234,38 @@ class AppFixtures extends Fixture
 
         }
 
-
+        //store the Product
         $productList = [];
         for ($i = 1; $i <= self::NB_PRODUCT; $i++) {
 
             $product = new Product();
-            // Modifier unique() de faker
-            // @see https://fakerphp.github.io/#modifiers
             $product->setName($faker->word());
             $product->setContent($faker->sentence(20));
             $product->setPrice($faker->randomNumber(2));
             $product->setStatus(0);
             $product->setBrand($faker->word());
 
+            //the top ten products in the tendance category
             if ($i < 10) {
                 $product->addProductCategory($finalProductCategoryList[25]);
 
             }
+                //association of sub-categories to the product
                 $product->addProductCategory($productCategoryChildList[mt_rand(0,19)]);
 
-            $productList[] = $product;
+                $productList[] = $product;
 
-            $manager->persist($product);
+                $manager->persist($product);
         }
 
+        //store the Image
         $imageList = [];
+
         for ($i = 1; $i <= self::NB_IMAGE; $i++) {
 
             $image = new Image();
-            // Modifier unique() de faker
-            // @see https://fakerphp.github.io/#modifiers
 
+            //association of images to the products
             $image->setProduct($productList[$i-1]);
             $image->setAlt($faker->sentence(8));
             $image->setUrl($faker->imageUrl(400, 400, true));
@@ -254,8 +276,10 @@ class AppFixtures extends Fixture
             $manager->persist($image);
         }
 
+        //store the department
         $departmentList = [];
 
+        //use of custom provider for department
         foreach ($faker->getDepartment() as $postalcode => $departmentName) {
 
             $departmentEntity = new Department();
@@ -268,21 +292,22 @@ class AppFixtures extends Fixture
             $manager->persist($departmentEntity);
         }
 
+        //store the PlaceCategory
         $placeCategoryList = [];
         for ($i = 1; $i <= self::NB_PLACE_CATEGORY; $i++) {
 
             $placeCategory = new PlaceCategory();
-            // Modifier unique() de faker
-            // @see https://fakerphp.github.io/#modifiers
 
             $placeCategory->setName($faker->unique()->company());
-            $placeCategory->setPictogram('picto de la plaça');
+
+            $placeCategory->setPictogram('picto of the place');
 
             $placeCategoryList[] = $placeCategory;
 
             $manager->persist($placeCategory);
         }
 
+        //store the Place
         $placeList = [];
         for ($i = 1; $i <= self::NB_PLACE; $i++) {
 
@@ -296,12 +321,19 @@ class AppFixtures extends Fixture
             $place->setStatus(0);
             $place->setUrl('https://www.youtube.com/watch?v=LEYJ4VsCy7o&ab_channel=Onision');
 
+            //find a department at random
             $randomDepartment = $departmentList[mt_rand(0, count($departmentList)-1)];
+
+            //association of department to the place
             $place->setDepartment($randomDepartment);
 
+            //find a placecategory at random
             $randomPlaceCategory = $placeCategoryList[mt_rand(0, count($placeCategoryList)-1)];
+
+            //association of placecategory to the place
             $place->setPlaceCategory($randomPlaceCategory);
 
+            //association between one and three sub-category at random
             shuffle($productCategoryChildList);
             for ($r = 0; $r < mt_rand(1, 3); $r++) {
                 $randomCategoryChild = $productCategoryChildList[$r];
@@ -313,6 +345,7 @@ class AppFixtures extends Fixture
             $manager->persist($place);
         }
 
+        //store the Review
         $reviewList = [];
         for ($i = 1; $i <= self::NB_REVIEW; $i++) {
 
@@ -322,9 +355,11 @@ class AppFixtures extends Fixture
             $review->setRate(mt_rand(1,5));
             $review->setStatus(0);
 
+            //association of user to the review at random
             $randomUserReview = $tabUserReviewList[mt_rand(0, count($tabUserReviewList)-1)];
             $review->setUser($randomUserReview);
 
+            //association between one and three place to the review at random
             shuffle($placeList);
             for ($r = 0; $r < mt_rand(1, 3); $r++) {
                 $randomPlace = $placeList[$r];

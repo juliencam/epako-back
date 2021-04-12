@@ -8,6 +8,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
+ *
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
  */
 class Review
@@ -133,6 +135,7 @@ class Review
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()

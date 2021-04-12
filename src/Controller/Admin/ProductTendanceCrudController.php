@@ -19,12 +19,9 @@ class ProductTendanceCrudController extends AbstractCrudController
         return Product::class;
     }
 
-    // public function configureCrud(Crud $crud): Crud
-    // {
-    //     return $crud->setSearchFields(null);
-    // }
-
-
+    /**
+     * delete button action new and delete on index
+     */
     public function configureActions(Actions $actions): Actions
     {
         return $actions
@@ -36,6 +33,7 @@ class ProductTendanceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
+        //callable to define a queryBuilder on a field of type associationField
         $categoryTendance = AssociationField::new('productCategories')
         ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
             return $productCategoryRepository->createQueryBuilder('pc')
@@ -44,6 +42,7 @@ class ProductTendanceCrudController extends AbstractCrudController
 
         return [
             IntegerField::new('id')->onlyOnIndex(),
+             //the disabled option prohibits the modification of the value
             Field::new('name')->setFormTypeOption('disabled','disabled'),
             $categoryTendance->hideOnIndex()->setHelp('Choisir Tendance si le produit est en tendance ou laisser vide'),
         ];

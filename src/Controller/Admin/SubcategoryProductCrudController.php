@@ -25,12 +25,13 @@ class SubcategoryProductCrudController extends AbstractCrudController
         return ProductCategory::class;
     }
 
+    //@see ProductCategoryCrudController for comments
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setSearchFields(null);
     }
 
-
+    //@see ProductCategoryCrudController for the comments
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
@@ -40,7 +41,7 @@ class SubcategoryProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
+        //callable to define a queryBuilder on a field of type associationField
         $parent = AssociationField::new('parent')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
@@ -52,10 +53,9 @@ class SubcategoryProductCrudController extends AbstractCrudController
 
         $name = Field::new('name');
 
-        //$image = ImageField::new('image')->onlyOnIndex();
-
+         // @see imageCrudController for comments
         $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-        ->setRequired(true)->setTranslationParameters(['form.label.delete'=>'Delete']);
+        ->setRequired(true)->setTranslationParameters(['form.label.delete'=>'Supprimer']);
 
         return [$id, $name, $imageField, $parent->onlyOnForms()->setRequired(true)];
 

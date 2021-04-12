@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
@@ -207,6 +209,7 @@ class User implements UserInterface
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()

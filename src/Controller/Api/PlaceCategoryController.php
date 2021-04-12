@@ -12,12 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
+ * Route prefix
  * @Route("/api/place/category")
  */
 
 class PlaceCategoryController extends AbstractController
 {
+    //path for storing images from the public folder.
     const PATH = '/uploads/images/placecategorypictos/';
+
     const URL = 'http://';
 
     private $entityManager;
@@ -37,10 +40,15 @@ class PlaceCategoryController extends AbstractController
     public function browse(Request $request): Response
     {
         $placeCategories = $this->placeCategoryRepository->findAll();
+
+        //loop to build the url that allows the front to retrieve the image from the back server
         foreach ($placeCategories as $placeCategory) {
 
-
+            //retrieves the file name of the image
             $uri = $placeCategory->getImage();
+
+            //SERVER_NAME is the name of the host server
+            //BASE is the base URL
             $placeCategory->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
             $this->entityManager->persist($placeCategory);
@@ -55,9 +63,9 @@ class PlaceCategoryController extends AbstractController
      *
      * @Route("/read/{id<\d+>}", name="api_place_category_read", methods="GET")
      */
-    public function read(PlaceCategory $placeCategory= null,Request $request): Response
+    public function read(PlaceCategory $placeCategory = null,Request $request): Response
     {
-       // 404 ?
+
        if ($placeCategory === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
@@ -67,7 +75,7 @@ class PlaceCategoryController extends AbstractController
             return $this->json($message,Response::HTTP_NOT_FOUND);
         }
 
-
+        // @see browse method of PlaceCategoryController for the comments
         $placeCategoryItem = $this->placeCategoryRepository->find($placeCategory);
         $uri = $placeCategoryItem->getImage();
         $placeCategoryItem->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
@@ -78,29 +86,4 @@ class PlaceCategoryController extends AbstractController
     }
 
 
-     // Todo  a faire  ou pas
-     /**
-     * all Place for one department and on Product Category
-     *
-     * @Route("/browse/productcategory/{id<\d+>}", name="api_place_category_browse_productcategory_postalcode", methods="GET")
-     */
-    public function browsePlacebyProductCategory(ProductCategory $productCategory,PlaceCategoryRepository $placeCategoryRepository): Response
-    {
-
-    //    // 404 ?
-    //    if ($place === null) {
-    //        $message = [
-    //            'status' => Response::HTTP_NOT_FOUND,
-    //            'error' =>'Pas de place par ici ',
-    //        ];
-
-    //         return $this->json($message,Response::HTTP_NOT_FOUND);
-    //     }
-
-
-        $places = $placeCategoryRepository->findAllPlaceByProductCategoryAndPostalcode($productCategory);
-        // Le 4ème argument représente le "contexte"
-        // qui sera transmis au Serializer
-        return $this->json($places , 200,[], ['groups' => 'api_placecategory_browse_productcategory']);
-    }
 }

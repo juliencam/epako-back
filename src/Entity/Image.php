@@ -13,10 +13,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @Vich\Uploadable
+ *
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
+ *
  * @UniqueEntity(
  *   fields={"name"},
- *   message="le nom doit existe déjà"
+ *   message="le nom existe déjà"
  * )
  */
 class Image
@@ -46,13 +49,19 @@ class Image
 
      /**
       * @ORM\Column(type="string", length=255)
-      * @var string
       * @Groups("api_product_browse")
       * @Groups("api_product_category_read")
+      * @var string
       */
      private $image;
 
      /**
+      * the mapping value refers to the global variable defined in vich_uploader.yaml
+      * to determine the directory
+      *
+      * the filenameProperty value defined in vich_uploader.yaml is used to store the unique id
+      * namer as the value of the designated field
+      *
       * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
       * @var File
       */
@@ -189,6 +198,7 @@ class Image
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -220,6 +230,11 @@ class Image
         return $this;
     }
 
+    /**
+     * allows to return a string if we want to display the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->name . " ";

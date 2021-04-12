@@ -19,44 +19,4 @@ class PlaceCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, PlaceCategory::class);
     }
 
-    // /**
-    //  * @return PlaceCategory[] Returns an array of PlaceCategory objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?PlaceCategory
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-    //Todo a faire non fonctionnel
-    public function findAllPlaceByProductCategoryAndPostalcode($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->innerJoin('places.productCategories','pc')
-            ->andWhere('pc.id = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 }
-

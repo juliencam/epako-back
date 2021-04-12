@@ -11,8 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
+ * Update the updatedAt field for the update
+ *
+ * @see https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-callbacks
+ * @see https://symfony.com/doc/current/doctrine/events.html
+ * use for the updatedAt
  * @ORM\HasLifecycleCallbacks()
  */
+
 class Department
 {
     /**
@@ -121,6 +127,7 @@ class Department
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -158,6 +165,11 @@ class Department
         return $this;
     }
 
+    /**
+     * allows to return a string if we want to display the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->postalcode . " - " . $this->name;

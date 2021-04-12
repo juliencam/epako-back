@@ -12,10 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  *
- * Update the updatedAt field for the update
- * https://symfony.com/doc/current/doctrine/events.html
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
- * @see https://symfony.com/doc/current/doctrine/events.html#doctrine-lifecycle-callbacks
  */
 class Product
 {
@@ -182,6 +180,7 @@ class Product
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -255,6 +254,11 @@ class Product
         return $this;
     } 
 
+    /**
+     * allows to return a string if we want to display the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->name;

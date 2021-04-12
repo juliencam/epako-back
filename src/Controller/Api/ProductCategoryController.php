@@ -11,12 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * ! Préfixe de route + ! Préfixe de nom de route
+ * Route prefix
  * @Route("/api/product")
  */
 class ProductCategoryController extends AbstractController
 {
 
+    //path for storing images from the public folder.
     const PATH = '/uploads/images/productcategorypictos/';
     const URL = 'http://';
 
@@ -38,13 +39,14 @@ class ProductCategoryController extends AbstractController
     public function browse(Request $request): Response
     {
 
+        // @see browse method of PlaceCategoryController for the comments
         $productCategoryAllList = $this->productCategoryRepository->findAll();
+
         foreach ($productCategoryAllList as $productCategory) {
 
 
                 $uri = $productCategory->getImage();
-                //verifier $_SERVER['HTTP_HOST']
-                // $request getbasepath
+
                 $productCategory->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
                 $this->entityManager->persist($productCategory);
@@ -63,7 +65,7 @@ class ProductCategoryController extends AbstractController
      */
     public function read(ProductCategory $productCategory = null,Request $request): Response
     {
-       // 404 ?
+
        if ($productCategory === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
@@ -76,6 +78,7 @@ class ProductCategoryController extends AbstractController
 
         $productCategoryItem = $this->productCategoryRepository->find($productCategory);
 
+        // @see browse method of PlaceCategoryController for the comments
         $uri = $productCategoryItem->getImage();
         $productCategoryItem->setPictogram(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
