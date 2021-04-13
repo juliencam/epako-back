@@ -35,15 +35,15 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * Cette méthode va être appellée si l'authentification est valide
+     * This method will be called if the authentication is valid
      * @Route("/api/login", name="api_login", methods={"POST"})
      */
     public function apiLogin()
     {
-        // A ce stade, l'utilisateur est considéré commme connecté sur le système
-        // On va retourner au front ce que l'on souhaite
+        // At this point, the user is considered to be logged into the system
+        // We will return to the front what we want
 
-        // A adpater selon nos besoins
+        // To be adapted to our needs
         $user = $this->getUser();
 
         return $this->json([
