@@ -139,7 +139,7 @@ class PlaceController extends AbstractController
     {
 
 
-        // if ( $departmentRepository->findBy(['postalcode' => $postalcode]) === null) {
+        // if ($postalcode === null) {
         //     $message = [
         //         'status' => Response::HTTP_BAD_REQUEST,
         //         'error' =>'Le code postal est manquant',
