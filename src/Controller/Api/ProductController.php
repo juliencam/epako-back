@@ -11,13 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * ! Préfixe de route + ! Préfixe de nom de route
+ * Route prefix
  * @Route("/api/product")
  */
 
 class ProductController extends AbstractController
 {
-
+    //path for storing images from the public folder.
     const PATH = '/uploads/images/products/';
     const URL = 'http://';
     private $entityManager;
@@ -36,11 +36,10 @@ class ProductController extends AbstractController
      * List Product
      * @Route("/browse", name="api_product_browse", methods="GET")
      */
-    public function browse(
-        Product $product = null,Request $request): Response
+    public function browse( Product $product = null, Request $request): Response
     {
-        //dump($request->server->get('HTTP_HOST'));
-        //dump($request->server->get('SERVER_NAME'));
+
+        // @see browse method of PlaceCategoryController for the comments
         $productList = $this->productRepository->findAll();
 
         foreach ($productList as $product) {
@@ -50,11 +49,11 @@ class ProductController extends AbstractController
             foreach ($imageList as $image) {
 
                 $uri = $image->getImage();
-                //verifier $_SERVER['HTTP_HOST']
-                // $request getbasepath
+
                 $image->setUrl(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
 
             }
+
             $this->entityManager->persist($product);
             $this->entityManager->flush();
 
@@ -69,7 +68,7 @@ class ProductController extends AbstractController
      */
     public function read(Product $product = null,Request $request): Response
     {
-       // 404 ?
+
        if ($product === null) {
            $message = [
                'status' => Response::HTTP_NOT_FOUND,
@@ -81,6 +80,8 @@ class ProductController extends AbstractController
 
 
         $productItem = $this->productRepository->find($product);
+
+        // @see browse method of PlaceCategoryController for the comments
         $imageList = $productItem ->getImages();
 
         foreach ($imageList as $image) {

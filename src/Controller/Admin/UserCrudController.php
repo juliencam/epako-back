@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -18,16 +17,8 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    // public function configureCrud(Crud $crud): Crud
-    // {
-    //     return $crud->setSearchFields(null);
-    // }
-
-
-
     public function configureFields(string $pageName): iterable
     {
-
         return [
             IntegerField::new('id')->onlyOnIndex(),
             EmailField::new('email'),
@@ -35,8 +26,9 @@ class UserCrudController extends AbstractCrudController
             ->setChoices(['ADMIN' => 'ROLE_ADMIN', 'USER' => 'ROLE_USER', 'MANAGER' => 'ROLE_MANAGER']),
             Field::new('nickname'),
             ChoiceField::new('status')->setChoices([0 => 0, 1 => 1, 2 => 2 ])->setHelp('0 = actif / 1 = inactif / 2 = banned'),
-            //solution pour encoder le password https://grafikart.fr/forum/33951
-            Field::new('password')->setFormType(PasswordType::class)->hideOnIndex()//->onlyWhenCreating(),
+            //the encoding of the password is managed by EasyAdminSubscriber in the folder EventSubscriber
+            // @see https://grafikart.fr/forum/33951
+            Field::new('password')->setFormType(PasswordType::class)->hideOnIndex()->onlyWhenCreating(),
         ];
     }
 }

@@ -26,10 +26,10 @@ class ProductCategoryCrudController extends AbstractCrudController
     }
 
     /**
-     * check doc
-     *https://stackoverflow.com/questions/63432424/symfony-easyadminbundle-3-override-the-createindexquerybuilder
-     *Permet pour l'index de n'aficher que les parents
-     *afficher que les lignes ou les parents sont null
+     * overloading of the createIndexQueryBuilder
+     * method of the extended class AbstractCrudController by the crud.
+     * Allow the index to display only the parents
+     * @see https://stackoverflow.com/questions/63432424/symfony-easyadminbundle-3-override-the-createindexquerybuilder
      */
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
@@ -39,42 +39,41 @@ class ProductCategoryCrudController extends AbstractCrudController
     }
 
     /**
-     * https://symfony.com/doc/current/bundles/EasyAdminBundle/crud.html#search-and-pagination-options
+     * delete the search form
+     * @see https://symfony.com/doc/current/bundles/EasyAdminBundle/crud.html#search-and-pagination-options
      */
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setSearchFields(null);
     }
 
-    /**
-     * selon la page
-     * https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#displaying-different-fields-per-page
-     *
-     * setFormTypeOptions
-     * https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#misc-options
-     */
-
     public function configureFields(string $pageName): iterable
     {
         $id = IntegerField::new('id')->onlyOnIndex();
 
+        //callable to define a queryBuilder on a field of type associationField
         $childCategories = AssociationField::new('childCategories')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NOT NULL');
-
-            })->setFormTypeOption('by_reference', false);
+            //@see PlaceCategoryCrudController for the comments of by_reference
+            })->setFormTypeOption('by_reference', false)->onlyOnForms();
 
 
         $name = Field::new('name');
+         // @see imageCrudController for comments
         $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-        ->setTranslationParameters(['form.label.delete'=>'Delete'])
+        ->setTranslationParameters(['form.label.delete'=>'Supprimer'])
         ->setRequired(true);
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $name];
-        } elseif (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
-            return [$id, $name,$imageField, $childCategories ];
-        }
+        return [$id, $name,$imageField, $childCategories ];
+
+        //another way to define what is displayed according to the page
+        // @see https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#displaying-different-fields-per-page
+        // if (Crud::PAGE_INDEX === $pageName) {
+        //     return [$id, $name];
+        // } elseif (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
+        //     return [$id, $name,$imageField, $childCategories ];
+        // }
     }
 }

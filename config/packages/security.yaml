@@ -1,8 +1,7 @@
 security:
-    # Les encodeurs disponibles pour les types d'utilisateurs du système
+    # Encoders available for system user types
     encoders:
-        # plaintext = en clair / auto = prend le meilleur disponible sur le système
-        # en 2021 soit bcrypt soit argon2
+        # takes the best available on the system in 2021 either bcrypt or argon2
         App\Entity\User:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -11,7 +10,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                # Propriété de connexion
+                # Connection property
                 property: email
     firewalls:
         dev:

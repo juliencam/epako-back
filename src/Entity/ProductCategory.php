@@ -16,7 +16,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
  * @Vich\Uploadable
+ *
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
+ *
  * @UniqueEntity(
  *    fields={"name"},
  *    message="le nom doit existe déjà"
@@ -67,6 +70,8 @@ class ProductCategory
     private $image;
 
     /**
+     * @see field $imageField of Image entity for the comments
+     *
      * @Vich\UploadableField(mapping="productcategory_picto", fileNameProperty="image")
      * @var File
      */
@@ -200,6 +205,7 @@ class ProductCategory
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -299,9 +305,14 @@ class ProductCategory
 
         return $this;
     }
+
+    /**
+     * allows to return a string if we want to display the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->name;
     }
-   
 }

@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
  * @Vich\Uploadable
+ *
+ * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
  */
 class Place
@@ -82,6 +84,8 @@ class Place
     private $image;
 
     /**
+     * @see field $imageField of Image entity for the comments
+     *
      * @Vich\UploadableField(mapping="place_logo", fileNameProperty="image")
      * @var File
      * @Assert\NotBlank
@@ -308,6 +312,7 @@ class Place
     }
 
     /**
+     * Update the updatedAt field before the update
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
@@ -432,6 +437,11 @@ class Place
         return $this;
     }
 
+    /**
+     * allows to return a string if we want to display the object
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->name;

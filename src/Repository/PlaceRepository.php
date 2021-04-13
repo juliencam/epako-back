@@ -19,61 +19,34 @@ class PlaceRepository extends ServiceEntityRepository
         parent::__construct($registry, Place::class);
     }
 
+    // //? querry bulider for method browsePlacebyOneProductCategory() in PlaceController
     // /**
-    //  * @return Place[] Returns an array of Place objects
+    //  * search for a place by Product Category on entity ProductCategory and  PostalCode on entity Department
+    //  *
+    //  * @param [Int] $productCategoryId
+    //  * @param [String] $postalcode
+    //  * @return Place
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Place
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-    //? querry bulider for method browsePlacebyOneProductCategory()
-    /**
-     * search for a place by Product Category on entity ProductCategory and  PostalCode on entity Department
-     *
-     * @param [Int] $productCategoryId
-     * @param [String] $postalcode
-     * @return Place
-     */
+    // public function findByProductCategoryAndPostalcode(int $productCategoryIds, string $postalcode): Place
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->innerJoin('p.productCategories', 'pc')
+    //         ->innerJoin('p.department' ,'d')
+    //         // Dont forget add  @Groups on entity if decomment
+    //         //->innerJoin('p.reviews', 'r')
+    //         ->Where('pc.id = :id')
+    //         ->andWhere('d.postalcode = :postalcode')
+    //         ->setParameter('id', $productCategoryIds)
+    //         ->setParameter('postalcode', $postalcode)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;IN
 
-    public function findByProductCategoryAndPostalcode($productCategoryIds,$postalcode)
-    {
-        return $this->createQueryBuilder('p')
-            ->innerJoin('p.productCategories', 'pc')
-            ->innerJoin('p.department' ,'d')
-            // Dont forget add  @Groups on entity if decomment
-            //->innerJoin('p.reviews', 'r')
-            ->Where('pc.id = :id')
-            ->andWhere('d.postalcode = :postalcode')
-            ->setParameter('id', $productCategoryIds)
-            ->setParameter('postalcode', $postalcode)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    //? querry bulider for method browsePlacebyManyProductCategory()
+    //? querry bulider for method browsePlacebyManyProductCategory() in PlaceController
     /**
-     * search for a place by Many id Product Category on entity ProductCategory and  PostalCode on entity Department
+     * search for a place by Many id Product Category on entity ProductCategory and  PostalCode
+     * on entity Department
      *
      * @param [Int] $ids
      * @param [String] $postalcode

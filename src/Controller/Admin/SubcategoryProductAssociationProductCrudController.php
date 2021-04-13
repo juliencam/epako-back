@@ -24,12 +24,13 @@ class SubcategoryProductAssociationProductCrudController extends AbstractCrudCon
         return ProductCategory::class;
     }
 
+    //@see ProductCategoryCrudController for comments
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setSearchFields(null);
     }
 
-
+    //@see ProductCategoryCrudController for the comments
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
@@ -37,6 +38,9 @@ class SubcategoryProductAssociationProductCrudController extends AbstractCrudCon
         return $response;
     }
 
+    /**
+     * delete button action new and delete on index
+     */
     public function configureActions(Actions $actions): Actions
     {
         return $actions
@@ -48,6 +52,7 @@ class SubcategoryProductAssociationProductCrudController extends AbstractCrudCon
 
     public function configureFields(string $pageName): iterable
     {
+        //the disabled option prohibits the modification of the value
         $id = IntegerField::new('id', "ID de la sous catégorie du produit")->setFormTypeOption('disabled','disabled');
 
         $name = Field::new('name', "nom de la sous catégorie du produit")->setFormTypeOption('disabled','disabled');

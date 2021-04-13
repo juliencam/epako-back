@@ -19,13 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * ! Préfixe de route + ! Préfixe de nom de route
+ * Route prefix
  * @Route("/api/place")
  */
 
 
 class PlaceController extends AbstractController
 {
+    //path for storing images from the public folder.
     const PATH = '/uploads/images/placelogos/';
     const URL = 'http://';
     private $entityManager;
@@ -47,6 +48,8 @@ class PlaceController extends AbstractController
     {
 
         $places = $this->placeRepository->findAll();
+
+         // @see browse method of PlaceCategoryController for the comments
         foreach ($places as $place) {
 
 
@@ -77,7 +80,7 @@ class PlaceController extends AbstractController
 
         }
 
-
+        // @see browse method of PlaceCategoryController for the comments
         $placeItem = $this->placeRepository->find($place);
         $uri = $placeItem->getImage();
         $placeItem->setLogo(self::URL .$request->server->get('SERVER_NAME').$request->server->get('BASE'). self::PATH . $uri);
@@ -125,73 +128,57 @@ class PlaceController extends AbstractController
     //     return $this->json($places , 200,[], ['groups' => ['api_place_browse_ByproductcategoryAndPostalCode','api_place_read']]);
     // }
 
-    //@Route("/browse/productcategory/{ids<^((\d+)\,?)+\d+$>}/postalcode/{postalcode<^[1-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
-
-
 
 
     /**
      * all Place for one department and many  Product Category
      *
+     * the route id is sent by a query string
      * @Route("/browse/productcategory/postalcode/{postalcode<^[0-9][0-9|a-b]$>}", name="api_place_browse_productcategory_postalcode", methods="GET")
      */
     public function browsePlacebyManyProductCategory($postalcode = null,ProductCategoryRepository $productCategoryRepository,DepartmentRepository $departmentRepository,Request $request): Response
     {
 
 
-        // if ($postalcode === null) {
-        //     $message = [
-        //         'status' => Response::HTTP_BAD_REQUEST,
-        //         'error' =>'Le code postal est manquant',
-        //     ];
+         if ($postalcode === null) {
+             $message = [
+                 'status' => Response::HTTP_BAD_REQUEST,
+                 'error' =>'Le code postal est manquant',
+             ];
 
-        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
-        // }
-        // try {
-        //     $departmentRepository->findBy(['postalcode' => $postalcode]);
-
-        // } catch(\Throwable $th) {
-        //     $message = [
-        //         'status' => Response::HTTP_BAD_REQUEST,
-        //         'error' =>'Le code postal est manquant',
-        //     ];
-
-        //     return $this->json($message,Response::HTTP_BAD_REQUEST);
-
-        // }
-
-        //dump($request);
+             return $this->json($message,Response::HTTP_BAD_REQUEST);
+         }
 
         $ids = $request->query->get('ids');
 
         foreach($ids as $id) {
 
-            // verify if $ids contain only integer
+            // if it doesn't contain a number
             if (!ctype_digit($id)) {
                 $message = [
                     'status' => Response::HTTP_BAD_REQUEST,
                     'error' =>' erreur de syntaxe dans la route',
                 ];
 
-                return $this->json($message,Response::HTTP_BAD_REQUEST);
+                return $this->json($message, Response::HTTP_BAD_REQUEST);
             }
-            // search if the product category exist
-             $test = $productCategoryRepository->find($id);
 
-             //404 ?
-             if ($test === null) {
+            // search if the product category exist
+             $productCategory = $productCategoryRepository->find($id);
+
+             if ($productCategory === null) {
                      $message = [
                          'status' => Response::HTTP_NOT_FOUND,
                          'error' =>'une categorie n\'existe pas',
                      ];
 
-                     return $this->json($message,Response::HTTP_NOT_FOUND);
+                     return $this->json($message, Response::HTTP_NOT_FOUND);
                  }
 
         }
 
+        $places = $this->placeRepository->findByManyProductCategoryAndPostalcode($ids, $postalcode);
 
-        $places = $this->placeRepository->findByManyProductCategoryAndPostalcode($ids,$postalcode);
         if($places == null ){
                 $message = [
                     'status' => Response::HTTP_NOT_FOUND,
@@ -200,6 +187,8 @@ class PlaceController extends AbstractController
 
                 return $this->json($message,Response::HTTP_NOT_FOUND);
         }
+
+         // @see browse method of PlaceCategoryController for the comments
         foreach ($places as $place) {
 
 

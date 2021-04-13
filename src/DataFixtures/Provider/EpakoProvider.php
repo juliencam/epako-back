@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\Provider;
 
+
 class EpakoProvider {
 
     private $departments = [
@@ -103,6 +104,9 @@ class EpakoProvider {
      "95" => "Val d'Oise"
     ];
 
+    /**
+     * @return $departments
+     */
     public function getDepartment()
     {
         return $this->departments;
