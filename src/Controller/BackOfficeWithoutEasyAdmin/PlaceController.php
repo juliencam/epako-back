@@ -58,8 +58,11 @@ class PlaceController extends AbstractController
     /**
      * @Route("/read/{id}", name="back_office_place_read", methods={"GET"})
      */
-    public function read(Place $place): Response
+    public function read(Place $place = null): Response
     {
+        if (null === $place) {
+            throw $this->createNotFoundException('Place non trouvé.');
+        }
         return $this->render('back_office_without_easy_admin/place/read.html.twig', [
             'place' => $place,
         ]);
@@ -94,11 +97,22 @@ class PlaceController extends AbstractController
     /**
      * @Route("/delete/{id}", name="back_office_place_delete", methods={"POST"})
      */
-    public function delete(Request $request, Place $place = null): Response
+    public function delete(Request $request, Place $place = null, $id): Response
     {
         if (null === $place) {
             throw $this->createNotFoundException('Place non trouvé.');
         }
+
+        // @see https://symfony.com/doc/current/security/csrf.html#generating-and-checking-csrf-tokens-manually
+        // On réupère le nom du token qu'on a déposé dans le form
+        $submittedToken = $request->request->get('_token');
+        //dd($request->request);
+        // 'delete-movie' is the same value used in the template to generate the token
+        if (!$this->isCsrfTokenValid('delete'.$id, $submittedToken)) {
+            // On jette une 403
+            throw $this->createAccessDeniedException('Are you token to me !??!??');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$place->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($place);

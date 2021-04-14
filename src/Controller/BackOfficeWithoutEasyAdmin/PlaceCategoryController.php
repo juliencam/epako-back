@@ -59,18 +59,26 @@ class PlaceCategoryController extends AbstractController
     /**
      * @Route("read/{id}", name="back_office_place_category_read", methods={"GET"})
      */
-    public function read(PlaceCategory $placeCategory): Response
+    public function read(PlaceCategory $placeCategory = null): Response
     {
+        if (null === $placeCategory) {
+            throw $this->createNotFoundException('PlaceCategory non trouvé.');
+        }
         return $this->render('back_office_without_easy_admin/place_category/read.html.twig', [
             'place_category' => $placeCategory,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="back_office_place_category_edit", methods={"GET","POST"})
+     * @Route("edit/{id}", name="back_office_place_category_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, PlaceCategory $placeCategory): Response
+    public function edit(Request $request, PlaceCategory $placeCategory = null): Response
     {
+
+        if (null === $placeCategory) {
+            throw $this->createNotFoundException('PlaceCategory non trouvé.');
+        }
+
         $form = $this->createForm(PlaceCategoryType::class, $placeCategory);
         $form->handleRequest($request);
 
@@ -89,8 +97,22 @@ class PlaceCategoryController extends AbstractController
     /**
      * @Route("delete/{id}", name="back_office_place_category_delete", methods={"POST"})
      */
-    public function delete(Request $request, PlaceCategory $placeCategory): Response
+    public function delete(Request $request, PlaceCategory $placeCategory = null, $id): Response
     {
+        if (null === $placeCategory) {
+            throw $this->createNotFoundException('Place non trouvé.');
+        }
+
+        // @see https://symfony.com/doc/current/security/csrf.html#generating-and-checking-csrf-tokens-manually
+        // On réupère le nom du token qu'on a déposé dans le form
+        $submittedToken = $request->request->get('_token');
+        //dd($request->request);
+        // 'delete-movie' is the same value used in the template to generate the token
+        if (!$this->isCsrfTokenValid('delete'.$id, $submittedToken)) {
+            // On jette une 403
+            throw $this->createAccessDeniedException('Are you token to me !??!??');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$placeCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($placeCategory);
