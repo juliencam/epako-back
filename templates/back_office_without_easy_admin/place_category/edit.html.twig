@@ -1,0 +1,18 @@
+{% extends 'back_office_without_easy_admin/backoffice/index.html.twig' %}
+
+{% block title %}Edit PlaceCategory{% endblock %}
+
+{% block body %}
+
+    <div class="col-md-8 mt-4 ">
+        <div class="jumbotron">
+
+            <h1>Edit PlaceCategory</h1>
+
+            {{ include('back_office_without_easy_admin/place_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+            <a class="btn btn-outline-primary mt-2" href="{{ path('back_office_place_category_browse') }}" role="button">back to list</a>
+        </div>
+    </div>
+
+{% endblock %}

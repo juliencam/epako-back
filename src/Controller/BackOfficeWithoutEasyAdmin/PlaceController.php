@@ -23,8 +23,7 @@ class PlaceController extends AbstractController
     {
 
         $pagination = $paginator->paginate(
-            $placeRepository->findAll(),
-
+            $placeRepository->findBy([], ['updatedAt' => 'DESC']),
             $request->query->getInt('page', 1),
             15
         );
@@ -69,8 +68,12 @@ class PlaceController extends AbstractController
     /**
      * @Route("/edit/{id}", name="back_office_place_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Place $place,PlaceRepository $placeRepository): Response
+    public function edit(Request $request, Place $place = null,PlaceRepository $placeRepository): Response
     {
+        if (null === $place) {
+            throw $this->createNotFoundException('Place non trouvé.');
+        }
+
         $placeObject =  $placeRepository->find($place);
         $placeImage = $placeObject->getImage();
         $form = $this->createForm(PlaceType::class, $place,['attr' => ['placeImage' => $placeImage]]);
@@ -91,8 +94,11 @@ class PlaceController extends AbstractController
     /**
      * @Route("/delete/{id}", name="back_office_place_delete", methods={"POST"})
      */
-    public function delete(Request $request, Place $place): Response
+    public function delete(Request $request, Place $place = null): Response
     {
+        if (null === $place) {
+            throw $this->createNotFoundException('Place non trouvé.');
+        }
         if ($this->isCsrfTokenValid('delete'.$place->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($place);

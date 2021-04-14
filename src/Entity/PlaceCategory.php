@@ -45,7 +45,9 @@ class PlaceCategory
      * @Groups("api_place_category_read")
      * @Groups("api_placecategory_browse_productcategory")
      * @Assert\NotBlank
-     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
+     * @Assert\Length(
+     *    min = 2,
+     *    max = 64)
      */
     private $name;
 
@@ -74,6 +76,7 @@ class PlaceCategory
      * @Vich\UploadableField(mapping="placecategory_picto", fileNameProperty="image")
      * @var File
      * @Assert\NotBlank
+     * @Assert\File( mimeTypes={"image/png", "image/jpg", "image/jpeg", "image/svg+xml", "image/svg", "text/plain" })
      */
     private $imageFile;
 

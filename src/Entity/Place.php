@@ -35,7 +35,9 @@ class Place
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
      * @Assert\NotBlank
-     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64)
      */
     private $name;
 
@@ -44,7 +46,9 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255)
      */
     private $address;
 
@@ -53,7 +57,9 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64)
      */
     private $addressComplement;
 
@@ -62,7 +68,9 @@ class Place
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
      * @Groups("api_place_category_read")
-     * @Assert\Length(min=2, minMessage="doit contenir au moins 2 caractères")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64)
      */
     private $city;
 
@@ -89,13 +97,18 @@ class Place
      * @Vich\UploadableField(mapping="place_logo", fileNameProperty="image")
      * @var File
      * @Assert\NotBlank
+     * @Assert\File( mimeTypes={"image/png", "image/jpg", "image/jpeg", "image/svg+xml", "image/svg", "text/plain" })
      */
-    private $imageFile;
 
+    private $imageFile;
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true, "default":1})
      * @Groups("api_place_read")
      * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 1,
+     * )
      */
     private $status;
 
@@ -156,7 +169,6 @@ class Place
      * @ORM\Column(type="string", length=620, nullable=true)
      * @Groups("api_place_browse")
      * @Groups("api_place_read")
-     * @Assert\NotBlank
      * @Assert\Url(
      *    protocols = {"http", "https"}
      * )
@@ -203,7 +215,7 @@ class Place
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -227,7 +239,7 @@ class Place
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 

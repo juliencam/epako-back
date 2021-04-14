@@ -64,6 +64,7 @@ class Image
       *
       * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
       * @var File
+      * @Assert\File( mimeTypes={"image/png", "image/jpg", "image/jpeg", "image/svg+xml", "image/svg", "text/plain" })
       */
      private $imageFile;
 

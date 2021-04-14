@@ -1,0 +1,46 @@
+{% extends 'back_office_without_easy_admin/backoffice/index.html.twig' %}
+
+{% block title %}PlaceCategory{% endblock %}
+
+{% block body %}
+
+<div class="col-md-12 mt-4">
+    <h1>PlaceCategory</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ place_category.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ place_category.name }}</td>
+            </tr>
+            <tr>
+                <th>Pictogram</th>
+                <td>{{ place_category.pictogram }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                {% if place_category.image == null %}
+                    <td>Pas de logo</td>
+                {% else %}
+                {% set imageUrl =  'uploads/images/placecategorypictos/' ~ place_category.image %}
+                    <td><img class="imgSize" src="{{ asset(imageUrl) }}"></td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ place_category.createdAt ? place_category.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ place_category.updatedAt ? place_category.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('back_office_place_category_browse') }}">back to list</a>
+</div>
+{% endblock %}
