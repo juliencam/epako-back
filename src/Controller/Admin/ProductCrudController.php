@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Repository\ProductCategoryRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -25,7 +26,7 @@ class ProductCrudController extends AbstractCrudController
         $subproductCategories = AssociationField::new('productCategories', 'subcategory')
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
-                            ->where('pc.parent IS NOT NULL');
+                            ->where('pc.parent IS NOT NULL');//->orWhere("pc.name LIKE '%endance%'");
             });
 
 
@@ -41,6 +42,7 @@ class ProductCrudController extends AbstractCrudController
             ->hideOnIndex(),
             $subproductCategories->setHelp('Choisir une seule subcategory')
             ->setRequired(true)->hideOnIndex(),
+            BooleanField::new('tendanceBoolean')->onlyWhenUpdating()->setHelp('Choisir si le produit est en tendance')
         ];
     }
 

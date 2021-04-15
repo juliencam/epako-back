@@ -50,9 +50,6 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::linkToCrud('Image', 'fas fa-tags', Image::class),
 
-            MenuItem::linkToCrud('Product Tendance', 'fa fa-tags', Product::class)
-            ->setController(ProductTendanceCrudController::class),
-
             MenuItem::section('Place'),
             MenuItem::linkToCrud('Place', 'fas fa-tags', Place::class),
 

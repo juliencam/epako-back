@@ -75,7 +75,7 @@ class Product
      * @ORM\ManyToMany(targetEntity=ProductCategory::class, inversedBy="products")
      * @Groups("api_product_browse")
      * @Assert\NotBlank
-     * @Assert\Count(max=1, maxMessage="Le produit doit faire référence à une seule subcatégory")
+     * @Assert\Count(max=1, maxMessage="Le produit doit faire référence à une seule subcategory")
      */
     private $productCategories;
 
@@ -94,11 +94,17 @@ class Product
      */
     private $brand;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+     */
+    private $tendanceBoolean;
+
     public function __construct()
     {
         $this->productCategories = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->tendanceBoolean = false;
     }
 
 
@@ -262,6 +268,18 @@ class Product
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getTendanceBoolean(): ?bool
+    {
+        return $this->tendanceBoolean;
+    }
+
+    public function setTendanceBoolean(?bool $tendanceBoolean): self
+    {
+        $this->tendanceBoolean = $tendanceBoolean;
+
+        return $this;
     }
 
 }

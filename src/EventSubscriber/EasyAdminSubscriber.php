@@ -2,12 +2,13 @@
 
   namespace App\EventSubscriber;
 
-  use App\Entity\User;
-  use Doctrine\ORM\EntityManagerInterface;
-  use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
-  use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
-  use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-  use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\User;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
   class EasyAdminSubscriber implements EventSubscriberInterface
   {
@@ -26,7 +27,8 @@
           return [
               BeforeEntityPersistedEvent::class => ['addUser'],
               BeforeEntityUpdatedEvent::class => ['updateUser'], //surtout utile lors d'un reset de mot passe plutôt qu'un réel update, car l'update va de nouveau encrypter le mot de passe DEJA encrypté ...
-          ];
+              BeforeEntityUpdatedEvent::class => ['updateProduct'],
+            ];
       }
 
       public function updateUser(BeforeEntityUpdatedEvent $event)
@@ -64,6 +66,61 @@
           );
           $this->entityManager->persist($entity);
           $this->entityManager->flush();
+      }
+
+
+      public function updateProduct(BeforeEntityUpdatedEvent $event)
+      {
+            $entity = $event->getEntityInstance();
+
+            if (!($entity instanceof Product)) {
+                return;
+            }
+            $this->setProductCategory($entity);
+      }
+
+      public function setProductCategory(Product $entity)
+      {
+            //récupère le boolean de la classe product qui détermine si le produit a la catégorie tendance
+            $tendanceBoolean = $entity->getTendanceBoolean();
+
+            //récupère les catégories associés au produit
+            $productCategories = $entity->getProductCategories();
+
+            //sauvegarde dans une variable l'objet productcategory si son name n'est pas tendance
+            foreach ($productCategories as $productCategory) {
+
+                if (false === str_contains($productCategory->getName(), 'endance')) {
+
+                    $productCategoryWithoutTendance = $productCategory;
+
+                }
+            }
+
+            //si tendanceBoolean vaut true, on va chercher la catégorie Tendance
+            //on ajoute au product courant la catégorie tendance et la catégorie courante
+            if ($tendanceBoolean) {
+                $qb = $this->entityManager->createQueryBuilder();
+                $productCategorytendance = $qb
+                ->select('pc')
+                ->from('App\Entity\ProductCategory', 'pc')
+                ->where("pc.name LIKE '%endance%'")
+                ->getQuery()
+                ->getSingleResult();
+
+                $entity->addProductCategory($productCategorytendance);
+
+                $entity->addProductCategory($productCategoryWithoutTendance);
+
+            // si le tendancboolean caut false on ne rajoute que la catégorie courante
+            }elseif (!$tendanceBoolean) {
+
+                $entity->addProductCategory($productCategoryWithoutTendance);
+            }
+
+                $this->entityManager->persist($entity);
+                $this->entityManager->flush();
+
       }
 
   }
