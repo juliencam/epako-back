@@ -121,6 +121,7 @@ class ProductCategory
         $this->products = new ArrayCollection();
         $this->places = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->image = "default-image.jpg";
     }
 
     public function getId(): ?int

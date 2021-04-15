@@ -3,6 +3,7 @@
   namespace App\EventSubscriber;
 
 use App\Entity\User;
+use App\Entity\Image;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -77,6 +78,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
                 return;
             }
             $this->setProductCategory($entity);
+            $this->setProductImage($entity);
+
+
       }
 
       public function setProductCategory(Product $entity)
@@ -120,6 +124,36 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
                 $this->entityManager->persist($entity);
                 $this->entityManager->flush();
+
+      }
+
+      public function setProductImage(Product $entity)
+      {
+
+        //récupère l'id de product
+        $productId = $entity->getId();
+
+        //Vérifie su un product est associé à l'image
+        $qb = $this->entityManager->createQueryBuilder();
+                $image = $qb
+                ->select('i')
+                ->from('App\Entity\Image', 'i')
+                ->where("i.product = :id")
+                ->setParameter('id', $productId)
+                ->getQuery()
+                ->getResult();
+
+        //Si pas d'image construction d'une image par défaut et association à Product
+        if (empty($image)) {
+            $image = new Image();
+            $image->setProduct($entity);
+            $image->setName('default-image');
+            $image->setDisplayOrder(0);
+            $this->entityManager->persist($image);
+        }
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
 
       }
 

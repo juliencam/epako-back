@@ -53,7 +53,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="smallint" ,options={"unsigned":true, "default":0})
+     * @ORM\Column(type="smallint" ,options={"unsigned":true, "default":1})
      * @Groups("api_product_browse")
      * @Assert\NotBlank
      */
@@ -105,6 +105,7 @@ class Product
         $this->images = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->tendanceBoolean = false;
+        $this->status = 1;
     }
 
 

@@ -96,7 +96,7 @@ class Place
      *
      * @Vich\UploadableField(mapping="place_logo", fileNameProperty="image")
      * @var File
-     * @Assert\NotBlank
+     * //@Assert\NotBlank
      * @Assert\File( mimeTypes={"image/png", "image/jpg", "image/jpeg", "image/svg+xml", "image/svg", "text/plain" })
      */
 
@@ -190,6 +190,7 @@ class Place
         $this->reviews = new ArrayCollection();
         $this->productCategories = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->image = "default-image.jpg";
     }
 
 

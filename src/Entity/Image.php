@@ -17,10 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @see phpDocBlock of the Department
  * @ORM\HasLifecycleCallbacks()
  *
- * @UniqueEntity(
- *   fields={"name"},
- *   message="le nom existe déjà"
- * )
  */
 class Image
 {
@@ -101,6 +97,7 @@ class Image
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->image = "default-image.jpg";
     }
 
     public function getId(): ?int

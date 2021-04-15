@@ -35,7 +35,7 @@ class ProductCrudController extends AbstractCrudController
             Field::new('name'),
             TextareaField::new('content')->hideOnIndex(),
             IntegerField::new('price'),
-            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
+            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif')->onlyWhenUpdating(),
             Field::new('brand'),
             //@see PlaceCategoryCrudController for the comments of by_reference
             AssociationField::new('images')->setFormTypeOption('by_reference', false)
