@@ -21,7 +21,6 @@ class FirstLetterInUpperCaseTest extends KernelTestCase
 
         $firstLetterInUpperCase->setFirstLetterInUpperCase(true);
 
-
         $wordTest = $firstLetterInUpperCase->changeFirstLetter('test');
 
         // Vérifier qu'elle est correcte
