@@ -106,6 +106,7 @@ class Product
         $this->createdAt = new \DateTime();
         $this->tendanceBoolean = false;
         $this->status = 1;
+        $this->image = "default-image.jpg";
     }
 
 

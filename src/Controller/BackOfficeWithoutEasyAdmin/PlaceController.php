@@ -46,11 +46,13 @@ class PlaceController extends AbstractController
 
             $city = $form->get('city')->getData();
 
-            //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
+            if (!empty($city)) {
+                //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
 
-            $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
+                $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
 
-            $place->setCity($cityWithUpperCase);
+                $place->setCity($cityWithUpperCase);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($place);
@@ -101,11 +103,14 @@ class PlaceController extends AbstractController
 
             $city = $form->get('city')->getData();
 
-            //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
+            if (!empty($city)) {
+                //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
 
-            $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
+                $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
 
-            $place->setCity($cityWithUpperCase);
+                $place->setCity($cityWithUpperCase);
+            }
+
 
             $this->getDoctrine()->getManager()->flush();
 

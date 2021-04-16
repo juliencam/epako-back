@@ -96,7 +96,6 @@ class Place
      *
      * @Vich\UploadableField(mapping="place_logo", fileNameProperty="image")
      * @var File
-     * //@Assert\NotBlank
      * @Assert\File( mimeTypes={"image/png", "image/jpg", "image/jpeg", "image/svg+xml", "image/svg", "text/plain" })
      */
 

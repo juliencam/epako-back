@@ -72,14 +72,17 @@ class PlaceCategoryController extends AbstractController
     /**
      * @Route("/edit/{id}", name="back_office_place_category_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, PlaceCategory $placeCategory = null): Response
+    public function edit(Request $request, PlaceCategory $placeCategory = null, PlaceCategoryRepository $placeCategoryRepository): Response
     {
 
         if (null === $placeCategory) {
             throw $this->createNotFoundException('PlaceCategory non trouvé.');
         }
 
-        $form = $this->createForm(PlaceCategoryType::class, $placeCategory);
+        $placeCategoryObject =  $placeCategoryRepository->find($placeCategory);
+        $placeCategoryImage = $placeCategoryObject->getImage();
+
+        $form = $this->createForm(PlaceCategoryType::class, $placeCategory, ['attr' => ['placeImage' => $placeCategoryImage]]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

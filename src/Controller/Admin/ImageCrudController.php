@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Image;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -21,20 +22,34 @@ class ImageCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        
 
-            IntegerField::new('id')->onlyOnIndex(),
-            Field::new('name')->setRequired(true),
-            Field::new('alt')->setRequired(true),
+            $id = IntegerField::new('id');
+            $name = Field::new('name')->setRequired(true);
+            $alt = Field::new('alt')->setRequired(true);
             //use of the Vichuploader bundle for image management
             //we should use the ImageField type instead of TextareaField but it triggers an error :
             //The "imageFile" image field must define the directory where the images
             //are uploaded using the setUploadDir() method.
-            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()->setRequired(true)
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer']),
-            ChoiceField::new('displayOrder')->setChoices([0=> 0 , 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]),
+            $image = TextareaField::new('imageFile')->setFormType(VichImageType::class)
+            ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+            $displayOrder = ChoiceField::new('displayOrder')
+            ->setChoices([0=> 0 , 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]);
             //fields for relationships
-            AssociationField::new('product')->setRequired(true)
-        ];
+            $product = AssociationField::new('product')->setRequired(true);
+
+            if (Crud::PAGE_INDEX === $pageName) {
+
+                return [$id, $name];
+    
+            } elseif (Crud::PAGE_EDIT === $pageName) {
+    
+                return [$name, $alt, $image, $displayOrder, $product ];
+    
+            }elseif (Crud::PAGE_NEW === $pageName) {
+    
+                return [$name, $alt, $image->setRequired(true), $displayOrder, $product ];
+    
+            }
     }
 }

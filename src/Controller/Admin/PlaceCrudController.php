@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Place;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -22,20 +23,36 @@ class PlaceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        return [
-            IntegerField::new('id')->onlyOnIndex(),
-            Field::new('name'),
-            TextareaField::new('content')->setRequired(true),
-            Field::new('address')->hideOnIndex(),
-            Field::new('addressComplement')->hideOnIndex(),
-            Field::new('city')->setLabel("City / Système d'exploitation mobile" ),
+        
+           $id = IntegerField::new('id');
+           $name = Field::new('name');
+           $content = TextareaField::new('content')->setRequired(true);
+           $address = Field::new('address');
+           $addressComplement = Field::new('addressComplement');
+           $city = Field::new('city')->setLabel("City / Système d'exploitation mobile" );
              // @see imageCrudController for comments
-            TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer'])->setRequired(true),
-            ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif'),
-            UrlField::new('url', 'URL Place')->hideOnIndex()->setRequired(true),
-            AssociationField::new('department')->setRequired(true),
-            AssociationField::new('placeCategory')->hideOnIndex()->setRequired(true),
-        ];
+           $image = TextareaField::new('imageFile')->setFormType(VichImageType::class)
+            ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+           $status = ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif');
+           $url = UrlField::new('url', 'URL Place')->hideOnIndex()->setRequired(true);
+           $department = AssociationField::new('department')->setRequired(true);
+           $placeCategory = AssociationField::new('placeCategory')->setRequired(true);
+
+           if (Crud::PAGE_INDEX === $pageName) {
+
+            return [$id, $name, $city, $department, $status];
+
+            } elseif (Crud::PAGE_EDIT === $pageName) {
+
+                return [$name, $content, $address, $addressComplement, $city, $image, $status, $url, 
+                        $department, $placeCategory ];
+
+            }elseif (Crud::PAGE_NEW === $pageName) {
+
+                return [$name, $content, $address, $addressComplement, $city, $image->setRequired(true), 
+                        $status, $url, $department, $placeCategory];
+
+            }
+        
     }
 }

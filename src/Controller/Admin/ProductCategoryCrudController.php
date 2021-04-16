@@ -49,7 +49,7 @@ class ProductCategoryCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $id = IntegerField::new('id')->onlyOnIndex();
+        $id = IntegerField::new('id');
 
         //callable to define a queryBuilder on a field of type associationField
         $childCategories = AssociationField::new('childCategories')
@@ -57,16 +57,27 @@ class ProductCategoryCrudController extends AbstractCrudController
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NOT NULL');
             //@see PlaceCategoryCrudController for the comments of by_reference
-            })->setFormTypeOption('by_reference', false)->onlyOnForms();
+            })->setFormTypeOption('by_reference', false);
 
 
         $name = Field::new('name');
          // @see imageCrudController for comments
-        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-        ->setTranslationParameters(['form.label.delete'=>'Supprimer'])
-        ->setRequired(true);
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)
+        ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
 
-        return [$id, $name,$imageField, $childCategories ];
+        if (Crud::PAGE_INDEX === $pageName) {
+
+            return [$id, $name];
+
+        } elseif (Crud::PAGE_EDIT === $pageName) {
+
+            return [$name, $imageField, $childCategories ];
+
+        }elseif (Crud::PAGE_NEW === $pageName) {
+
+            return [$name, $imageField->setRequired(true), $childCategories ];
+
+        }
 
         //another way to define what is displayed according to the page
         // @see https://symfony.com/doc/current/bundles/EasyAdminBundle/fields.html#displaying-different-fields-per-page

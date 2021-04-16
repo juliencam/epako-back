@@ -24,7 +24,14 @@ class PlaceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        //$placeHolder = !empty($options['attr']['placeImage']) ? $options['attr']['placeImage'] : 'Votre logo';
+        $boolImageFileRequired = false;
+
+        if (empty($options['attr']['placeImage'])) {
+            $boolImageFileRequired = true;
+        }
+
+        $placeImage = !empty($options['attr']['placeImage']) ? $options['attr']['placeImage'] : 'Votre logo';
+
         $builder
             ->add('name')
             ->add('address', TextType::class, [
@@ -41,7 +48,7 @@ class PlaceType extends AbstractType
             // voir querybuilder, voir event, voir faire dump request, attention à ne pas mettre image qui contient 
             // l'unique ID, voir empty_data
             ->add('imageFile', VichImageType::class, [
-                'required' => false,
+                'required' => $boolImageFileRequired,
                 'allow_delete' => false,
                 //'delete_label' => '...',
                 //'download_label' => 'download_file',
@@ -49,6 +56,11 @@ class PlaceType extends AbstractType
                 'image_uri' => true,
                 'imagine_pattern' => false,
                 'asset_helper' => false,
+                'attr' => [
+                    'value' => $placeImage,
+                    "placeholder" => $placeImage
+    
+                    ],
             ])
             ->add('status',ChoiceType::class,[
                 'choices' => [
@@ -79,8 +91,10 @@ class PlaceType extends AbstractType
                 //     )),
                 //)
                 ,
+                'required' => true,
                 'expanded' => false,
                 'multiple' => true,
+                'by_reference' => false,
                 'query_builder' => function (ProductCategoryRepository $er) {
                     return $er->createQueryBuilder('pc')
                         ->where('pc.parent IS NOT NULL');

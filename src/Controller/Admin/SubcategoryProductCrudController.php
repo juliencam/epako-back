@@ -42,22 +42,35 @@ class SubcategoryProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         //callable to define a queryBuilder on a field of type associationField
-        $parent = AssociationField::new('parent')
+        $parent = AssociationField::new('parent')->setRequired(true)
             ->setFormTypeOption('query_builder', function (ProductCategoryRepository $productCategoryRepository) {
                 return $productCategoryRepository->createQueryBuilder('pc')
                             ->where('pc.parent IS NULL')->andwhere("pc.name NOT LIKE '%endance%'");
 
             });
 
-        $id = IntegerField::new('id')->hideOnForm();
+        $id = IntegerField::new('id');
 
         $name = Field::new('name');
 
          // @see imageCrudController for comments
-        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms()
-        ->setRequired(true)->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+        $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)
+        ->setTranslationParameters(['form.label.delete'=>'Supprimer'])
+        ;
 
-        return [$id, $name, $imageField, $parent->onlyOnForms()->setRequired(true)];
+        if (Crud::PAGE_INDEX === $pageName) {
+
+            return [$id, $name];
+
+        } elseif (Crud::PAGE_EDIT === $pageName) {
+
+            return [$name, $imageField, $parent ];
+
+        }elseif (Crud::PAGE_NEW === $pageName) {
+
+            return [$name, $imageField->setRequired(true), $parent ];
+
+        }
 
     }
 }
