@@ -10,6 +10,7 @@ parameters:
     app.path.productcategory_picto: uploads/images/productcategorypictos
     uploads_dir_name: 'uploads-BO'
     uploads_base_url: '/%uploads_dir_name%'
+    app.first_letter_in_upper_case: '%env(bool:FIRST_LETTER_IN_UPPER_CASE)%'
 
 services:
     # default configuration for services in *this* file
@@ -32,6 +33,10 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Service\FirstLetterInUpperCase:
+        arguments:
+            $firstLetterInUpperCase: '%app.first_letter_in_upper_case%'
 
 
 

@@ -5,6 +5,7 @@ namespace App\Controller\BackOfficeWithoutEasyAdmin;
 use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
+use App\Service\FirstLetterInUpperCase;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,13 +36,22 @@ class PlaceController extends AbstractController
     /**
      * @Route("/add", name="back_office_place_add", methods={"GET","POST"})
      */
-    public function add(Request $request): Response
+    public function add(Request $request, FirstLetterInUpperCase $firstLetterInUpperCase): Response
     {
         $place = new Place();
         $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $city = $form->get('city')->getData();
+
+            //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
+
+            $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
+
+            $place->setCity($cityWithUpperCase);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($place);
             $entityManager->flush();
@@ -71,7 +81,12 @@ class PlaceController extends AbstractController
     /**
      * @Route("/edit/{id}", name="back_office_place_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Place $place = null,PlaceRepository $placeRepository): Response
+    public function edit(
+        Request $request,
+        Place $place = null,
+        PlaceRepository $placeRepository,
+        FirstLetterInUpperCase $firstLetterInUpperCase
+        ): Response
     {
         if (null === $place) {
             throw $this->createNotFoundException('Place non trouvé.');
@@ -83,6 +98,15 @@ class PlaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $city = $form->get('city')->getData();
+
+            //$firstLetterInUpperCase->setFirstLetterInUpperCase(false);
+
+            $cityWithUpperCase = $firstLetterInUpperCase->changeFirstLetter($city);
+
+            $place->setCity($cityWithUpperCase);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('back_office_place_browse');
