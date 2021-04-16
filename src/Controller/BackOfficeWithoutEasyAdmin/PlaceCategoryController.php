@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/backoffice/category")
+ * @Route("/backoffice/place/category")
  */
 class PlaceCategoryController extends AbstractController
 {
@@ -57,7 +57,7 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("read/{id}", name="back_office_place_category_read", methods={"GET"})
+     * @Route("/read/{id}", name="back_office_place_category_read", methods={"GET"})
      */
     public function read(PlaceCategory $placeCategory = null): Response
     {
@@ -70,7 +70,7 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("edit/{id}", name="back_office_place_category_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="back_office_place_category_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, PlaceCategory $placeCategory = null): Response
     {
@@ -95,12 +95,12 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("delete/{id}", name="back_office_place_category_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="back_office_place_category_delete", methods={"DELETE"})
      */
     public function delete(Request $request, PlaceCategory $placeCategory = null, $id): Response
     {
         if (null === $placeCategory) {
-            throw $this->createNotFoundException('Place non trouvé.');
+            throw $this->createNotFoundException('Place category non trouvé.');
         }
 
         // @see https://symfony.com/doc/current/security/csrf.html#generating-and-checking-csrf-tokens-manually

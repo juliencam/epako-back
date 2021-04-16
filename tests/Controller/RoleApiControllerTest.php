@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DepartmentControllerTest extends WebTestCase
+class RoleApiControllerTest extends WebTestCase
 {
 
     /**
@@ -14,7 +14,7 @@ class DepartmentControllerTest extends WebTestCase
      * @param string $email
      * @param string $password
      *
-     * @return \Symfony\Bundle\FrameworkBundle\Client
+     * @return Client
      */
     protected function createAuthenticatedClient($email = 'admin@admin.com', $password = 'admin')
     {
@@ -39,23 +39,38 @@ class DepartmentControllerTest extends WebTestCase
     }
 
     /**
-     * test getPagesAction
+     *
+     * @dataProvider urlProviderAdminGetSuccessful
      */
-    public function testGetPages()
+    public function testGetPages($url)
     {
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', '/api/department/browse');
+        $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testTokenInaccessible(): void
+    /**
+     * @dataProvider urlProviderAdminGetSuccessful
+     */
+    public function testTokenInaccessible($url): void
     {
 
          $client = static::createClient();
 
-         $client->request('GET', '/api/department/browse');
+         $client->request('GET', $url);
 
          $this->assertEquals(401, $client->getResponse()->getStatusCode());
 
+    }
+
+    public function urlProviderAdminGetSuccessful()
+    {
+        yield ['/api/department/browse'];
+        yield ['/api/place/category/browse'];
+        yield ['/api/place/category/read/1'];
+        yield ['/api/place/browse'];
+        yield ['/api/place/read/1'];
+        yield ['/api/product/category/browse'];
+        yield ['/api/product/category/read/1'];
     }
 }

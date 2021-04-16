@@ -95,7 +95,7 @@ class PlaceController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="back_office_place_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="back_office_place_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Place $place = null, $id): Response
     {
