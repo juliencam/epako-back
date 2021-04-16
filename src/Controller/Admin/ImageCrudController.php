@@ -36,7 +36,7 @@ class ImageCrudController extends AbstractCrudController
             $displayOrder = ChoiceField::new('displayOrder')
             ->setChoices([0=> 0 , 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]);
             //fields for relationships
-            $product = AssociationField::new('product')->setRequired(true);
+            $product = AssociationField::new('product');
 
             if (Crud::PAGE_INDEX === $pageName) {
 
@@ -49,7 +49,6 @@ class ImageCrudController extends AbstractCrudController
             }elseif (Crud::PAGE_NEW === $pageName) {
     
                 return [$name, $alt, $image->setRequired(true), $displayOrder, $product ];
-    
             }
     }
 }

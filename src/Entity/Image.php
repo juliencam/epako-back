@@ -83,8 +83,7 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
+     * @ORM\JoinColumn(nullable=true)
      */
     private $product;
 
