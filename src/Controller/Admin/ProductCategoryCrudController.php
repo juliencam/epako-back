@@ -63,7 +63,7 @@ class ProductCategoryCrudController extends AbstractCrudController
         $name = Field::new('name');
          // @see imageCrudController for comments
         $imageField = TextareaField::new('imageFile')->setFormType(VichImageType::class)
-        ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+        ->setFormTypeOption('allow_delete', false);
 
         if (Crud::PAGE_INDEX === $pageName) {
 

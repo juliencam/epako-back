@@ -25,7 +25,7 @@ class PlaceCategoryCrudController extends AbstractCrudController
             $name = Field::new('name');
             // @see imageCrudController for comments
             $image = TextareaField::new('imageFile')->setFormType(VichImageType::class)
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+            ->setFormTypeOption('allow_delete', false);
             //Setting by_reference to false ensures that the setter is called in all cases.
             //essential for one to many relationships
             // @see https://symfony.com/doc/current/reference/forms/types/form.html#by-reference

@@ -18,7 +18,11 @@ class RoleApiControllerTest extends WebTestCase
      */
     protected function createAuthenticatedClient($email = 'admin@admin.com', $password = 'admin')
     {
+
         $client = static::createClient();
+
+        //HTTP header construction
+        //simulates a request from the front, so that the token is returned
         $client->request(
         'GET',
         '/api/login_check',
@@ -31,8 +35,10 @@ class RoleApiControllerTest extends WebTestCase
             ))
         );
 
+        //transforms into an associative array what the response returns
         $data = json_decode($client->getResponse()->getContent(), true);
 
+        //authentification
         $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
 
         return $client;

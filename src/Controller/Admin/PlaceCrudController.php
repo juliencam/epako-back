@@ -32,7 +32,7 @@ class PlaceCrudController extends AbstractCrudController
            $city = Field::new('city')->setLabel("City / Système d'exploitation mobile" );
              // @see imageCrudController for comments
            $image = TextareaField::new('imageFile')->setFormType(VichImageType::class)
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+           ->setFormTypeOption('allow_delete', false);
            $status = ChoiceField::new('status')->setChoices([0 => 0, 1 => 1])->setHelp('0 = actif / 1 = inactif');
            $url = UrlField::new('url', 'URL Place')->hideOnIndex()->setRequired(true);
            $department = AssociationField::new('department')->setRequired(true);

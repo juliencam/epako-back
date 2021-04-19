@@ -16,6 +16,7 @@ class RoleAdminControllerTest extends WebTestCase
 
         // retrieve the test user
         $testUser = $userRepository->findOneByEmail('admin@admin.com');
+
         // simulate $testUser being logged in
         $client->loginUser($testUser);
 

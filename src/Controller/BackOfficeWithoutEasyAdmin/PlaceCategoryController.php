@@ -21,9 +21,11 @@ class PlaceCategoryController extends AbstractController
      */
     public function browse(PlaceCategoryRepository $placeCategoryRepository, PaginatorInterface $paginator, Request $request): Response
     {
-
+        //use of PaginatorInterface (bundle KNP paginator) definition of the number of objects per page
         $pagination = $paginator->paginate(
-            $placeCategoryRepository->findBy([], ['updatedAt' => 'DESC']),
+            $placeCategoryRepository->findBy(
+            [],
+            ['updatedAt' => 'DESC']),
             $request->query->getInt('page', 1),
             10
         );
@@ -39,12 +41,23 @@ class PlaceCategoryController extends AbstractController
     public function add(Request $request): Response
     {
         $placeCategory = new PlaceCategory();
+
+        // creation of the form associated with the entity
         $form = $this->createForm(PlaceCategoryType::class, $placeCategory);
+
+        //Inspection and handling of the request by the form
         $form->handleRequest($request);
 
+        //If the form is submitted and validated
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //retrieves the EntityManager
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Persist the datas
             $entityManager->persist($placeCategory);
+
+            //Save the datas
             $entityManager->flush();
 
             return $this->redirectToRoute('back_office_place_category_browse');
@@ -57,10 +70,12 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/read/{id}", name="back_office_place_category_read", methods={"GET"})
+     * @Route("/read/{id<\d+>}", name="back_office_place_category_read", methods={"GET"})
+     * PlaceCategory is set to null to send a custom exception in the method if the object is null
      */
     public function read(PlaceCategory $placeCategory = null): Response
     {
+
         if (null === $placeCategory) {
             throw $this->createNotFoundException('PlaceCategory non trouvé.');
         }
@@ -70,7 +85,8 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="back_office_place_category_edit", methods={"GET","POST"})
+     * @Route("/edit/{id<\d+>}", name="back_office_place_category_edit", methods={"GET","POST"})
+     * PlaceCategory is set to null to send a custom exception in the method if the object is null
      */
     public function edit(Request $request, PlaceCategory $placeCategory = null, PlaceCategoryRepository $placeCategoryRepository): Response
     {
@@ -79,13 +95,26 @@ class PlaceCategoryController extends AbstractController
             throw $this->createNotFoundException('PlaceCategory non trouvé.');
         }
 
+        //finds a PlaceCategory by the id
         $placeCategoryObject =  $placeCategoryRepository->find($placeCategory);
+
+        //finds the name of the image to send as a parameter to the form
         $placeCategoryImage = $placeCategoryObject->getImage();
 
-        $form = $this->createForm(PlaceCategoryType::class, $placeCategory, ['attr' => ['placeImage' => $placeCategoryImage]]);
+        // creation of the form associated with the entity
+        $form = $this->createForm(
+            PlaceCategoryType::class,
+            $placeCategory,
+            ['attr' => ['placeImage' => $placeCategoryImage]]
+        );
+
+        //Inspection and handling of the request by the form
         $form->handleRequest($request);
 
+        //If the form is submitted and validated
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //retrieves the EntityManager and Save the datas
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('back_office_place_category_browse');
@@ -98,7 +127,8 @@ class PlaceCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="back_office_place_category_delete", methods={"DELETE"})
+     * @Route("/delete/{id<\d+>}", name="back_office_place_category_delete", methods={"DELETE"})
+     * PlaceCategory is set to null to send a custom exception in the method if the object is null
      */
     public function delete(Request $request, PlaceCategory $placeCategory = null, $id): Response
     {
@@ -107,17 +137,22 @@ class PlaceCategoryController extends AbstractController
         }
 
         // @see https://symfony.com/doc/current/security/csrf.html#generating-and-checking-csrf-tokens-manually
-        // On réupère le nom du token qu'on a déposé dans le form
+        // Retrieves the name of the token that was deposited in the form
         $submittedToken = $request->request->get('_token');
-        //dd($request->request);
-        // 'delete-movie' is the same value used in the template to generate the token
+
+        // if the token is not valid
         if (!$this->isCsrfTokenValid('delete'.$id, $submittedToken)) {
-            // On jette une 403
+
             throw $this->createAccessDeniedException('Are you token to me !??!??');
         }
 
+        // if the token is valid
         if ($this->isCsrfTokenValid('delete'.$placeCategory->getId(), $request->request->get('_token'))) {
+
+            //retrieves the EntityManager
             $entityManager = $this->getDoctrine()->getManager();
+
+            //delete the current Object and save the datas
             $entityManager->remove($placeCategory);
             $entityManager->flush();
         }

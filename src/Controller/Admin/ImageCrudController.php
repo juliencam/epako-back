@@ -32,7 +32,9 @@ class ImageCrudController extends AbstractCrudController
             //The "imageFile" image field must define the directory where the images
             //are uploaded using the setUploadDir() method.
             $image = TextareaField::new('imageFile')->setFormType(VichImageType::class)
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer']);
+            ->setFormTypeOption('allow_delete', false)
+            //->setTranslationParameters(['form.label.delete'=>'Supprimer'])
+            ;
             $displayOrder = ChoiceField::new('displayOrder')
             ->setChoices([0=> 0 , 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5]);
             //fields for relationships

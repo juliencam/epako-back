@@ -26,10 +26,13 @@ class PlaceType extends AbstractType
 
         $boolImageFileRequired = false;
 
+        //if the image name of the current object is empty, the form field for imageFile will be required
         if (empty($options['attr']['placeImage'])) {
             $boolImageFileRequired = true;
         }
 
+        //definition of the placeholder and value of the form field for imageFile  depending on whether the
+        //image name of the current object is empty or not
         $placeImage = !empty($options['attr']['placeImage']) ? $options['attr']['placeImage'] : 'Votre logo';
 
         $builder
@@ -44,57 +47,63 @@ class PlaceType extends AbstractType
                 'required' => false,
             ])
 
-            //si le nom de l'image n'est pas persisté c'est parce que imageFile n'est pas un champ
-            // voir querybuilder, voir event, voir faire dump request, attention à ne pas mettre image qui contient 
-            // l'unique ID, voir empty_data
+            //fields to upload the image file, fields to link to the vichuploader bundle
             ->add('imageFile', VichImageType::class, [
                 'required' => $boolImageFileRequired,
+                //removes the button to delete the image
                 'allow_delete' => false,
-                //'delete_label' => '...',
-                //'download_label' => 'download_file',
+                //removes the link to download the image
                 'download_uri' => false,
-                'image_uri' => true,
-                'imagine_pattern' => false,
-                'asset_helper' => false,
+
+                //config for LIIP bundle
+                //'imagine_pattern' => false,
                 'attr' => [
                     'value' => $placeImage,
                     "placeholder" => $placeImage
     
                     ],
             ])
+
             ->add('status',ChoiceType::class,[
-                'choices' => [
-                    'Actif' => 0,
-                    'Inactif' => 1,
-                ],
-                //mettre valeur par defaut
+                    'choices' => [
+                        'Actif' => 0,
+                        'Inactif' => 1,
+                    ],
                 ])
 
             ->add('url', UrlType::class, [
-                'required' => false,
+                    'required' => false,
             ])
 
             ->add('content')
             ->add('department')
+
+            //entity associated
             ->add('placeCategory' ,EntityType::class, [
                 'class' => PlaceCategory::class,
+
+                //sets the choice to a single option and becomes a selection tag
                 'expanded' => false,
                 'multiple' => false,
+
                 'choice_label' => 'name',
             ])
+
+            //association of product sub-categories with the place for the comparaison basket
             ->add('productCategories', EntityType::class,[
-                'class' => ProductCategory::class
-                // 'constraints' => array(
-                //     new Count(array(
-                //         'max' => 1,
-                //         'maxMessage' => 'At least only 1 choice is required',
-                //     )),
-                //)
-                ,
+                'class' => ProductCategory::class,
                 'required' => true,
+
+                //sets the choice to multiple options and becomes a selection tag
                 'expanded' => false,
                 'multiple' => true,
+
+                //Setting by_reference to false ensures that the setter is called in all cases.
+                //essential for one to many relationships
+                // @see https://symfony.com/doc/current/reference/forms/types/form.html#by-reference
                 'by_reference' => false,
+
+                //query builder to find product sub-categories
                 'query_builder' => function (ProductCategoryRepository $er) {
                     return $er->createQueryBuilder('pc')
                         ->where('pc.parent IS NOT NULL');

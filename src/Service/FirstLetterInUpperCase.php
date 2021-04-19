@@ -7,7 +7,7 @@ class FirstLetterInUpperCase {
 
 
     /**
-     * var globale pour passer en miniscule
+     * global var
      *
      * @var bool
      */
@@ -19,12 +19,20 @@ class FirstLetterInUpperCase {
     }
 
 
-    public function changeFirstLetter(string $word)
+    /**
+     * Changes the first letter or not of the word passed in argument
+     *
+     * @param string $word
+     * @return string
+     */
+    public function changeFirstLetter(string $word): string
     {
+        //if the global variable firstLetterInUpperCase is true
         if ($this->firstLetterInUpperCase) {
 
             $wordChanged = ucfirst($word);
 
+        //if the global variable firstLetterInUpperCase is false
         } else {
 
             return $word;
@@ -44,7 +52,7 @@ class FirstLetterInUpperCase {
 
     /**
      *
-     * @param  bool  $firstLetterInUpperCase 
+     * @param  bool  $firstLetterInUpperCase
      *
      * @return  self
      */

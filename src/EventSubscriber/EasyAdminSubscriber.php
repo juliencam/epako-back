@@ -1,7 +1,6 @@
 <?php
 
-  namespace App\EventSubscriber;
-
+namespace App\EventSubscriber;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Product;
@@ -27,21 +26,26 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
       {
           return [
               BeforeEntityPersistedEvent::class => ['addUser'],
-              BeforeEntityUpdatedEvent::class => ['updateUser'], //surtout utile lors d'un reset de mot passe plutôt qu'un réel update, car l'update va de nouveau encrypter le mot de passe DEJA encrypté ...
+              BeforeEntityUpdatedEvent::class => ['updateUser'],
               BeforeEntityUpdatedEvent::class => ['updateProduct'],
             ];
       }
 
+      //verifies that the event is for the User entity
+      //if so, call the method for encrypting the password
       public function updateUser(BeforeEntityUpdatedEvent $event)
       {
           $entity = $event->getEntityInstance();
 
           if (!($entity instanceof User)) {
+
               return;
           }
           $this->setPassword($entity);
       }
 
+      //verifies that the event is for the User entity
+      //if so, call the method for encrypting the password
       public function addUser(BeforeEntityPersistedEvent $event)
       {
           $entity = $event->getEntityInstance();
@@ -57,19 +61,24 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
        */
       public function setPassword(User $entity): void
       {
+          //retrieves the password of the current User object
           $pass = $entity->getPassword();
 
+          //password encryption
           $entity->setPassword(
               $this->passwordEncoder->encodePassword(
                   $entity,
                   $pass
               )
           );
+
+          //save the datas
           $this->entityManager->persist($entity);
           $this->entityManager->flush();
       }
 
-
+      //verifies that the event is for the Product entity
+      //if so, call the method setProductCategory and setProductImage
       public function updateProduct(BeforeEntityUpdatedEvent $event)
       {
             $entity = $event->getEntityInstance();
@@ -83,15 +92,22 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
       }
 
+      /**
+       * adds the category Tendance to Product if the administrator chooses it in the backOffice
+       *
+       * @param Product $entity
+       * @return void
+       */
       public function setProductCategory(Product $entity)
       {
-            //récupère le boolean de la classe product qui détermine si le produit a la catégorie tendance
+            //retrieves the boolean from the product class that determines whether the product has the Tendance 
+            //category
             $tendanceBoolean = $entity->getTendanceBoolean();
 
-            //récupère les catégories associés au produit
+            //retrieves the categories associated with the product
             $productCategories = $entity->getProductCategories();
 
-            //sauvegarde dans une variable l'objet productcategory si son name n'est pas tendance
+            //saves the productcategory object in a variable if its name is not tendance
             foreach ($productCategories as $productCategory) {
 
                 if (false === str_contains($productCategory->getName(), 'endance')) {
@@ -101,8 +117,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
                 }
             }
 
-            //si tendanceBoolean vaut true, on va chercher la catégorie Tendance
-            //on ajoute au product courant la catégorie tendance et la catégorie courante
+            //If tendanceBoolean is true, we will search the Tendance category
+            //the Tendance category and the current category are added to the current Product
             if ($tendanceBoolean) {
                 $qb = $this->entityManager->createQueryBuilder();
                 $productCategorytendance = $qb
@@ -116,7 +132,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
                 $entity->addProductCategory($productCategoryWithoutTendance);
 
-            // si le tendancboolean caut false on ne rajoute que la catégorie courante
+            //if the tendanceBoolean is false, only the current category is added
             }elseif (!$tendanceBoolean) {
 
                 $entity->addProductCategory($productCategoryWithoutTendance);
@@ -127,13 +143,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
       }
 
+      /**
+       * If no image associated with Product, add a default image
+       *
+       * @param Product $entity
+       * @return void
+       */
       public function setProductImage(Product $entity)
       {
 
-        //récupère l'id de product
+        //retrieves the product id
         $productId = $entity->getId();
 
-        //Vérifie su un product est associé à l'image
+        //Checks if a product is associated with the image
         $qb = $this->entityManager->createQueryBuilder();
                 $image = $qb
                 ->select('i')
@@ -143,7 +165,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
                 ->getQuery()
                 ->getResult();
 
-        //Si pas d'image construction d'une image par défaut et association à Product
+        //If no image, build a default image and associate with Product
         if (empty($image)) {
             $image = new Image();
             $image->setProduct($entity);

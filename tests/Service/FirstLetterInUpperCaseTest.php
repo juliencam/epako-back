@@ -5,43 +5,41 @@ namespace App\Tests\Service;
 use App\Service\FirstLetterInUpperCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * Si on on veut où que l'on doit(ve) passer par le conteneur de services
- */
 class FirstLetterInUpperCaseTest extends KernelTestCase
 {
     public function testChangeFirstLetterInUpperCase(): void
     {
-        // On veut accéder au conteneur de services depuis le Kernel
-        // (plutôt que de passer notre service en public dans services.yaml)
+        //The FirstLetterInUpperCase service is retrieved from the container
         self::bootKernel();
         $container = self::$container;
-        // On récupère notre service depuis le conteneur
         $firstLetterInUpperCase = $container->get(FirstLetterInUpperCase::class);
 
+        //changes the boolean value of the environment variable so that
+        //the FirstLetterInUpperCase service changes the first letter to upper case.
         $firstLetterInUpperCase->setFirstLetterInUpperCase(true);
 
+        //changes the first letter to uppercase
         $wordTest = $firstLetterInUpperCase->changeFirstLetter('test');
 
-        // Vérifier qu'elle est correcte
+        //Check that the expected behaviour is correct
         $this->assertEquals('Test', $wordTest);
     }
 
     public function testNotToChangeFirstLetterInUpperCase(): void
     {
-        // On veut accéder au conteneur de services depuis le Kernel
-        // (plutôt que de passer notre service en public dans services.yaml)
+        //The FirstLetterInUpperCase service is retrieved from the container
         self::bootKernel();
         $container = self::$container;
-        // On récupère notre service depuis le conteneur
         $firstLetterInUpperCase = $container->get(FirstLetterInUpperCase::class);
 
+        //changes the Boolean value of the environment variable so that the FirstLetterInUpperCase
+        //service does not change the first letter to upper case.
         $firstLetterInUpperCase->setFirstLetterInUpperCase(false);
 
-
+        //don't changes the first letter to uppercase
         $wordTest = $firstLetterInUpperCase->changeFirstLetter('test');
 
-        // Vérifier qu'elle est correcte
+        // Check that the expected behaviour is correct
         $this->assertEquals('test', $wordTest);
     }
 

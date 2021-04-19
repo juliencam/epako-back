@@ -15,29 +15,31 @@ class PlaceCategoryType extends AbstractType
 
         $boolImageFileRequired = false;
 
+        //if the image name of the current object is empty, the form field for imageFile will be required
         if (empty($options['attr']['placeImage'])) {
             $boolImageFileRequired = true;
         }
 
+        //definition of the placeholder and value of the form field for imageFile  depending on whether the
+        //image name of the current object is empty or not
         $placeImage = !empty($options['attr']['placeImage']) ? $options['attr']['placeImage'] : 'Votre logo';
 
         $builder
             ->add('name')
+            //fields to upload the image file, fields to link to the vichuploader bundle
             ->add('imageFile', VichImageType::class, [
                 'required' => $boolImageFileRequired,
+                //removes the button to delete the image
                 'allow_delete' => false,
-                //'delete_label' => '...',
-                //'download_label' => 'download_file',
+                //removes the link to download the image
                 'download_uri' => false,
-                'image_uri' => true,
-                'imagine_pattern' => false,
-                'asset_helper' => false,
+
+                //config for LIIP bundle
+                //'imagine_pattern' => false,
                 'attr' => [
                     'value' => $placeImage,
                     "placeholder" => $placeImage
-    
                     ],
-                //'empty_data' => 'Default value'
             ])
         ;
     }
