@@ -2,6 +2,8 @@
 ## Projet
 Projet de fin de formation réalisé entre Mars et Avril 2021.
 
+Epako : http://50.16.248.104/
+
 Ce repository concerne la partie Back-end.
 
 Documentation : https://github.com/juliencam/epako-back/tree/main/documentation
