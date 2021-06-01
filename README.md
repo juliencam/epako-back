@@ -1,6 +1,6 @@
 # EPAKO
 ## Projet
-Projet de fin de formation.
+Projet de fin de formation réalisé entre Mars et Avril 2021.
 
 Ce repository concerne la partie Back-end.
 
