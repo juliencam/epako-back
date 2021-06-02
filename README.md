@@ -62,6 +62,8 @@ Visual Studio Code
 * KnpPaginatorBundle
 * Composer 
 * Twig
+* HTML
+* CSS
 * Bootstrap 
 * PHPUnit
 * Insomnia
