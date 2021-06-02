@@ -7,6 +7,9 @@ Epako : http://50.16.248.104/
 Ce repository concerne la partie Back-end.
 
 Documentation : https://github.com/juliencam/epako-back/tree/main/documentation
+
+Le site est responsive
+
 ### Descriptif du projet
 L'idée part du constat alarmant concernant le réchauffement climatique et du désastre environnemental causé par la surconsommation de masse. 
 
