@@ -64,6 +64,7 @@ Visual Studio Code
 * Twig
 * Bootstrap 
 * PHPUnit
+* Insomnia
 
 ### Outils utilisées
 * Figma → pour la réalisation de l’arborescence ainsi que des wireframes
@@ -74,4 +75,21 @@ Visual Studio Code
 * Google Drive → partage de fichiers
 * Git et Github→ Gestion de projet
 
+### Equipe
+* 3 développeurs front
+* 2 développeurs back
+
+### Méthode
+* Agile Scrum (Temps de développement : 1 mois)
+
+### Navigateur
+L’application fonctionne correctement sur google chrome
+
+## Conception et développement
+* API Rest
+* Back développé avec Symfony 5.2.6 
+* Back Office développé avec le bundle Easy Admin 3 
+* Front développé avec REACT
+* Sécurité : Session et Access control (service symfony), LexikJWTAuthenticationBundle, NelmioCorsBundle
+* Tests : PhpUnit (unitaire, fonctionnels)
 
