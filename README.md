@@ -1,6 +1,6 @@
 # EPAKO
 ## Projet
-Projet de fin de formation réalisé entre Mars et Avril 2021.
+Projet de fin de formation réalisé entre Mars et Avril 2021 en quasi autonomie (Nous pouvions consulter les formateurs en cas de problèmes techniques conséquents).
 
 Epako : http://50.16.248.104/
 
